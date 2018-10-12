@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		5C119FCF21708881007A8B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FCE21708881007A8B13 /* AppDelegate.swift */; };
-		5C119FD121708881007A8B13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FD021708881007A8B13 /* ViewController.swift */; };
+		5C119FD121708881007A8B13 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FD021708881007A8B13 /* HomeViewController.swift */; };
 		5C119FD421708881007A8B13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C119FD221708881007A8B13 /* Main.storyboard */; };
 		5C119FD621708882007A8B13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C119FD521708882007A8B13 /* Assets.xcassets */; };
 		5C119FD921708882007A8B13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C119FD721708882007A8B13 /* LaunchScreen.storyboard */; };
 		5C119FE421708882007A8B13 /* CSE_335_Vacation_App_ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FE321708882007A8B13 /* CSE_335_Vacation_App_ProjectTests.swift */; };
 		5C119FEF21708882007A8B13 /* CSE_335_Vacation_App_ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FEE21708882007A8B13 /* CSE_335_Vacation_App_ProjectUITests.swift */; };
+		5C119FFF21708CAE007A8B13 /* MemoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */; };
+		5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00021708CBB007A8B13 /* NearMeViewController.swift */; };
+		5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00221708CCF007A8B13 /* PlannerViewController.swift */; };
+		5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +40,7 @@
 /* Begin PBXFileReference section */
 		5C119FCB21708881007A8B13 /* CSE 335 Vacation App Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CSE 335 Vacation App Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C119FCE21708881007A8B13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5C119FD021708881007A8B13 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5C119FD021708881007A8B13 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5C119FD321708881007A8B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5C119FD521708882007A8B13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C119FD821708882007A8B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +51,10 @@
 		5C119FEA21708882007A8B13 /* CSE 335 Vacation App ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CSE 335 Vacation App ProjectUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C119FEE21708882007A8B13 /* CSE_335_Vacation_App_ProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSE_335_Vacation_App_ProjectUITests.swift; sourceTree = "<group>"; };
 		5C119FF021708882007A8B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesViewController.swift; sourceTree = "<group>"; };
+		5C11A00021708CBB007A8B13 /* NearMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewController.swift; sourceTree = "<group>"; };
+		5C11A00221708CCF007A8B13 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
+		5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +106,15 @@
 			isa = PBXGroup;
 			children = (
 				5C119FCE21708881007A8B13 /* AppDelegate.swift */,
-				5C119FD021708881007A8B13 /* ViewController.swift */,
+				5C119FD021708881007A8B13 /* HomeViewController.swift */,
 				5C119FD221708881007A8B13 /* Main.storyboard */,
 				5C119FD521708882007A8B13 /* Assets.xcassets */,
 				5C119FD721708882007A8B13 /* LaunchScreen.storyboard */,
 				5C119FDA21708882007A8B13 /* Info.plist */,
+				5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */,
+				5C11A00021708CBB007A8B13 /* NearMeViewController.swift */,
+				5C11A00221708CCF007A8B13 /* PlannerViewController.swift */,
+				5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */,
 			);
 			path = "CSE 335 Vacation App Project";
 			sourceTree = "<group>";
@@ -256,8 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C119FD121708881007A8B13 /* ViewController.swift in Sources */,
+				5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */,
+				5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */,
+				5C119FD121708881007A8B13 /* HomeViewController.swift in Sources */,
 				5C119FCF21708881007A8B13 /* AppDelegate.swift in Sources */,
+				5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */,
+				5C119FFF21708CAE007A8B13 /* MemoriesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 449PBN3N8H;
 				INFOPLIST_FILE = "CSE 335 Vacation App Project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,6 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 449PBN3N8H;
 				INFOPLIST_FILE = "CSE 335 Vacation App Project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
