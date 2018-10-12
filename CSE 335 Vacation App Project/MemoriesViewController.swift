@@ -8,12 +8,27 @@
 
 import UIKit
 
-class MemoriesViewController: UIViewController {
+class MemoriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var fooBar: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = fooBar.dequeueReusableCell(withIdentifier: "memoryCell") as! MemoryViewCell
+        cell.label.text = "Hello There"
+        return cell
     }
     
     @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {
