@@ -19,6 +19,7 @@
 		5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00221708CCF007A8B13 /* PlannerViewController.swift */; };
 		5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */; };
 		5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */; };
+		5CD48B842171281400027BE6 /* NearMeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B832171281400027BE6 /* NearMeViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		5C11A00221708CCF007A8B13 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoryViewController.swift; sourceTree = "<group>"; };
 		5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewCell.swift; sourceTree = "<group>"; };
+		5CD48B832171281400027BE6 /* NearMeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				5C119FCE21708881007A8B13 /* AppDelegate.swift */,
 				5C119FD021708881007A8B13 /* HomeViewController.swift */,
 				5C119FD221708881007A8B13 /* Main.storyboard */,
+				5CD48B832171281400027BE6 /* NearMeViewCell.swift */,
 				5C119FD521708882007A8B13 /* Assets.xcassets */,
 				5C119FD721708882007A8B13 /* LaunchScreen.storyboard */,
 				5C119FDA21708882007A8B13 /* Info.plist */,
@@ -281,6 +284,7 @@
 			files = (
 				5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */,
 				5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */,
+				5CD48B842171281400027BE6 /* NearMeViewCell.swift in Sources */,
 				5C119FD121708881007A8B13 /* HomeViewController.swift in Sources */,
 				5C119FCF21708881007A8B13 /* AppDelegate.swift in Sources */,
 				5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */,

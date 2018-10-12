@@ -10,7 +10,7 @@ import UIKit
 
 class MemoriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var fooBar: UITableView!
+    @IBOutlet weak var memoryTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +21,15 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         return 1
     }
     
+    // TODO
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
+    // TODO
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = fooBar.dequeueReusableCell(withIdentifier: "memoryCell") as! MemoryViewCell
-        cell.label.text = "Hello There"
+        let cell = memoryTableView.dequeueReusableCell(withIdentifier: "memoryCell") as! MemoryViewCell
+        //cell.label.text = "Hello There"
         return cell
     }
     
