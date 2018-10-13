@@ -10,19 +10,11 @@ import Foundation
 import CoreData
 import UIKit
 
-class Memory: NSManagedObject {
-    // Memory should have the following:
-    // Image of Memory
-    // Title of Memory
-    // Date and time of memory
-    // Location of memory
-    @NSManaged public var image: UIImage?
-    @NSManaged public var title: NSString?
-    @NSManaged public var dateTime: NSString?
-    @NSManaged public var location: NSString?
-}
-
 class MemoryModel {
     // Contains all memories.
     var memories: [Memory]?
+    
+    func getMemories() -> [Memory]? {
+        return memories
+    }
 }

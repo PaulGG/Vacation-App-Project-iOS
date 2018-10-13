@@ -31,7 +31,6 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = nearMeTableView.dequeueReusableCell(withIdentifier: "nearMeCell") as! NearMeViewCell
         //cell.label.text = "Hello There"
-        print("i did this")
         return cell
     }
     

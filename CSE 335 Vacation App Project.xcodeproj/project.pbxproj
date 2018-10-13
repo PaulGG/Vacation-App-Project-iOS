@@ -18,8 +18,17 @@
 		5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00021708CBB007A8B13 /* NearMeViewController.swift */; };
 		5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00221708CCF007A8B13 /* PlannerViewController.swift */; };
 		5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */; };
+		5C90F73A21729ED8009A020D /* Flight+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73221729ED8009A020D /* Flight+CoreDataClass.swift */; };
+		5C90F73B21729ED8009A020D /* Flight+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73321729ED8009A020D /* Flight+CoreDataProperties.swift */; };
+		5C90F73C21729ED8009A020D /* GenericEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73421729ED8009A020D /* GenericEvent+CoreDataClass.swift */; };
+		5C90F73D21729ED8009A020D /* GenericEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73521729ED8009A020D /* GenericEvent+CoreDataProperties.swift */; };
+		5C90F73E21729ED8009A020D /* Memory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73621729ED8009A020D /* Memory+CoreDataClass.swift */; };
+		5C90F73F21729ED8009A020D /* Memory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73721729ED8009A020D /* Memory+CoreDataProperties.swift */; };
+		5C90F74021729ED8009A020D /* DiningEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73821729ED8009A020D /* DiningEvent+CoreDataClass.swift */; };
+		5C90F74121729ED8009A020D /* DiningEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C90F73921729ED8009A020D /* DiningEvent+CoreDataProperties.swift */; };
 		5CBA180D21727F8C00045E07 /* Memories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA180C21727F8C00045E07 /* Memories.swift */; };
 		5CBA180F21727FB700045E07 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA180E21727FB700045E07 /* Events.swift */; };
+		5CBA181321729BDD00045E07 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA181121729BDD00045E07 /* Model.xcdatamodeld */; };
 		5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */; };
 		5CD48B842171281400027BE6 /* NearMeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B832171281400027BE6 /* NearMeViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -59,8 +68,17 @@
 		5C11A00021708CBB007A8B13 /* NearMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewController.swift; sourceTree = "<group>"; };
 		5C11A00221708CCF007A8B13 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoryViewController.swift; sourceTree = "<group>"; };
+		5C90F73221729ED8009A020D /* Flight+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flight+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5C90F73321729ED8009A020D /* Flight+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flight+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5C90F73421729ED8009A020D /* GenericEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GenericEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5C90F73521729ED8009A020D /* GenericEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GenericEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5C90F73621729ED8009A020D /* Memory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5C90F73721729ED8009A020D /* Memory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5C90F73821729ED8009A020D /* DiningEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiningEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5C90F73921729ED8009A020D /* DiningEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiningEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5CBA180C21727F8C00045E07 /* Memories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Memories.swift; path = "CSE 335 Vacation App Project/Model/Memories.swift"; sourceTree = SOURCE_ROOT; };
 		5CBA180E21727FB700045E07 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Events.swift; path = "CSE 335 Vacation App Project/Model/Events.swift"; sourceTree = SOURCE_ROOT; };
+		5CBA181221729BDD00045E07 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewCell.swift; sourceTree = "<group>"; };
 		5CD48B832171281400027BE6 /* NearMeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +169,15 @@
 		5CBA18102172823100045E07 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5C90F73221729ED8009A020D /* Flight+CoreDataClass.swift */,
+				5C90F73321729ED8009A020D /* Flight+CoreDataProperties.swift */,
+				5C90F73421729ED8009A020D /* GenericEvent+CoreDataClass.swift */,
+				5C90F73521729ED8009A020D /* GenericEvent+CoreDataProperties.swift */,
+				5C90F73621729ED8009A020D /* Memory+CoreDataClass.swift */,
+				5C90F73721729ED8009A020D /* Memory+CoreDataProperties.swift */,
+				5C90F73821729ED8009A020D /* DiningEvent+CoreDataClass.swift */,
+				5C90F73921729ED8009A020D /* DiningEvent+CoreDataProperties.swift */,
+				5CBA181121729BDD00045E07 /* Model.xcdatamodeld */,
 				5CBA180C21727F8C00045E07 /* Memories.swift */,
 				5CBA180E21727FB700045E07 /* Events.swift */,
 			);
@@ -289,15 +316,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */,
+				5C90F73D21729ED8009A020D /* GenericEvent+CoreDataProperties.swift in Sources */,
+				5C90F73E21729ED8009A020D /* Memory+CoreDataClass.swift in Sources */,
+				5C90F74021729ED8009A020D /* DiningEvent+CoreDataClass.swift in Sources */,
 				5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */,
+				5C90F73B21729ED8009A020D /* Flight+CoreDataProperties.swift in Sources */,
 				5CD48B842171281400027BE6 /* NearMeViewCell.swift in Sources */,
+				5C90F73C21729ED8009A020D /* GenericEvent+CoreDataClass.swift in Sources */,
 				5C119FD121708881007A8B13 /* HomeViewController.swift in Sources */,
+				5C90F74121729ED8009A020D /* DiningEvent+CoreDataProperties.swift in Sources */,
 				5CBA180F21727FB700045E07 /* Events.swift in Sources */,
+				5C90F73F21729ED8009A020D /* Memory+CoreDataProperties.swift in Sources */,
 				5C119FCF21708881007A8B13 /* AppDelegate.swift in Sources */,
 				5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */,
 				5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */,
 				5CBA180D21727F8C00045E07 /* Memories.swift in Sources */,
+				5CBA181321729BDD00045E07 /* Model.xcdatamodeld in Sources */,
 				5C119FFF21708CAE007A8B13 /* MemoriesViewController.swift in Sources */,
+				5C90F73A21729ED8009A020D /* Flight+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +660,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5CBA181121729BDD00045E07 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5CBA181221729BDD00045E07 /* Model.xcdatamodel */,
+			);
+			currentVersion = 5CBA181221729BDD00045E07 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5C119FC321708881007A8B13 /* Project object */;
 }
