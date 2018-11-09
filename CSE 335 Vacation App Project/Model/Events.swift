@@ -12,14 +12,14 @@ import UIKit
 
 class PlannerModel {
     // Contains all Events (and flights).
-    var events: [Event]?
+    var events: [GenericEvent]?
     var flights: [Flight]?
     
-    func getAll() -> ([Event]?, [Flight]?) {
+    func getAll() -> ([GenericEvent]?, [Flight]?) {
         return (events, flights)
     }
     
-    func getEvents() -> [Event]? {
+    func getEvents() -> [GenericEvent]? {
         return events
     }
     

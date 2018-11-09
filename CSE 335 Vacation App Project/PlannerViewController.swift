@@ -8,12 +8,26 @@
 
 import UIKit
 
-class PlannerViewController: UIViewController {
-
+class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // TODO: hardcoded
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
+        return cell
+    }
+    
+    @IBAction func plannerUnwind(for unwindSegue: UIStoryboardSegue) {
+        // do nothing
     }
     
 
