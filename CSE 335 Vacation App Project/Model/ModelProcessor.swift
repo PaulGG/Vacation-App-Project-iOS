@@ -12,3 +12,5 @@ import UIKit
 
 var oof = [Memory]()
 
+var flights = [Flight]()
+

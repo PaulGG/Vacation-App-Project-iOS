@@ -25,6 +25,8 @@
 		5CBD9C562196129D00FCFE83 /* FlightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C552196129D00FCFE83 /* FlightTableViewCell.swift */; };
 		5CBD9C58219612AB00FCFE83 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */; };
 		5CBD9C5A219616C100FCFE83 /* AddFlightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */; };
+		5CBD9C5C219A091500FCFE83 /* AddFlightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C5B219A091500FCFE83 /* AddFlightTableViewCell.swift */; };
+		5CBD9C5E219A0F4F00FCFE83 /* FlightAdder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C5D219A0F4F00FCFE83 /* FlightAdder.swift */; };
 		5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */; };
 		5CD48B842171281400027BE6 /* NearMeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD48B832171281400027BE6 /* NearMeViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +73,8 @@
 		5CBD9C552196129D00FCFE83 /* FlightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightTableViewCell.swift; sourceTree = "<group>"; };
 		5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFlightViewController.swift; sourceTree = "<group>"; };
+		5CBD9C5B219A091500FCFE83 /* AddFlightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFlightTableViewCell.swift; sourceTree = "<group>"; };
+		5CBD9C5D219A0F4F00FCFE83 /* FlightAdder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightAdder.swift; sourceTree = "<group>"; };
 		5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewCell.swift; sourceTree = "<group>"; };
 		5CD48B832171281400027BE6 /* NearMeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +131,7 @@
 				5C119FCE21708881007A8B13 /* AppDelegate.swift */,
 				5C119FD021708881007A8B13 /* HomeViewController.swift */,
 				5C119FD221708881007A8B13 /* Main.storyboard */,
+				5CBD9C5B219A091500FCFE83 /* AddFlightTableViewCell.swift */,
 				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
 				5CD48B832171281400027BE6 /* NearMeViewCell.swift */,
 				5C119FD521708882007A8B13 /* Assets.xcassets */,
@@ -168,6 +173,7 @@
 				5CBA180C21727F8C00045E07 /* Memories.swift */,
 				5CBA180E21727FB700045E07 /* Events.swift */,
 				5CBD9C532196105100FCFE83 /* ModelProcessor.swift */,
+				5CBD9C5D219A0F4F00FCFE83 /* FlightAdder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */,
+				5CBD9C5C219A091500FCFE83 /* AddFlightTableViewCell.swift in Sources */,
 				5CBD9C562196129D00FCFE83 /* FlightTableViewCell.swift in Sources */,
 				5CBD9C5A219616C100FCFE83 /* AddFlightViewController.swift in Sources */,
 				5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */,
@@ -313,6 +320,7 @@
 				5CBA180F21727FB700045E07 /* Events.swift in Sources */,
 				5C119FCF21708881007A8B13 /* AppDelegate.swift in Sources */,
 				5CD48B8221711B6F00027BE6 /* MemoryViewCell.swift in Sources */,
+				5CBD9C5E219A0F4F00FCFE83 /* FlightAdder.swift in Sources */,
 				5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */,
 				5CBA180D21727F8C00045E07 /* Memories.swift in Sources */,
 				5CBD9C542196105100FCFE83 /* ModelProcessor.swift in Sources */,
