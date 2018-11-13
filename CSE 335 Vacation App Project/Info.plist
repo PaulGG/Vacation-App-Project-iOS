@@ -43,6 +43,8 @@
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>displays location to the user and gets nearby locations</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Takes pictures of a user&apos;s memory</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>displays location to the user and gets nearby locations</string>
 </dict>

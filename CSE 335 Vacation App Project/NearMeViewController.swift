@@ -56,13 +56,9 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             locationManager.startUpdatingLocation()
         }
         let request = MKLocalSearch.Request()
-        //let region = MKCoordinateRegion(center: locationManager.location!.coordinate, latitudinalMeters: CLLocationDistance(exactly: 1000)!, longitudinalMeters: CLLocationDistance(exactly: 1000)!)
+
         request.naturalLanguageQuery = filter
         search(using: request)
-        
-        // Main Categories: Food, Drinks, Shopping, Travel, Services, Fun, Health, Transportation
-        //request.region = region
-        //search(using: request)
     }
     
     private func search(using searchRequest: MKLocalSearch.Request) {
