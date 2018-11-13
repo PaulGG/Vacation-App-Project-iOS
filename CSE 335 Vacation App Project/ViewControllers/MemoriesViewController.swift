@@ -9,16 +9,30 @@
 import UIKit
 
 class MemoriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
 
     @IBOutlet weak var memoryTableView: UITableView!
     @IBOutlet weak var editBtn: UIBarButtonItem!
     
+    // ====== MODEL ======
+    
     let memoryModel = MemoryModel()
+    
+    // ====== INITIALIZER METHODS =====
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    /*                                  /*
+     ========= TABLEVIEW METHODS =========
+     */                                  */
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -40,16 +54,16 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         return UITableViewCell.EditingStyle.delete
     }
     
+    // ====== DELETE CELL ======
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         memoryModel.delete(i: indexPath.row)
         memoryTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
         if memoryModel.getCount() == 0 {
             editBtn.title = "Edit"
         }
-        
-        //memoryTableView.deselectRow(at: indexPath.row, animated: true)
     }
     
+    // ====== INITIALIZE CELL ======
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memoryTableView.dequeueReusableCell(withIdentifier: "memoryCell") as! MemoryViewCell
         let mem = memoryModel.get(at: indexPath.row)
@@ -70,12 +84,15 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    // ====== UNWIND SEGUE METHOD ======
     @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {
-        // do nothing
         memoryModel.updateFetchResults()
         memoryTableView.reloadData()
     }
     
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
     
     @IBAction func edit(sender: UIBarButtonItem) {
         let bool = self.memoryTableView.isEditing
@@ -90,16 +107,4 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

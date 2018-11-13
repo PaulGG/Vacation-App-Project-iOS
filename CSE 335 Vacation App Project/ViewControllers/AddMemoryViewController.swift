@@ -9,24 +9,37 @@
 import UIKit
 
 class AddMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
+    
     @IBOutlet weak var imageSource: UISegmentedControl!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
     @IBOutlet weak var date: UIDatePicker!
+    @IBOutlet weak var image: UIImageView!
+    
+    // ====== MODEL ======
     
     let memoryModel = MemoryModel()
     
+    // ====== MISC. OBJECTS ======
+    
     let picker = UIImagePickerController()
     
-    @IBOutlet weak var image: UIImageView!
+    // ====== INITIALIZER METHODS ======
     
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
-
-        // Do any additional setup after loading the view.
     }
+    
+    /*                                  /*
+     =========== IMAGE METHODS ===========
+     */                                  */
     
     @IBAction func takePhoto(_ sender: Any) {
         if imageSource.selectedSegmentIndex == 0
@@ -66,6 +79,10 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
+    
     @IBAction func done(_ sender: Any) {
         if name.text != nil && location.text != nil && image.image != nil {
             memoryModel.addMemory(dateTime: date.date.description, image: image.image!, location: location.text!, title: name.text!)
@@ -77,6 +94,10 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         
     }
     
+    /*                                  /*
+     ============ MISC METHODS ===========
+     */                                  */
+    
     func buildOKAlertButton(title: String) -> UIAlertController {
         let t = title
         let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
@@ -84,16 +105,4 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         alertController.addAction(okAction)
         return alertController
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

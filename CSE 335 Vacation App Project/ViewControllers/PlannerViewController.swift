@@ -10,10 +10,24 @@ import UIKit
 
 class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // ====== MODEL ======
+    
+    let eventModel = EventModel()
+    
+    // ====== INITIALIZER METHODS =====
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    /*                                  /*
+     ========= TABLEVIEW METHODS =========
+     */                                  */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // TODO: distinguish between the two different tableviews.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -21,24 +35,9 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 5
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
-        return cell
-    }
+    // ====== UNWIND SEGUE METHOD ====== //
     
     @IBAction func plannerUnwind(for unwindSegue: UIStoryboardSegue) {
         // do nothing
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

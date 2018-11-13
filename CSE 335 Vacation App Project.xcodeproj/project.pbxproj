@@ -163,10 +163,10 @@
 		5CF40060219A94D10015D1EF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
 				5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */,
 				5C119FD021708881007A8B13 /* HomeViewController.swift */,
 				5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */,
-				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
 				5C11A00021708CBB007A8B13 /* NearMeViewController.swift */,
 				5C11A00221708CCF007A8B13 /* PlannerViewController.swift */,
 			);

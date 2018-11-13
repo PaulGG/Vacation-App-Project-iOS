@@ -11,11 +11,35 @@ import SafariServices
 
 class AddFlightViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSafariViewControllerDelegate {
     
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
+    
     @IBOutlet weak var addFlightTableView: UITableView!
     @IBOutlet weak var failedLabel: UILabel!
+    @IBOutlet weak var textField: UITextField!
+    
+    // ====== MODEL ======
     
     var flightsToAdd = [FlightToBeConsidered]()
+    
+    // ====== MISC ======
+    
     var rows : Int = 0
+
+    // ====== INITIALIZER METHODS ======
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addFlightTableView.delegate = self
+        addFlightTableView.dataSource = self
+    }
+    
+    /*                                  /*
+     ========= TABLEVIEW METHODS =========
+     */                                  */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rows
@@ -38,26 +62,19 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         print("This flight is: \(cell.returnDate.text), \(cell.leaveDate.text). \(cell.origin.text), \(cell.destination.text), \(cell.price.text), \(cell.duration.text), \(cell.gate.text)")
         return cell
     }
-
-
-    @IBOutlet weak var textField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addFlightTableView.delegate = self
-        addFlightTableView.dataSource = self
-        
-        // Do any additional setup after loading the view.
-    }
+    /*                                  /*
+     ============ JSON METHODS ===========
+     */                                  */
     
     @IBAction func process() {
-        // First get the user's location with one JSON request.
-        
-        // Next, get the flights and put them in table view.
         failedLabel.isHidden = true
         let ipURLString = "https://www.travelpayouts.com/whereami?locale=en"
         let ipURL = URL(string: ipURLString)
         let urlSession = URLSession.shared
+        
+        // ====== FIND USER LOCATION =====
+        
         let ipQuery = urlSession.dataTask(with: ipURL!, completionHandler: {data, response, error -> Void in
             if (error != nil) {
                 print(error!.localizedDescription)
@@ -66,6 +83,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
             let location = jsonResult["iata"] as! NSString
             print("LOCATION: \(location)")
+            
+            // ======= FIND FLIGHTS ORIGINATING AT USER LOCATION =======
+            
             DispatchQueue.main.async {
                 if self.textField.text != nil && self.textField.text!.count >= 3 {
                     var dest = self.textField.text!
@@ -79,6 +99,7 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
                         print("NEW FOO BAR: \(newJsonRes)")
+                        // ===== PROCESS FLIGHTS =====
                         DispatchQueue.main.async {
                             if newJsonRes["message"] == nil && newJsonRes["errors"] == nil {
                                 self.processFlights(jsonResults: newJsonRes)
@@ -94,20 +115,13 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         })
         ipQuery.resume()
-        
-        
     }
     
+    /*                                  /*
+     ========== HELPER METHODS ===========
+     */                                  */
+    
     func processFlights(jsonResults: NSDictionary) {
-        // Data currently in object:
-        /*
-         * arrival
-         * date
-         * duration
-         * flyingFrom
-         * flyingTo
-         * image
-         */
         let data = jsonResults["data"] as! NSArray
         flightsToAdd = [FlightToBeConsidered]()
         var amount = 0
@@ -138,6 +152,10 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    /*                                  /*
+     ========== SAFARI METHODS ===========
+     */                                  */
+    
     @IBAction func cityCodePage() {
         let urlString = "https://www.iata.org/publications/Pages/code-search.aspx"
         if let url = URL(string: urlString) {
@@ -146,16 +164,4 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             present(vc, animated: true, completion: nil)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

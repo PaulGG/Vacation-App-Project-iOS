@@ -12,9 +12,19 @@ import CoreLocation
 
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
 
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
+    
     @IBOutlet weak var map: MKMapView!
     
+    // ====== MISC. OBJECTS ======
+    
     let locationManager = CLLocationManager()
+    
+    // ====== INITIALIZER METHODS ======
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +32,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    // ====== LOCATION METHODS ======
     
     func enableLocationServices() {
         locationManager.delegate = self

@@ -12,19 +12,31 @@ import MapKit
 
 class NearMeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
     
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
+    
     @IBOutlet weak var nearMeTableView: UITableView!
+    
+    // ====== MISC. OBJECTS ======
 
     var places: [MKMapItem]?
-
     var locations = 0
     var filter = "nearby"
     var nearbyLocations = [MKMapItem()]
     
+    // ====== INITIALIZER METHODS ======
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getNearbyLocations()
-        // Do any additional setup after loading the view.
     }
+    
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
     
     @IBAction func searchBy() {
         let alertController = UIAlertController(title: "Filter Results", message: "", preferredStyle: .alert)
@@ -43,10 +55,13 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         alertController.addAction(inputAction)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
-        
     }
     
-    func getNearbyLocations() {
+    /*                                  /*
+     =========== HELPER METHODS ==========
+     */                                  */
+    
+    private func getNearbyLocations() {
         let locationManager = CLLocationManager()
         let val = CLLocationManager.authorizationStatus()
         if val == .authorizedWhenInUse || val == .authorizedAlways  {
@@ -56,7 +71,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             locationManager.startUpdatingLocation()
         }
         let request = MKLocalSearch.Request()
-
+        
         request.naturalLanguageQuery = filter
         search(using: request)
     }
@@ -82,6 +97,11 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             self!.nearMeTableView.reloadData()
         }
     }
+    
+    /*                                  /*
+     ========= TABLEVIEW METHODS =========
+     */                                  */
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         nearbyLocations[indexPath.row].openInMaps(launchOptions: nil)
@@ -114,6 +134,10 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
+    /*                                  /*
+     ============ MISC METHODS ===========
+     */                                  */
+    
     func buildOKAlertButton(title: String) -> UIAlertController {
         let t = title
         let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
@@ -121,17 +145,4 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         alertController.addAction(okAction)
         return alertController
     }
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
