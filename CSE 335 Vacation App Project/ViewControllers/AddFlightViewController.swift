@@ -164,4 +164,29 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             present(vc, animated: true, completion: nil)
         }
     }
+    
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
+    
+    @IBAction func done(_ sender: Any) {
+        // TODO: Add flight to model
+        performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
+    }
+    
+    @IBAction func addCustom(_ sender: Any) {
+        // TODO: Add UIAlertController for Custom
+    }
+    
+    /*                                  /*
+     ============ MISC METHODS ===========
+     */                                  */
+    
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
+    }
 }

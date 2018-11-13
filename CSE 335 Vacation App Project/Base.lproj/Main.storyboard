@@ -259,26 +259,42 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="e5U-fX-ai1" customClass="FlightTableViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="flightCell" id="e5U-fX-ai1" customClass="FlightTableViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e5U-fX-ai1" id="LYJ-T0-rdl">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="foo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5r-7Y-ZZh">
+                                                    <rect key="frame" x="59" y="11" width="25" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="dL8-o3-5RQ" id="Oa6-jG-IdK"/>
+                                    <outlet property="delegate" destination="dL8-o3-5RQ" id="06O-vK-Xjq"/>
+                                </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTV-Rz-Sj6">
                                 <rect key="frame" x="0.0" y="64" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Flights" id="wIU-5Z-LEF">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lMj-NE-vm3">
-                                            <connections>
-                                                <segue destination="kk2-Ee-yyf" kind="showDetail" id="daF-ha-caX"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="add" id="lMj-NE-vm3">
+                                                <connections>
+                                                    <segue destination="kk2-Ee-yyf" kind="showDetail" id="daF-ha-caX"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Edit" id="Acf-3L-YNs"/>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -287,21 +303,39 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="s0p-dQ-p9o" customClass="EventTableViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventCell" id="s0p-dQ-p9o" customClass="EventTableViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="s0p-dQ-p9o" id="4gl-Jt-ycb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="bar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfX-dV-LuG">
+                                                    <rect key="frame" x="50" y="12" width="26" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="dL8-o3-5RQ" id="6xs-Gf-gqg"/>
+                                    <outlet property="delegate" destination="dL8-o3-5RQ" id="ueh-sr-5Pw"/>
+                                </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Gk-64o">
                                 <rect key="frame" x="0.0" y="367" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Events" id="0HG-PO-B6R"/>
+                                    <navigationItem title="Events" id="0HG-PO-B6R">
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="add" id="22Q-ee-ZHA"/>
+                                            <barButtonItem title="Edit" id="Zab-GR-TdT"/>
+                                        </rightBarButtonItems>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -314,6 +348,10 @@
                         <viewLayoutGuide key="safeArea" id="jzc-BW-kLv"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Planner" id="rpj-Lv-7LA"/>
+                    <connections>
+                        <outlet property="eventTB" destination="3bX-c3-6AT" id="ejb-EH-PtR"/>
+                        <outlet property="flightTB" destination="dLo-ZC-f31" id="tu9-2Y-1kA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMZ-iY-dqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="weK-4U-EKm" userLabel="Exit" sceneMemberID="exit"/>
@@ -335,10 +373,21 @@
                                     <navigationItem title="Add Flight" id="DF2-B1-eDG">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7NB-ar-bfX">
                                             <connections>
-                                                <segue destination="weK-4U-EKm" kind="unwind" unwindAction="plannerUnwindFor:" id="lcE-wi-CdW"/>
+                                                <segue destination="weK-4U-EKm" kind="unwind" identifier="unwindFlightAdd" unwindAction="plannerUnwindFor:" id="lcE-wi-CdW"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Add Custom" id="nQQ-Ec-5oL"/>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="done" id="8zo-LY-Bkv">
+                                                <connections>
+                                                    <action selector="done:" destination="kk2-Ee-yyf" id="7Ez-US-L2j"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Add Custom" id="nQQ-Ec-5oL">
+                                                <connections>
+                                                    <action selector="addCustom:" destination="kk2-Ee-yyf" id="xOE-JS-6CR"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
