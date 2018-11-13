@@ -12,7 +12,8 @@ import SafariServices
 class AddFlightViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSafariViewControllerDelegate {
     
     @IBOutlet weak var addFlightTableView: UITableView!
- 
+    @IBOutlet weak var failedLabel: UILabel!
+    
     var flightsToAdd = [FlightToBeConsidered]()
     var rows : Int = 0
     
@@ -20,16 +21,20 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         return rows
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addFlightCell") as! AddFlightTableViewCell
         let flight = flightsToAdd[indexPath.row]
         cell.returnDate.text = flight.returnDate
         cell.leaveDate.text = flight.leaveDate
-        cell.origin.text = flight.origin
-        cell.destination.text = flight.destination
-        cell.price.text = String(flight.price)
-        cell.duration.text = String(flight.duration)
-        cell.gate.text = flight.gate
+        cell.origin.text = "From: \(flight.origin)"
+        cell.destination.text = "To: \(flight.destination)"
+        cell.price.text = "$\(String(flight.price))"
+        cell.duration.text = "\(String(flight.duration)) mins"
+        cell.gate.text = "Site: \(flight.gate)"
         print("This flight is: \(cell.returnDate.text), \(cell.leaveDate.text). \(cell.origin.text), \(cell.destination.text), \(cell.price.text), \(cell.duration.text), \(cell.gate.text)")
         return cell
     }
@@ -49,7 +54,7 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         // First get the user's location with one JSON request.
         
         // Next, get the flights and put them in table view.
-        
+        failedLabel.isHidden = true
         let ipURLString = "https://www.travelpayouts.com/whereami?locale=en"
         let ipURL = URL(string: ipURLString)
         let urlSession = URLSession.shared
@@ -62,19 +67,30 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             let location = jsonResult["iata"] as! NSString
             print("LOCATION: \(location)")
             DispatchQueue.main.async {
-                let mainRequestURLString = "https://api.travelpayouts.com/v2/prices/latest?currency=usd&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=route&trip_class=0&token=97483c4d433a10e52d7b4ff5db302cb2&destination=\(self.textField.text!)&origin=\(location)"
-                let mainReqURL = URL(string: mainRequestURLString)
-                let mainReqQuery = urlSession.dataTask(with: mainReqURL!, completionHandler: {data, response, error -> Void in
-                    if (error != nil) {
-                        print(error!.localizedDescription)
-                    }
-                    let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
-                    print("NEW FOO BAR: \(newJsonRes)")
-                    DispatchQueue.main.async {
-                        self.processFlights(jsonResults: newJsonRes)
-                    }
-                })
-                mainReqQuery.resume()
+                if self.textField.text != nil && self.textField.text!.count >= 3 {
+                    var dest = self.textField.text!
+                    let index = dest.index(dest.startIndex, offsetBy: 3)
+                    dest = String(dest[..<index])
+                    let mainRequestURLString = "https://api.travelpayouts.com/v2/prices/latest?currency=usd&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=route&trip_class=0&token=97483c4d433a10e52d7b4ff5db302cb2&destination=\(dest)&origin=\(location)"
+                    let mainReqURL = URL(string: mainRequestURLString)
+                    let mainReqQuery = urlSession.dataTask(with: mainReqURL!, completionHandler: {data, response, error -> Void in
+                        if (error != nil) {
+                            print(error!.localizedDescription)
+                        }
+                        let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
+                        print("NEW FOO BAR: \(newJsonRes)")
+                        DispatchQueue.main.async {
+                            if newJsonRes["message"] == nil && newJsonRes["errors"] == nil {
+                                self.processFlights(jsonResults: newJsonRes)
+                            } else {
+                                self.failedLabel.isHidden = false
+                            }
+                        }
+                    })
+                    mainReqQuery.resume()
+                } else {
+                    self.failedLabel.isHidden = false
+                }
             }
         })
         ipQuery.resume()
@@ -94,7 +110,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
          */
         let data = jsonResults["data"] as! NSArray
         flightsToAdd = [FlightToBeConsidered]()
+        var amount = 0
         for item in data {
+            amount += 1
             let item = item as! NSDictionary
             let departDate = item["depart_date"] as! String
             let destination = item["destination"] as! String
@@ -110,9 +128,14 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             let flightAdding = FlightToBeConsidered(returnDate: returnDate, leaveDate: departDate, origin: origin, destination: destination, price: price, duration: duration, gate: gate)
             flightsToAdd.append(flightAdding)
         }
-        rows = data.count
-        addFlightTableView.reloadData()
-        print("i has reloaded datas")
+        if amount > 0 {
+            rows = data.count
+            addFlightTableView.reloadData()
+            print("i has reloaded datas")
+        } else {
+            failedLabel.isHidden = false
+        }
+        
     }
     
     @IBAction func cityCodePage() {

@@ -8,16 +8,24 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var map: MKMapView!
     
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        enableLocationServices()
+        map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-
+    
+    func enableLocationServices() {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+    }
 }
 
