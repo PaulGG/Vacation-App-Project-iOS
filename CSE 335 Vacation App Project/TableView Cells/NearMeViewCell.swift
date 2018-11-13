@@ -10,7 +10,8 @@ import UIKit
 
 class NearMeViewCell: UITableViewCell {
 
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var nearMe: UILabel!
+    @IBOutlet weak var distance: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

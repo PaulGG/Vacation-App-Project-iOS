@@ -215,8 +215,8 @@
                                     <navigationItem title="Home" id="vX2-aF-ywk"/>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rv5-la-1VN">
-                                <rect key="frame" x="0.0" y="64" width="414" height="608"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rv5-la-1VN">
+                                <rect key="frame" x="0.0" y="114" width="414" height="508"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -493,28 +493,32 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="nearMeCell" id="5bP-At-tU0" customClass="NearMeViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="nearMeCell" rowHeight="50" id="5bP-At-tU0" customClass="NearMeViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5bP-At-tU0" id="UY0-rJ-Uxe">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="49.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Near Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TT1-jn-2dl">
-                                                    <rect key="frame" x="38" y="11" width="256" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Near Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TT1-jn-2dl">
+                                                    <rect key="frame" x="30" y="0.0" width="256" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaH-Qf-bOP">
+                                                    <rect key="frame" x="30" y="24" width="256" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="TT1-jn-2dl" firstAttribute="top" secondItem="UY0-rJ-Uxe" secondAttribute="topMargin" id="TSv-EM-V52"/>
-                                                <constraint firstItem="TT1-jn-2dl" firstAttribute="centerY" secondItem="UY0-rJ-Uxe" secondAttribute="centerY" id="b9h-Ro-Yc7"/>
-                                                <constraint firstItem="TT1-jn-2dl" firstAttribute="leading" secondItem="UY0-rJ-Uxe" secondAttribute="leadingMargin" constant="18" id="dbd-rm-jqW"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="label" destination="TT1-jn-2dl" id="yj6-Pq-fYZ"/>
+                                            <outlet property="distance" destination="EaH-Qf-bOP" id="ApO-Mt-zWT"/>
+                                            <outlet property="nearMe" destination="TT1-jn-2dl" id="yj6-Pq-fYZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -543,7 +547,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dIw-SC-zHj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652.17391304347836" y="193.20652173913044"/>
+            <point key="canvasLocation" x="652.17391304347836" y="192.39130434782609"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kXn-uf-3Wg">

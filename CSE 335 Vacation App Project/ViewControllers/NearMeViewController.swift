@@ -103,7 +103,14 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = nearMeTableView.dequeueReusableCell(withIdentifier: "nearMeCell") as! NearMeViewCell
-        cell.label.text = nearbyLocations[indexPath.row].name!
+        let loc = nearbyLocations[indexPath.row]
+        cell.nearMe.text = loc.name!
+        let coordinate_0 = CLLocation(latitude: loc.placemark.coordinate.latitude, longitude: loc.placemark.coordinate.longitude)
+        let lm = CLLocationManager()
+        let coordinate_1 = CLLocation(latitude: lm.location!.coordinate.latitude, longitude: lm.location!.coordinate.longitude)
+        let distance = ((coordinate_0.distance(from: coordinate_1) / 1609) * 100.0).rounded() / 100.0
+        cell.distance.text = "\(distance) miles"
+        print(cell.distance.text)
         return cell
     }
     
