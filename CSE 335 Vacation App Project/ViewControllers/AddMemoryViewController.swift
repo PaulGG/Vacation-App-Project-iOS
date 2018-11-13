@@ -70,8 +70,19 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         if name.text != nil && location.text != nil && image.image != nil {
             memoryModel.addMemory(dateTime: date.date.description, image: image.image!, location: location.text!, title: name.text!)
             self.performSegue(withIdentifier: "bye", sender: self)
+        } else {
+            let alert = buildOKAlertButton(title: "Please fill out all forms.")
+            self.present(alert, animated: true)
         }
         
+    }
+    
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
     }
     
 

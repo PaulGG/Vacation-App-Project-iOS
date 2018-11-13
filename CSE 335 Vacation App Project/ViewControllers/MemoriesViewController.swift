@@ -11,6 +11,7 @@ import UIKit
 class MemoriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var memoryTableView: UITableView!
+    @IBOutlet weak var editBtn: UIBarButtonItem!
     
     let memoryModel = MemoryModel()
     
@@ -29,6 +30,24 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memoryModel.getCount()
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        memoryModel.delete(i: indexPath.row)
+        memoryTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+        if memoryModel.getCount() == 0 {
+            editBtn.title = "Edit"
+        }
+        
+        //memoryTableView.deselectRow(at: indexPath.row, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,6 +74,21 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         // do nothing
         memoryModel.updateFetchResults()
         memoryTableView.reloadData()
+    }
+    
+    
+    @IBAction func edit(sender: UIBarButtonItem) {
+        let bool = self.memoryTableView.isEditing
+        if memoryModel.getCount() != 0 {
+            self.memoryTableView.setEditing(!bool, animated: true)
+            if !bool {
+                editBtn.title = "Done"
+                print("Done")
+            } else {
+                editBtn.title = "Edit"
+                print("Edit")
+            }
+        }
     }
     
 

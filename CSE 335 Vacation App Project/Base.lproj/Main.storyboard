@@ -21,11 +21,18 @@
                                 <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="Memories" id="YnO-jV-Y32">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bVB-m1-Y9C">
-                                            <connections>
-                                                <segue destination="Tt9-Pv-N0F" kind="showDetail" id="2jg-ah-wLg"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="add" id="bVB-m1-Y9C">
+                                                <connections>
+                                                    <segue destination="Tt9-Pv-N0F" kind="showDetail" id="2jg-ah-wLg"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Edit" id="Xlg-fx-9U1">
+                                                <connections>
+                                                    <action selector="editWithSender:" destination="ALu-YQ-Olg" id="CmY-ca-0Kr"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -100,6 +107,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Memories" id="2lA-GH-STe"/>
                     <connections>
+                        <outlet property="editBtn" destination="Xlg-fx-9U1" id="uBI-xQ-GEi"/>
                         <outlet property="memoryTableView" destination="JNj-7L-53u" id="B11-WS-cHj"/>
                     </connections>
                 </viewController>
