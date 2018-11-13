@@ -47,7 +47,7 @@ class MemoryModel : GenericModelContainer {
     override init() {
         super.init()
         self.ent = NSEntityDescription.entity(forEntityName: "Memory", in: self.managedObjectContext)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Memory")
         self.fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Memory])!
     }
     
@@ -68,6 +68,8 @@ class MemoryModel : GenericModelContainer {
         memoryAdding.location = location
         memoryAdding.title = title
         memoryAdding.image = image.pngData()
+               memoryAdding.imageOrientation = Int32(image.imageOrientation.rawValue)
+        save()
     }
     
     public func delete(i: Int) {
@@ -81,6 +83,7 @@ class MemoryModel : GenericModelContainer {
         update.location = location
         update.title = title
         update.image = image.pngData()
+        update.imageOrientation = Int32(image.imageOrientation.rawValue)
     }
     
     public func save() {
@@ -90,6 +93,14 @@ class MemoryModel : GenericModelContainer {
             print("Exception")
         }
         updateFetchResults()
+    }
+    
+    public func getCount() -> Int {
+        return fetchResults!.count
+    }
+    
+    public func get(at: Int) -> Memory {
+        return fetchResults![at]
     }
     
 }
@@ -102,7 +113,7 @@ class FlightModel : GenericModelContainer {
     override init() {
         super.init()
         self.ent = NSEntityDescription.entity(forEntityName: "Flight", in: self.managedObjectContext)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Flight")
         self.fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Flight])!
     }
     
@@ -152,6 +163,14 @@ class FlightModel : GenericModelContainer {
         }
         updateFetchResults()
     }
+    
+    public func getCount() -> Int {
+        return fetchResults!.count
+    }
+    
+    public func get(at: Int) -> Flight {
+        return fetchResults![at]
+    }
 }
 
 class EventModel : GenericModelContainer {
@@ -193,5 +212,13 @@ class EventModel : GenericModelContainer {
             print("Exception")
         }
         updateFetchResults()
+    }
+    
+    public func getCount() -> Int {
+        return fetchResults!.count
+    }
+    
+    public func get(at: Int) -> Event {
+        return fetchResults![at]
     }
 }

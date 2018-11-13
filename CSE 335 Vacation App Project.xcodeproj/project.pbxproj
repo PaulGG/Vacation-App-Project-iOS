@@ -121,23 +121,14 @@
 		5C119FCD21708881007A8B13 /* CSE 335 Vacation App Project */ = {
 			isa = PBXGroup;
 			children = (
-				5CBA18102172823100045E07 /* Model */,
 				5C119FCE21708881007A8B13 /* AppDelegate.swift */,
-				5C119FD021708881007A8B13 /* HomeViewController.swift */,
 				5C119FD221708881007A8B13 /* Main.storyboard */,
-				5CBD9C5B219A091500FCFE83 /* AddFlightTableViewCell.swift */,
-				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
-				5CD48B832171281400027BE6 /* NearMeViewCell.swift */,
-				5C119FD521708882007A8B13 /* Assets.xcassets */,
 				5C119FD721708882007A8B13 /* LaunchScreen.storyboard */,
 				5C119FDA21708882007A8B13 /* Info.plist */,
-				5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */,
-				5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */,
-				5C11A00021708CBB007A8B13 /* NearMeViewController.swift */,
-				5C11A00221708CCF007A8B13 /* PlannerViewController.swift */,
-				5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */,
-				5CBD9C552196129D00FCFE83 /* FlightTableViewCell.swift */,
-				5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */,
+				5CF40060219A94D10015D1EF /* ViewControllers */,
+				5CBA18102172823100045E07 /* Model */,
+				5CF40061219A94ED0015D1EF /* TableView Cells */,
+				5C119FD521708882007A8B13 /* Assets.xcassets */,
 			);
 			path = "CSE 335 Vacation App Project";
 			sourceTree = "<group>";
@@ -167,6 +158,31 @@
 				5CBD9C532196105100FCFE83 /* ModelProcessor.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		5CF40060219A94D10015D1EF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */,
+				5C119FD021708881007A8B13 /* HomeViewController.swift */,
+				5C119FFE21708CAE007A8B13 /* MemoriesViewController.swift */,
+				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
+				5C11A00021708CBB007A8B13 /* NearMeViewController.swift */,
+				5C11A00221708CCF007A8B13 /* PlannerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5CF40061219A94ED0015D1EF /* TableView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5CBD9C5B219A091500FCFE83 /* AddFlightTableViewCell.swift */,
+				5CBD9C552196129D00FCFE83 /* FlightTableViewCell.swift */,
+				5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */,
+				5CD48B8121711B6F00027BE6 /* MemoryViewCell.swift */,
+				5CD48B832171281400027BE6 /* NearMeViewCell.swift */,
+			);
+			path = "TableView Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

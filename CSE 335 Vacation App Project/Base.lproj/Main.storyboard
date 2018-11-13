@@ -33,27 +33,51 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="605"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="memoryCell" id="Nhj-IY-97y" customClass="MemoryViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="memoryCell" rowHeight="80" id="Nhj-IY-97y" customClass="MemoryViewCell" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nhj-IY-97y" id="QMJ-rW-MC1">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="79.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memory" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XzR-AP-eBY">
-                                                    <rect key="frame" x="39" y="11.000000000000002" width="288" height="21.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R3h-Te-vY5">
+                                                    <rect key="frame" x="157" y="0.0" width="237" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Name of Memory">
+                                                            <attributes>
+                                                                <font key="NSFont" size="19" name="ProximaNova-Bold"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Memory" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWx-4u-C0v">
+                                                    <rect key="frame" x="157" y="26" width="237" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location of Memory" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPl-xj-wpS">
+                                                    <rect key="frame" x="157" y="48" width="237" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tfP-R4-YSZ">
+                                                    <rect key="frame" x="20" y="2" width="107" height="75"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="XzR-AP-eBY" firstAttribute="top" secondItem="QMJ-rW-MC1" secondAttribute="topMargin" id="PUN-42-gXV"/>
-                                                <constraint firstItem="XzR-AP-eBY" firstAttribute="centerY" secondItem="QMJ-rW-MC1" secondAttribute="centerY" id="fKz-r2-T2u"/>
-                                                <constraint firstItem="XzR-AP-eBY" firstAttribute="leading" secondItem="QMJ-rW-MC1" secondAttribute="leadingMargin" constant="19" id="gei-hf-U0N"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="XzR-AP-eBY" secondAttribute="trailing" constant="67" id="sEH-OT-b0h"/>
-                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateTime" destination="nWx-4u-C0v" id="ncz-aA-HGj"/>
+                                            <outlet property="location" destination="aPl-xj-wpS" id="X7Y-kU-mUz"/>
+                                            <outlet property="name" destination="R3h-Te-vY5" id="XuA-29-k47"/>
+                                            <outlet property="pic" destination="tfP-R4-YSZ" id="B6n-rC-WLs"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -81,7 +105,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nyj-86-5WA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652" y="-549.17541229385313"/>
+            <point key="canvasLocation" x="650.72463768115949" y="-549.45652173913049"/>
         </scene>
         <!--Add Memory View Controller-->
         <scene sceneID="GPM-LT-MTj">
@@ -98,10 +122,14 @@
                                     <navigationItem title="Add Memory" id="iK0-D5-eFB">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="bnb-Jx-btb">
                                             <connections>
-                                                <segue destination="o3D-Zm-fJe" kind="unwind" unwindAction="unwindFor:" id="hxk-lM-mJz"/>
+                                                <segue destination="o3D-Zm-fJe" kind="unwind" identifier="bye" unwindAction="unwindFor:" id="hxk-lM-mJz"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="Ueq-48-Jah"/>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="Ueq-48-Jah">
+                                            <connections>
+                                                <action selector="done:" destination="Tt9-Pv-N0F" id="GMI-p8-KlO"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -116,7 +144,7 @@
                                     <action selector="takePhoto:" destination="Tt9-Pv-N0F" eventType="valueChanged" id="Eof-Y2-wye"/>
                                 </connections>
                             </segmentedControl>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a5X-e6-dmP">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name of memory" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a5X-e6-dmP">
                                 <rect key="frame" x="60" y="142" width="295" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -137,7 +165,7 @@
                                     <!--2018-11-13 03:21:49 +0000-->
                                 </date>
                             </datePicker>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hp9-GF-JFy">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location of memory" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hp9-GF-JFy">
                                 <rect key="frame" x="60" y="180" width="295" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -153,8 +181,11 @@
                         <viewLayoutGuide key="safeArea" id="x8t-tU-GzN"/>
                     </view>
                     <connections>
+                        <outlet property="date" destination="RQg-br-70v" id="LF8-5t-xXn"/>
                         <outlet property="image" destination="B7j-TG-Xpf" id="RLF-U2-jbQ"/>
                         <outlet property="imageSource" destination="sFl-QR-blR" id="oP7-7j-xXJ"/>
+                        <outlet property="location" destination="Hp9-GF-JFy" id="m85-rJ-xvx"/>
+                        <outlet property="name" destination="a5X-e6-dmP" id="E6n-1I-Zaa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2CK-SE-kJV" userLabel="First Responder" sceneMemberID="firstResponder"/>

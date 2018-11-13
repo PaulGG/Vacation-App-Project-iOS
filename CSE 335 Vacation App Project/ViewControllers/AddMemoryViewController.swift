@@ -11,6 +11,12 @@ import UIKit
 class AddMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var imageSource: UISegmentedControl!
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var location: UITextField!
+    @IBOutlet weak var date: UIDatePicker!
+    
+    let memoryModel = MemoryModel()
+    
     let picker = UIImagePickerController()
     
     @IBOutlet weak var image: UIImageView!
@@ -49,10 +55,23 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         picker.dismiss(animated: true, completion: nil)
         
         image.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        if image.image?.imageOrientation == UIImage.Orientation.right {
+            let temp = image.frame.size.width
+            image.frame.size.width = image.frame.size.height
+            image.frame.size.height = temp
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func done(_ sender: Any) {
+        if name.text != nil && location.text != nil && image.image != nil {
+            memoryModel.addMemory(dateTime: date.date.description, image: image.image!, location: location.text!, title: name.text!)
+            self.performSegue(withIdentifier: "bye", sender: self)
+        }
+        
     }
     
 

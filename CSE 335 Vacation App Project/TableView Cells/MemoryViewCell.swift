@@ -9,9 +9,14 @@
 import UIKit
 
 class MemoryViewCell: UITableViewCell {
-    
-    @IBOutlet weak var label: UILabel!
 
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var dateTime: UILabel!
+    @IBOutlet weak var pic: UIImageView!
+    
+    public var rotated = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

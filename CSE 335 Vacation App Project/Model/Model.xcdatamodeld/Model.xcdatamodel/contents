@@ -17,12 +17,13 @@
     <entity name="Memory" representedClassName="Memory" syncable="YES" codeGenerationType="class">
         <attribute name="dateTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imageOrientation" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Flight" positionX="-18" positionY="36" width="128" height="135"/>
         <element name="Event" positionX="-54" positionY="18" width="128" height="105"/>
-        <element name="Memory" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Flight" positionX="-18" positionY="36" width="128" height="135"/>
+        <element name="Memory" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>
