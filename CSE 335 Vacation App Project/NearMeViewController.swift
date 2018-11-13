@@ -27,8 +27,8 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func searchBy() {
-        let alertController = UIAlertController(title: "Search By", message: "", preferredStyle: .alert)
-        let inputAction = UIAlertAction(title: "Enter a field to search by", style: .default) { (action) in
+        let alertController = UIAlertController(title: "Filter Results", message: "", preferredStyle: .alert)
+        let inputAction = UIAlertAction(title: "Search", style: .default) { (action) in
             let text = alertController.textFields!.first!.text!
             if !text.isEmpty {
                 self.present(self.buildOKAlertButton(title: "Filters Updated"), animated: true, completion: nil)
@@ -38,7 +38,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in }
         alertController.addTextField { (textField) in
-            textField.placeholder = "Enter topic to search for here"
+            textField.placeholder = "Enter topic to search for (i.e 'nearby')"
         }
         alertController.addAction(inputAction)
         alertController.addAction(cancelAction)
@@ -85,6 +85,11 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self!.nearMeTableView.reloadData()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        nearbyLocations[indexPath.row].openInMaps(launchOptions: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     
