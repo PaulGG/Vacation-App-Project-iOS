@@ -26,8 +26,25 @@ class AddEventViewController: UIViewController {
     }
     
     @IBAction func done(_ sender: Any) {
-        if nameField.text != nil && locationField.text != nil {
-            eventModel.addEvent(eventName: nameField.text!, eventDate: datePicker.date.description, eventTime: timePicker.date.description, eventLocation: locationField.text!)
+        if nameField.text != nil {
+            let requestedDateComponents: Set<Calendar.Component> = [
+                .year,
+                .month,
+                .day
+            ]
+            let requestedTimeComponents: Set<Calendar.Component> = [
+                .hour,
+                .minute
+            ]
+            let dateComponents = datePicker.calendar.dateComponents(requestedDateComponents, from: datePicker.date)
+            let timeComponents = timePicker.calendar.dateComponents(requestedTimeComponents,from: timePicker.date)
+            let locText:String
+            if locationField.text == nil {
+                locText = "Location Unknown"
+            } else {
+                locText = locationField.text!
+            }
+            eventModel.addEvent(eventName: nameField.text!, eventDate: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", eventTime: "\(timeComponents.hour!):\(timeComponents.minute!)", eventLocation: locText)
             performSegue(withIdentifier: "unwindEventAdd", sender: nil)
         }
     }

@@ -188,7 +188,7 @@ class FlightModel : GenericModelContainer {
         fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Flight])
     }
     
-    public func addFlight(toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String) {
+    public func addFlight(toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
         let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
         flightAdding.toDest = toDest
         flightAdding.date = date
@@ -202,10 +202,12 @@ class FlightModel : GenericModelContainer {
         flightAdding.flyingFrom = flyingFrom
         flightAdding.flyingTo = flyingTo
         flightAdding.image = UIImage(named: "flightPicture.png")?.pngData()
+        flightAdding.gate = gate
+        flightAdding.flightTime = "Please enter manually."
         save()
     }
     
-    public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String) {
+    public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
         let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
         flightAdding.toDest = toDest
         flightAdding.date = date
@@ -218,6 +220,7 @@ class FlightModel : GenericModelContainer {
         flightAdding.flyingFrom = flyingFrom
         flightAdding.flyingTo = flyingTo
         flightAdding.image = UIImage(named: "flightPicture")?.pngData()
+        flightAdding.gate = gate
         save()
     }
     
@@ -284,7 +287,7 @@ class EventModel : GenericModelContainer {
         eventAdding.eventDate = eventDate
         eventAdding.eventTime = eventTime
         eventAdding.eventLocation = eventLocation
-        eventAdding.image = UIImage(named: "eventPicture")?.pngData()
+        eventAdding.image = UIImage(named: "eventPicture.jpg")?.jpegData(compressionQuality: 30)
         save()
     }
     

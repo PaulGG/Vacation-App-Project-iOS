@@ -20,6 +20,7 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
     @IBOutlet weak var date: UIDatePicker!
+    @IBOutlet weak var time: UIDatePicker!
     @IBOutlet weak var image: UIImageView!
     
     // ====== MODEL ======
@@ -86,7 +87,18 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
     
     @IBAction func done(_ sender: Any) {
         if name.text != nil && location.text != nil && image.image != nil {
-            memoryModel.addMemory(dateTime: date.date.description, image: image.image!, location: location.text!, title: name.text!)
+            let requestedDateComponents: Set<Calendar.Component> = [
+                .year,
+                .month,
+                .day
+            ]
+            let requestedTimeComponents: Set<Calendar.Component> = [
+                .hour,
+                .minute
+            ]
+            let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
+            let timeComponents = time.calendar.dateComponents(requestedTimeComponents,from: time.date)
+            memoryModel.addMemory(dateTime: "\(timeComponents.hour!):\(timeComponents.minute!), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
             self.performSegue(withIdentifier: "bye", sender: self)
         } else {
             let alert = buildOKAlertButton(title: "Please fill out all forms.")

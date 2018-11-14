@@ -12,7 +12,8 @@ class EventTableViewCell: UITableViewCell {
     
     @IBOutlet weak var eventPic: UIImageView!
     @IBOutlet weak var eventLabel: UILabel!
-
+    @IBOutlet weak var dateTimeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -54,9 +54,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         // TODO: Add flight to model
         // Add 'On Vacation' Flight
         let flightPicked = flightsToAdd[indexPath.row]
-        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination)
+        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate)
         // Add 'Flying Back' Flight
-        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin)
+        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate)
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
     }

@@ -77,7 +77,7 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
             let temp = cell.pic.frame.size.width
             cell.pic.frame.size.width = cell.pic.frame.size.height
             cell.pic.frame.size.height = temp
-            cell.pic.transform = cell.pic.transform.rotated(by: CGFloat(M_PI_2))
+            cell.pic.transform = cell.pic.transform.rotated(by: CGFloat(Double.pi / 2))
         }
         cell.pic.image = image
         
@@ -85,7 +85,7 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // ====== UNWIND SEGUE METHOD ======
-    @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {
+    @IBAction func memoryUnwind(for unwindSegue: UIStoryboardSegue) {
         memoryModel.updateFetchResults()
         memoryTableView.reloadData()
     }
