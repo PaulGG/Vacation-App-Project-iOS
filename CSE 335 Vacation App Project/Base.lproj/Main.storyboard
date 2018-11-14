@@ -309,7 +309,11 @@
                                                     <segue destination="kk2-Ee-yyf" kind="showDetail" id="daF-ha-caX"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem title="Edit" id="Acf-3L-YNs"/>
+                                            <barButtonItem title="Edit" id="Acf-3L-YNs">
+                                                <connections>
+                                                    <action selector="editFlights:" destination="dL8-o3-5RQ" id="YdW-Ra-k6I"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -348,8 +352,16 @@
                                 <items>
                                     <navigationItem title="Events" id="0HG-PO-B6R">
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="add" id="22Q-ee-ZHA"/>
-                                            <barButtonItem title="Edit" id="Zab-GR-TdT"/>
+                                            <barButtonItem systemItem="add" id="22Q-ee-ZHA">
+                                                <connections>
+                                                    <segue destination="PrN-3f-daY" kind="showDetail" id="1cW-cg-JXC"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Edit" id="Zab-GR-TdT">
+                                                <connections>
+                                                    <action selector="editEvents:" destination="dL8-o3-5RQ" id="RyA-ht-Z1G"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -365,7 +377,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Planner" id="rpj-Lv-7LA"/>
                     <connections>
+                        <outlet property="eventEditBtn" destination="Zab-GR-TdT" id="olt-tL-s7c"/>
                         <outlet property="eventTB" destination="3bX-c3-6AT" id="ejb-EH-PtR"/>
+                        <outlet property="flightEditBtn" destination="Acf-3L-YNs" id="bLe-XP-3BF"/>
                         <outlet property="flightTB" destination="dLo-ZC-f31" id="tu9-2Y-1kA"/>
                     </connections>
                 </viewController>
@@ -526,6 +540,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XV-v3-AXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1792.753623188406" y="856.79347826086962"/>
+        </scene>
+        <!--Add Event View Controller-->
+        <scene sceneID="cRx-0F-si9">
+            <objects>
+                <viewController id="PrN-3f-daY" customClass="AddEventViewController" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uYH-o1-1qU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8DN-V3-v8O">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Event" id="B1K-cT-KUQ">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="6r8-f1-5bP">
+                                            <connections>
+                                                <action selector="cancel:" destination="PrN-3f-daY" id="Qqc-Yb-qX7"/>
+                                                <segue destination="LYk-hI-UBn" kind="unwind" identifier="unwindEventAdd" unwindAction="plannerUnwindFor:" id="8NX-TR-1co"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="smY-HJ-j63">
+                                            <connections>
+                                                <action selector="done:" destination="PrN-3f-daY" id="nrk-8e-mG6"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gk2-Ja-OYc">
+                                <rect key="frame" x="0.0" y="187" width="250" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563858417.22953403">
+                                    <!--2018-11-14 03:20:17 +0000-->
+                                </date>
+                            </datePicker>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="ffi-ub-drO">
+                                <rect key="frame" x="250" y="187" width="176" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563858493.91029704">
+                                    <!--2018-11-14 03:21:33 +0000-->
+                                </date>
+                            </datePicker>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name of event" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gN9-oP-3k5">
+                                <rect key="frame" x="20" y="93" width="374" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location of event" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mv1-Nh-4ta">
+                                <rect key="frame" x="20" y="131" width="374" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="kO5-yr-dOo"/>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="gk2-Ja-OYc" id="w0Q-dd-SFQ"/>
+                        <outlet property="locationField" destination="Mv1-Nh-4ta" id="ckX-Lp-k1Q"/>
+                        <outlet property="nameField" destination="gN9-oP-3k5" id="WIP-fY-OIy"/>
+                        <outlet property="time" destination="ffi-ub-drO" id="Pok-hM-2d9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1qQ-sn-v3o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="LYk-hI-UBn" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1222" y="1635"/>
         </scene>
         <!--Near Me-->
         <scene sceneID="qd9-tc-4hZ">

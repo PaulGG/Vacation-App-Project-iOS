@@ -278,11 +278,12 @@ class EventModel : GenericModelContainer {
         fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Event])
     }
     
-    public func addEvent(eventName: String, eventDate: String, eventTime: String) {
+    public func addEvent(eventName: String, eventDate: String, eventTime: String, eventLocation: String) {
         let eventAdding = Event(entity: ent!, insertInto: managedObjectContext)
         eventAdding.eventName = eventName
         eventAdding.eventDate = eventDate
         eventAdding.eventTime = eventTime
+        eventAdding.eventLocation = eventLocation
         eventAdding.image = UIImage(named: "eventPicture")?.pngData()
         save()
     }

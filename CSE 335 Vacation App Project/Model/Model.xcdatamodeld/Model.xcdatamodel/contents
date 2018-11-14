@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.22" systemVersion="18C38b" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="eventDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="eventLocation" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="eventName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="eventTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -22,7 +23,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="Event" positionX="-54" positionY="18" width="128" height="120"/>
         <element name="Flight" positionX="-18" positionY="36" width="128" height="135"/>
         <element name="Memory" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>

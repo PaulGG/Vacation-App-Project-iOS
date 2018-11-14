@@ -19,6 +19,7 @@
 		5C11A00321708CCF007A8B13 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00221708CCF007A8B13 /* PlannerViewController.swift */; };
 		5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */; };
 		5C1FB567219BB20900CE184A /* FlightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1FB566219BB20900CE184A /* FlightTableViewCell.swift */; };
+		5C1FB569219BCCFC00CE184A /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1FB568219BCCFC00CE184A /* AddEventViewController.swift */; };
 		5CBA181321729BDD00045E07 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA181121729BDD00045E07 /* Model.xcdatamodeld */; };
 		5CBD9C542196105100FCFE83 /* ModelProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C532196105100FCFE83 /* ModelProcessor.swift */; };
 		5CBD9C58219612AB00FCFE83 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 		5C11A00221708CCF007A8B13 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoryViewController.swift; sourceTree = "<group>"; };
 		5C1FB566219BB20900CE184A /* FlightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightTableViewCell.swift; sourceTree = "<group>"; };
+		5C1FB568219BCCFC00CE184A /* AddEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewController.swift; sourceTree = "<group>"; };
 		5CBA181221729BDD00045E07 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		5CBD9C532196105100FCFE83 /* ModelProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProcessor.swift; sourceTree = "<group>"; };
 		5CBD9C57219612AB00FCFE83 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		5CF40060219A94D10015D1EF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5C1FB568219BCCFC00CE184A /* AddEventViewController.swift */,
 				5CBD9C59219616C100FCFE83 /* AddFlightViewController.swift */,
 				5C11A00421708CE2007A8B13 /* AddMemoryViewController.swift */,
 				5C119FD021708881007A8B13 /* HomeViewController.swift */,
@@ -317,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C11A00521708CE2007A8B13 /* AddMemoryViewController.swift in Sources */,
+				5C1FB569219BCCFC00CE184A /* AddEventViewController.swift in Sources */,
 				5CBD9C5C219A091500FCFE83 /* AddFlightTableViewCell.swift in Sources */,
 				5CBD9C5A219616C100FCFE83 /* AddFlightViewController.swift in Sources */,
 				5C11A00121708CBB007A8B13 /* NearMeViewController.swift in Sources */,

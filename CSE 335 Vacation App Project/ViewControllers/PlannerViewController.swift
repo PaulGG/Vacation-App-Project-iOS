@@ -54,7 +54,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventTableViewCell
             let event = eventModel.get(at: indexPath.row)
-            cell.eventLabel!.text = ""
+            cell.eventLabel!.text = "\(event.eventName!), at \(event.eventTime!), \(event.eventDate!), \(event.eventLocation!)"
             cell.eventPic.image = UIImage(data: event.image!)
             return cell
             // TODO: add attributes from event to cell
