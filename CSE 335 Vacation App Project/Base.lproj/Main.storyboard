@@ -556,13 +556,12 @@
                                     <navigationItem title="Add Event" id="B1K-cT-KUQ">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="6r8-f1-5bP">
                                             <connections>
-                                                <action selector="cancel:" destination="PrN-3f-daY" id="Qqc-Yb-qX7"/>
-                                                <segue destination="LYk-hI-UBn" kind="unwind" identifier="unwindEventAdd" unwindAction="plannerUnwindFor:" id="8NX-TR-1co"/>
+                                                <segue destination="LYk-hI-UBn" kind="unwind" identifier="unwindEventAdd" unwindAction="plannerUnwindFor:" id="xbt-7Z-GbH"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="smY-HJ-j63">
                                             <connections>
-                                                <action selector="done:" destination="PrN-3f-daY" id="nrk-8e-mG6"/>
+                                                <action selector="done:" destination="PrN-3f-daY" id="CBc-aM-vdk"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -601,10 +600,10 @@
                         <viewLayoutGuide key="safeArea" id="kO5-yr-dOo"/>
                     </view>
                     <connections>
-                        <outlet property="datePicker" destination="gk2-Ja-OYc" id="w0Q-dd-SFQ"/>
+                        <outlet property="datePicker" destination="gk2-Ja-OYc" id="f2x-7e-edZ"/>
                         <outlet property="locationField" destination="Mv1-Nh-4ta" id="ckX-Lp-k1Q"/>
                         <outlet property="nameField" destination="gN9-oP-3k5" id="WIP-fY-OIy"/>
-                        <outlet property="time" destination="ffi-ub-drO" id="Pok-hM-2d9"/>
+                        <outlet property="timePicker" destination="ffi-ub-drO" id="Fd9-II-OGs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1qQ-sn-v3o" userLabel="First Responder" sceneMemberID="firstResponder"/>
