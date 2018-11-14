@@ -282,22 +282,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaP-5r-Tk0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DateTime" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaP-5r-Tk0">
                                 <rect key="frame" x="20" y="119" width="374" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H43-st-0yB">
-                                <rect key="frame" x="20" y="148" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FsM-Jh-Mjb">
-                                <rect key="frame" x="20" y="177" width="374" height="21"/>
+                                <rect key="frame" x="20" y="148" width="374" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -307,14 +300,21 @@
                                 <rect key="frame" x="20" y="434" width="374" height="282"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71b-jU-bPK">
-                                <rect key="frame" x="72" y="206" width="270" height="203"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71b-jU-bPK">
+                                <rect key="frame" x="77" y="178" width="252" height="192"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="VkQ-lW-nR7"/>
                     </view>
+                    <connections>
+                        <outlet property="dateTime" destination="iaP-5r-Tk0" id="j3E-1L-9ew"/>
+                        <outlet property="location" destination="FsM-Jh-Mjb" id="h5j-sc-UPM"/>
+                        <outlet property="map" destination="vZu-SK-zaQ" id="jwU-0B-AI0"/>
+                        <outlet property="name" destination="OUy-T9-k8u" id="MYr-nK-ZjP"/>
+                        <outlet property="picture" destination="71b-jU-bPK" id="baz-xW-w79"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gPU-Mq-aHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="YH6-py-0fD" userLabel="Exit" sceneMemberID="exit"/>
@@ -387,6 +387,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="CdB-0W-Rks"/>
                     </view>
+                    <connections>
+                        <outlet property="date" destination="LAR-FV-CQc" id="F8Q-kn-obg"/>
+                        <outlet property="image" destination="ppa-Bv-JLm" id="ZQR-WR-Q8J"/>
+                        <outlet property="imageSource" destination="svd-f2-0YG" id="eFo-jk-9rK"/>
+                        <outlet property="location" destination="qso-DJ-kX1" id="s6P-m4-tiW"/>
+                        <outlet property="name" destination="2dD-ta-eBP" id="9i3-fm-bWY"/>
+                        <outlet property="time" destination="mgW-2v-B5J" id="LhC-a5-260"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eID-11-g7Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="RDW-Qf-U9c" userLabel="Exit" sceneMemberID="exit"/>

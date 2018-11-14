@@ -84,6 +84,20 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    // ====== PREPARE SEGUE ====== //
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let viewController: MemoryDetailViewController = segue.destination as? MemoryDetailViewController {
+            let selectedIndex: IndexPath = memoryTableView.indexPath(for: sender as! UITableViewCell)!
+            let memory = memoryModel.get(at: selectedIndex.row)
+            viewController.dateTimeStr = memory.dateTime
+            viewController.locationStr = memory.location
+            viewController.nameStr = memory.title
+            let cell = memoryTableView.cellForRow(at: selectedIndex) as! MemoryViewCell
+            viewController.pictureFile = UIImage(data: memory.image!)
+        } 
+    }
+    
     // ====== UNWIND SEGUE METHOD ======
     @IBAction func memoryUnwind(for unwindSegue: UIStoryboardSegue) {
         memoryModel.updateFetchResults()
