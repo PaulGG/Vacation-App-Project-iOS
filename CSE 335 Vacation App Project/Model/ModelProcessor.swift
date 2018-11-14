@@ -188,25 +188,36 @@ class FlightModel : GenericModelContainer {
         fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Flight])
     }
     
-    public func addFlight(arrival: Bool, date: String, duration: String, flyingFrom: String, flyingTo: String, image: UIImage) {
+    public func addFlight(toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String) {
         let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
-        flightAdding.arrival = arrival
+        flightAdding.toDest = toDest
         flightAdding.date = date
-        flightAdding.duration = duration
+        let hours: Int = duration / 60
+        if hours == 0 {
+            flightAdding.duration = "\(duration) mins"
+        } else {
+            flightAdding.duration = "\(hours) hrs, \(duration % 60) mins"
+        }
+
         flightAdding.flyingFrom = flyingFrom
         flightAdding.flyingTo = flyingTo
-        flightAdding.image = image.pngData()
+        flightAdding.image = UIImage(named: "flightPicture.png")?.pngData()
         save()
     }
     
-    public func updateFlight(at: Int, arrival: Bool, date: String, duration: String, flyingFrom: String, flyingTo: String, image: UIImage) {
+    public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String) {
         let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
-        flightAdding.arrival = arrival
+        flightAdding.toDest = toDest
         flightAdding.date = date
-        flightAdding.duration = duration
+        let hours: Int = duration / 60
+        if hours == 0 {
+            flightAdding.duration = "\(duration) mins"
+        } else {
+            flightAdding.duration = "\(hours) hrs, \(duration % 60) mins"
+        }
         flightAdding.flyingFrom = flyingFrom
         flightAdding.flyingTo = flyingTo
-        flightAdding.image = image.pngData()
+        flightAdding.image = UIImage(named: "flightPicture")?.pngData()
         save()
     }
     
@@ -267,12 +278,12 @@ class EventModel : GenericModelContainer {
         fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Event])
     }
     
-    public func addEvent(eventName: String, eventDate: String, eventTime: String, image: UIImage) {
+    public func addEvent(eventName: String, eventDate: String, eventTime: String) {
         let eventAdding = Event(entity: ent!, insertInto: managedObjectContext)
         eventAdding.eventName = eventName
         eventAdding.eventDate = eventDate
         eventAdding.eventTime = eventTime
-        eventAdding.image = image.pngData()
+        eventAdding.image = UIImage(named: "eventPicture")?.pngData()
         save()
     }
     
@@ -284,6 +295,8 @@ class EventModel : GenericModelContainer {
         }
         updateFetchResults()
     }
+    
+    // TODO: add update event
     
     // ====== DELETE ====== //
     

@@ -33,18 +33,36 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
      */                                  */
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell: UITableViewCell
         if tableView == flightTB {
-            cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
             let flight = flightModel.get(at: indexPath.row)
+            print("oof")
+            if flight.toDest {
+                cell.flightLabel!.text = "Departure: \(flight.flyingFrom!)-\(flight.flyingTo!)"
+                cell.dateLabel!.text = "\(flight.date!) \(flight.duration!)"
+                print("ooof")
+            } else {
+                cell.flightLabel!.text = "Arrival: \(flight.flyingFrom!)-\(flight.flyingTo!)"
+                cell.dateLabel!.text = "\(flight.date!) \(flight.duration!)"
+                print("ooof")
+            }
+            
+            cell.flightPic.image = UIImage(data: flight.image!)
+            print("oooof")
+            return cell
             // TODO: add attributes from flight to cell
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventTableViewCell
             let event = eventModel.get(at: indexPath.row)
+            cell.eventLabel!.text = ""
+            cell.eventPic.image = UIImage(data: event.image!)
+            return cell
             // TODO: add attributes from event to cell
         }
-        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 88
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -83,7 +101,10 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     // ====== UNWIND SEGUE METHOD ====== //
     
     @IBAction func plannerUnwind(for unwindSegue: UIStoryboardSegue) {
-        // do nothing
+        flightModel.updateFetchResults()
+        eventModel.updateFetchResults()
+        flightTB.reloadData()
+        eventTB.reloadData()
     }
     
     /*                                  /*

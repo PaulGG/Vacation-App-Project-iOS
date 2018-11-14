@@ -76,6 +76,7 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imageSource.isSelected = false
         dismiss(animated: true, completion: nil)
     }
     
@@ -91,7 +92,6 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
             let alert = buildOKAlertButton(title: "Please fill out all forms.")
             self.present(alert, animated: true)
         }
-        
     }
     
     /*                                  /*

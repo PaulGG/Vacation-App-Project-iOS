@@ -21,9 +21,10 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var failedLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     
-    // ====== MODEL ======
+    // ====== MODELS ======
     
     var flightsToAdd = [FlightToBeConsidered]()
+    var flightModel = FlightModel()
     
     // ====== MISC ======
     
@@ -49,6 +50,17 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         return 70
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: Add flight to model
+        // Add 'On Vacation' Flight
+        let flightPicked = flightsToAdd[indexPath.row]
+        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination)
+        // Add 'Flying Back' Flight
+        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin)
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addFlightCell") as! AddFlightTableViewCell
         let flight = flightsToAdd[indexPath.row]
@@ -57,9 +69,14 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.origin.text = "From: \(flight.origin)"
         cell.destination.text = "To: \(flight.destination)"
         cell.price.text = "$\(String(flight.price))"
-        cell.duration.text = "\(String(flight.duration)) mins"
+        let hours: Int = flight.duration / 60
+        if hours == 0 {
+            cell.duration.text = "\(flight.duration) mins"
+        } else {
+            cell.duration.text = "\(hours) hrs, \(flight.duration % 60) mins"
+        }
+        //cell.duration.text = "\(String(flight.duration)) mins"
         cell.gate.text = "Site: \(flight.gate)"
-        print("This flight is: \(cell.returnDate.text), \(cell.leaveDate.text). \(cell.origin.text), \(cell.destination.text), \(cell.price.text), \(cell.duration.text), \(cell.gate.text)")
         return cell
     }
     
@@ -168,11 +185,6 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
     /*                                  /*
      ========== IBACTION METHODS =========
      */                                  */
-    
-    @IBAction func done(_ sender: Any) {
-        // TODO: Add flight to model
-        performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
-    }
     
     @IBAction func addCustom(_ sender: Any) {
         // TODO: Add UIAlertController for Custom
