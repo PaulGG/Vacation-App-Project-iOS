@@ -128,9 +128,13 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
                 viewController.dateStr = "Date: \(uf.date!)"
                 if uf.toDest {
                     viewController.destOrArrivalStr = "Arrival Flight"
+                    viewController.locationName = uf.nameOfFlyingTo
+                    print("This flight is arrival and arriving at \(viewController.locationName!)")
                     viewController.toDest = true
                 } else {
                     viewController.destOrArrivalStr = "Departure Flight"
+                    viewController.locationName = uf.nameOfFlyingTo
+                    print("This flight is departure and arriving at \(viewController.locationName!)")
                     viewController.toDest = false
                 }
                 viewController.durationStr = "Duration: \(uf.duration!)"
@@ -139,6 +143,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
                 viewController.timeOfFlightStr = "Time: \(uf.flightTime!)"
                 viewController.index = selectedIndex.row
                 viewController.originalFlightProvider = uf.gate!
+                
                 //viewController.originalDuration = uf.duration
             } else if let viewController: EventDetailViewController = segue.destination as? EventDetailViewController {
                 let selectedIndex: IndexPath = eventTB.indexPath(for: sender as! UITableViewCell)!

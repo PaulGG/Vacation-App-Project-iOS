@@ -45,6 +45,16 @@
 	<string>displays location to the user and gets nearby locations</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Takes pictures of a user&apos;s memory</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>http</key>
+			<string></string>
+		</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>displays location to the user and gets nearby locations</string>
 </dict>

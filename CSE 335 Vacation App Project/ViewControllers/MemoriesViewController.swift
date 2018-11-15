@@ -27,7 +27,6 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     /*                                  /*
@@ -96,6 +95,9 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
             let cell = memoryTableView.cellForRow(at: selectedIndex) as! MemoryViewCell
             viewController.pictureFile = UIImage(data: memory.image!)
             viewController.index = selectedIndex.row
+            if memory.imageOrientation == UIImage.Orientation.right.rawValue {
+                viewController.rotate = true
+            }
         } 
     }
     

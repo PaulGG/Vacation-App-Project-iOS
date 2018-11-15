@@ -205,6 +205,13 @@ class FlightModel : GenericModelContainer {
         flightAdding.image = UIImage(named: "flightPicture.png")?.pngData()
         flightAdding.gate = gate
         flightAdding.flightTime = "Please enter manually."
+        // json call
+        // Call 1 //
+        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingTo!)", arrival: false, object: flightAdding)
+        toQuery.resume()
+        // Call 2 //
+        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingFrom!)", arrival: true, object: flightAdding)
+        fromQuery.resume()
         save()
     }
     
@@ -222,6 +229,13 @@ class FlightModel : GenericModelContainer {
         update.flyingTo = flyingTo
         update.image = UIImage(named: "flightPicture")?.pngData()
         update.gate = gate
+        // json call
+        // Call 1 //
+        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingTo!)", arrival: false, object: update)
+        toQuery.resume()
+        // Call 2 //
+        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingFrom!)", arrival: true, object: update)
+        fromQuery.resume()
         save()
     }
     
@@ -239,6 +253,57 @@ class FlightModel : GenericModelContainer {
     public func delete(i: Int) {
         managedObjectContext.delete(self.fetchResults![i])
         save()
+    }
+    
+    public func buildQuery(string: String, arrival: Bool, object: Flight) -> URLSessionDataTask {
+        let url = URL(string: string)
+        let urlSession = URLSession.shared
+        let toQuery = urlSession.dataTask(with: url!, completionHandler: {data, response, error -> Void in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                print("Statement evaluated to true")
+                let foo = jsonResult[0] as! NSDictionary
+                if let cityName = foo["name"] as? NSString {
+                    DispatchQueue.main.async {
+                        if arrival {
+                            object.nameOfFlyingTo = cityName as String
+                            print("Plane Arrival: \(object.nameOfFlyingTo!)")
+                        } else {
+                            object.nameOfFlyingFrom = cityName as String
+                            print("Plane Dest: \(object.nameOfFlyingFrom!)")
+                        }
+                        self.save()
+                    }
+                } else {
+                    print("Statement evaluated to false")
+                    DispatchQueue.main.async {
+                        if arrival {
+                            object.nameOfFlyingTo = object.flyingTo
+                            print("Plane Arrival: \(object.flyingTo!)")
+                        } else {
+                            object.nameOfFlyingFrom = object.flyingFrom
+                            print("Plane Dest: \(object.flyingFrom!)")
+                        }
+                        self.save()
+                    }
+                } 
+            } else {
+                print("Statement evaluated to false")
+                DispatchQueue.main.async {
+                    if arrival {
+                        object.nameOfFlyingTo = object.flyingTo
+                        print("Plane Arrival: \(object.flyingTo!)")
+                    } else {
+                        object.nameOfFlyingFrom = object.flyingFrom
+                        print("Plane Dest: \(object.flyingFrom!)")
+                    }
+                    self.save()
+                }
+            }
+        })
+        return toQuery
     }
 }
 

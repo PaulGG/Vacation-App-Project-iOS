@@ -15,6 +15,8 @@
         <attribute name="flyingTo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="nameOfFlyingFrom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nameOfFlyingTo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="toDest" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Memory" representedClassName="Memory" syncable="YES" codeGenerationType="class">
@@ -26,7 +28,7 @@
     </entity>
     <elements>
         <element name="Event" positionX="-54" positionY="18" width="128" height="120"/>
-        <element name="Flight" positionX="-18" positionY="36" width="128" height="165"/>
+        <element name="Flight" positionX="-18" positionY="36" width="128" height="195"/>
         <element name="Memory" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>

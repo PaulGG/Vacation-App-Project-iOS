@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class FlightDetailViewController: UIViewController {
+class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var destOrArrival: UILabel!
     @IBOutlet weak var locationToDest: UILabel!
@@ -16,6 +17,8 @@ class FlightDetailViewController: UIViewController {
     @IBOutlet weak var duration: UILabel!
     @IBOutlet weak var flightProvider: UILabel!
     @IBOutlet weak var timeOfFlight: UILabel!
+    
+    @IBOutlet weak var map: MKMapView!
     
     var destOrArrivalStr: String?
     var locationToDestStr: String?
@@ -27,6 +30,8 @@ class FlightDetailViewController: UIViewController {
     var toDest: Bool?
     
     var originalFlightProvider: String?
+    var locationName: String?
+    let locationManager = CLLocationManager()
     //var originalDuration: Int?
     
     override func viewDidLoad() {
@@ -37,7 +42,31 @@ class FlightDetailViewController: UIViewController {
         duration.text = durationStr
         flightProvider.text = flightProviderStr
         timeOfFlight.text = timeOfFlightStr
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+        }
+        doLocationStuff(location: locationName!)
+        print(locationName!)
         // Do any additional setup after loading the view.
+    }
+    
+    func doLocationStuff(location: String) {
+        CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
+            if error != nil {
+                print("Geocode failed: \(error!.localizedDescription)")
+            } else if placemarks!.count > 0 {
+                let placemark = placemarks![0]
+                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                let region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
+                self.map.setRegion(region, animated: true)
+                let ani = MKPointAnnotation()
+                ani.coordinate = placemark.location!.coordinate
+                ani.title = placemark.locality
+                ani.subtitle = placemark.subLocality
+                self.map.addAnnotation(ani)
+            }
+        })
     }
     
     @IBAction func flightDetailUnwind(for unwindSegue: UIStoryboardSegue) {
@@ -45,8 +74,10 @@ class FlightDetailViewController: UIViewController {
             if let flight = viewController.flightToUpdate {
                 if flight.toDest {
                     destOrArrivalStr = "Arrival Flight"
+                    locationName = flight.nameOfFlyingTo
                 } else {
                     destOrArrivalStr = "Destination Flight"
+                    locationName = flight.nameOfFlyingFrom
                 }
                 locationToDestStr = "\(flight.flyingFrom!)-\(flight.flyingTo!)"
                 dateStr = "Date: \(flight.date!)"
@@ -54,6 +85,7 @@ class FlightDetailViewController: UIViewController {
                 flightProviderStr = "Flight Provider: \(flight.gate!)"
                 timeOfFlightStr = flight.flightTime
                 viewDidLoad()
+                doLocationStuff(location: locationName!)
             }
             
         }

@@ -11,15 +11,16 @@ import Foundation
 
 class CustomAddFlightViewController: UIViewController {
 
-    // todo
-    @IBOutlet weak var destOrArrival: UIPickerView!
-    
+    @IBOutlet weak var destOrArrival: UISegmentedControl!
     @IBOutlet weak var origin: UITextField!
     @IBOutlet weak var destination: UITextField!
     @IBOutlet weak var date: UIDatePicker!
     @IBOutlet weak var provider: UITextField!
     @IBOutlet weak var departure: UIDatePicker!
     @IBOutlet weak var arrival: UIDatePicker!
+    @IBOutlet weak var arrivalDate: UIDatePicker!
+    
+    var toDest: Bool?
 
     var flightModel = FlightModel()
     
@@ -42,12 +43,32 @@ class CustomAddFlightViewController: UIViewController {
             let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
             let departureComponents = departure.calendar.dateComponents(requestedTimeComponents,from: departure.date)
             let arrivalComponents = arrival.calendar.dateComponents(requestedTimeComponents,from: arrival.date)
-            let durationTest = arrival.date.timeIntervalSince(departure.date) / 60
-            print(durationTest)
-            
-            flightModel.addFlight(toDest: true, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(durationTest)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
-            performSegue(withIdentifier: "doneAddingCustomFlight", sender: nil)
+            let arrivalDateComp = arrivalDate.calendar.dateComponents(requestedDateComponents, from: arrivalDate.date)
+            let testOrigin = DateComponents.init(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: departureComponents.hour, minute: departureComponents.minute)
+            let testArrival = DateComponents.init(year: arrivalDateComp.year, month: arrivalDateComp.month, day: arrivalDateComp.day, hour: arrivalComponents.hour, minute: arrivalComponents.minute)
+            let cal = Calendar.current
+            let originDate = cal.date(from: testOrigin)
+            let newArrivalDate = cal.date(from: testArrival)
+            let interval = newArrivalDate!.timeIntervalSince(originDate!) / 60
+            if interval > 0 {
+                if destOrArrival.selectedSegmentIndex == 0 {
+                    toDest = true
+                } else {
+                    toDest = false
+                }
+                flightModel.addFlight(toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
+                performSegue(withIdentifier: "doneAddingCustomFlight", sender: nil)
+            } else {
+                self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
+            }
         }
     }
-
+    
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
+    }
 }

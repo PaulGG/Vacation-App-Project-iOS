@@ -221,7 +221,13 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AYe-h8-Hzo">
                                 <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                                 <items>
-                                    <navigationItem title="Home" id="vX2-aF-ywk"/>
+                                    <navigationItem title="Home" id="vX2-aF-ywk">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="eXM-Eg-VCW">
+                                            <connections>
+                                                <action selector="refreshLocation:" destination="aOH-3r-HfW" id="syv-R9-h2i"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rv5-la-1VN">
@@ -814,6 +820,7 @@
                         <outlet property="duration" destination="68f-Y0-CYB" id="mOj-XQ-YkH"/>
                         <outlet property="flightProvider" destination="34S-v8-WtG" id="y8d-ra-qfY"/>
                         <outlet property="locationToDest" destination="ma6-0h-GDK" id="Tcr-lX-ueb"/>
+                        <outlet property="map" destination="yoy-mI-Nf5" id="wGN-gp-2dl"/>
                         <outlet property="timeOfFlight" destination="RWu-mc-tta" id="yDj-Yz-T0g"/>
                     </connections>
                 </viewController>
@@ -849,75 +856,97 @@
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter destination" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ezc-5c-aAX">
-                                <rect key="frame" x="20" y="95" width="374" height="30"/>
+                                <rect key="frame" x="20" y="223" width="374" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter origin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tWL-Db-nWH">
-                                <rect key="frame" x="20" y="133" width="365" height="30"/>
+                                <rect key="frame" x="20" y="185" width="365" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter flight provider" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l0L-Xx-g7F">
-                                <rect key="frame" x="20" y="171" width="365" height="30"/>
+                                <rect key="frame" x="20" y="261" width="365" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jlf-my-4Ie">
-                                <rect key="frame" x="0.0" y="277" width="253" height="126"/>
+                                <rect key="frame" x="0.0" y="367" width="253" height="126"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922217.59154403">
                                     <!--2018-11-14 21:03:37 +0000-->
                                 </date>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Flight:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BK8-0J-4Ha">
-                                <rect key="frame" x="20" y="247" width="108" height="21"/>
+                                <rect key="frame" x="20" y="337" width="108" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Departure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ARo-3u-y6P">
-                                <rect key="frame" x="264" y="247" width="144" height="21"/>
+                                <rect key="frame" x="264" y="337" width="144" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="lCd-Ul-er1">
-                                <rect key="frame" x="254" y="280" width="164" height="119"/>
+                                <rect key="frame" x="254" y="370" width="164" height="119"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922272.64842796">
                                     <!--2018-11-14 21:04:32 +0000-->
                                 </date>
                             </datePicker>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="jia-Nr-aYp">
-                                <rect key="frame" x="249" y="430" width="165" height="119"/>
+                                <rect key="frame" x="249" y="520" width="165" height="119"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922304.70924199">
                                     <!--2018-11-14 21:05:04 +0000-->
                                 </date>
                             </datePicker>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="N0u-lD-sVo">
-                                <rect key="frame" x="0.0" y="426" width="249" height="127"/>
+                                <rect key="frame" x="0.0" y="516" width="249" height="127"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563937292.29755199">
                                     <!--2018-11-15 01:14:52 +0000-->
                                 </date>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date and Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="572-vg-fid">
-                                <rect key="frame" x="12" y="397" width="189" height="21"/>
+                                <rect key="frame" x="12" y="487" width="189" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Departure flight means you are leaving a location," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGD-Ek-J8w">
+                                <rect key="frame" x="24" y="135" width="320" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="and arrival means you are coming back to that location." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COA-dq-h79">
+                                <rect key="frame" x="24" y="160" width="357" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CC8-7J-i66">
+                                <rect key="frame" x="94" y="100" width="227" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Departure Flight"/>
+                                    <segment title="Arrival Flight"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ol2-Ix-s3d"/>
@@ -927,6 +956,7 @@
                         <outlet property="arrivalDate" destination="N0u-lD-sVo" id="Fzy-bN-nUd"/>
                         <outlet property="date" destination="Jlf-my-4Ie" id="afs-Q4-kqG"/>
                         <outlet property="departure" destination="lCd-Ul-er1" id="dVZ-VB-Uq3"/>
+                        <outlet property="destOrArrival" destination="CC8-7J-i66" id="ohf-55-uHR"/>
                         <outlet property="destination" destination="Ezc-5c-aAX" id="oRs-te-M13"/>
                         <outlet property="origin" destination="tWL-Db-nWH" id="fB1-Tz-BDd"/>
                         <outlet property="provider" destination="l0L-Xx-g7F" id="CUZ-g0-cFX"/>
@@ -1280,65 +1310,94 @@
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter destination" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-0X-Kfy">
-                                <rect key="frame" x="20" y="95" width="374" height="30"/>
+                                <rect key="frame" x="20" y="218" width="374" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter origin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s5K-GI-XHZ">
-                                <rect key="frame" x="20" y="133" width="365" height="30"/>
+                                <rect key="frame" x="20" y="180" width="365" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter flight provider" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AGb-KV-r6q">
-                                <rect key="frame" x="20" y="171" width="365" height="30"/>
+                                <rect key="frame" x="20" y="256" width="365" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-6s-c10">
-                                <rect key="frame" x="0.0" y="276" width="414" height="126"/>
+                                <rect key="frame" x="0.0" y="361" width="270" height="126"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922217.59154403">
                                     <!--2018-11-14 21:03:37 +0000-->
                                 </date>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Flight:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNH-hC-H5o">
-                                <rect key="frame" x="20" y="247" width="108" height="21"/>
+                                <rect key="frame" x="20" y="332" width="108" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Departure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWu-yV-XBS">
-                                <rect key="frame" x="20" y="384" width="144" height="21"/>
+                                <rect key="frame" x="259" y="332" width="144" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sbp-09-9Ad">
-                                <rect key="frame" x="0.0" y="413" width="164" height="119"/>
+                                <rect key="frame" x="270" y="361" width="144" height="126"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922272.64842796">
                                     <!--2018-11-14 21:04:32 +0000-->
                                 </date>
                             </datePicker>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cia-gt-xQW">
-                                <rect key="frame" x="249" y="413" width="165" height="119"/>
+                                <rect key="frame" x="270" y="514" width="144" height="103"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922304.70924199">
                                     <!--2018-11-14 21:05:04 +0000-->
                                 </date>
                             </datePicker>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxd-90-nWM">
-                                <rect key="frame" x="278" y="384" width="116" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date and Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxd-90-nWM">
+                                <rect key="frame" x="20" y="485" width="189" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="ftv-tr-S6x">
+                                <rect key="frame" x="0.0" y="514" width="270" height="103"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563963795.65858603">
+                                    <!--2018-11-15 08:36:35 +0000-->
+                                </date>
+                            </datePicker>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KiH-g8-eRD">
+                                <rect key="frame" x="94" y="89" width="227" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Departure Flight"/>
+                                    <segment title="Arrival Flight"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="and arrival means you are coming back to that location." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXb-FU-1iG">
+                                <rect key="frame" x="20" y="155" width="357" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Departure flight means you are leaving a location," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcN-I0-qrw">
+                                <rect key="frame" x="20" y="130" width="320" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1348,8 +1407,10 @@
                     </view>
                     <connections>
                         <outlet property="arrival" destination="cia-gt-xQW" id="UFJ-vm-zE1"/>
+                        <outlet property="arrivalDate" destination="ftv-tr-S6x" id="s67-Ju-fc9"/>
                         <outlet property="date" destination="WfK-6s-c10" id="TSD-gF-PT0"/>
                         <outlet property="departure" destination="Sbp-09-9Ad" id="WJJ-zl-OHN"/>
+                        <outlet property="destOrArrival" destination="KiH-g8-eRD" id="TzL-e3-J5E"/>
                         <outlet property="destination" destination="cpZ-0X-Kfy" id="Lft-YN-xEs"/>
                         <outlet property="origin" destination="s5K-GI-XHZ" id="N3f-xM-qiN"/>
                         <outlet property="provider" destination="AGb-KV-r6q" id="MY8-pt-B6G"/>
@@ -1358,7 +1419,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ra-nc-Vu5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="eoH-Tt-6dX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2871" y="220"/>
+            <point key="canvasLocation" x="2869.5652173913045" y="219.29347826086959"/>
         </scene>
     </scenes>
 </document>

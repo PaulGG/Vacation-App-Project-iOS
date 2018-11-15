@@ -11,8 +11,7 @@ import UIKit
 class EditFlightViewController: UIViewController {
     
     // todo
-    @IBOutlet weak var destOrArrival: UIPickerView!
-    
+    @IBOutlet weak var destOrArrival: UISegmentedControl!
     @IBOutlet weak var origin: UITextField!
     @IBOutlet weak var destination: UITextField!
     @IBOutlet weak var date: UIDatePicker!
@@ -82,8 +81,6 @@ class EditFlightViewController: UIViewController {
             let departureComponents = departure.calendar.dateComponents(requestedTimeComponents,from: departure.date)
             let arrivalComponents = arrival.calendar.dateComponents(requestedTimeComponents,from: arrival.date)
             let arrivalDateComp = arrivalDate.calendar.dateComponents(requestedDateComponents, from: arrivalDate.date)
-            let durationTest = arrival.date.timeIntervalSince(departure.date) / 60
-            let timeInterval = arrivalDate.date.timeIntervalSince(date.date)
             let testOrigin = DateComponents.init(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: departureComponents.hour, minute: departureComponents.minute)
             let testArrival = DateComponents.init(year: arrivalDateComp.year, month: arrivalDateComp.month, day: arrivalDateComp.day, hour: arrivalComponents.hour, minute: arrivalComponents.minute)
             let cal = Calendar.current
@@ -93,6 +90,11 @@ class EditFlightViewController: UIViewController {
             let interval = newArrivalDate!.timeIntervalSince(originDate!) / 60
             //(round(durationTest) > 0 && round(timeInterval) >= 0) || (round(timeInterval) > 0)
             if interval > 0 {
+                if destOrArrival.selectedSegmentIndex == 0 {
+                    toDest = true
+                } else {
+                    toDest = false
+                }
                 flightModel.updateFlight(at: index!, toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))",  duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
                 flightToUpdate = flightModel.get(at: index!)
                 performSegue(withIdentifier: "doneEditingFlight", sender: nil)
