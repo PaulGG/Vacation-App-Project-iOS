@@ -23,6 +23,11 @@ class FlightDetailViewController: UIViewController {
     var durationStr: String?
     var flightProviderStr: String?
     var timeOfFlightStr: String?
+    var index: Int?
+    var toDest: Bool?
+    
+    var originalFlightProvider: String?
+    //var originalDuration: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,14 +41,35 @@ class FlightDetailViewController: UIViewController {
     }
     
     @IBAction func flightDetailUnwind(for unwindSegue: UIStoryboardSegue) {
-        // TODO: semantics
+        if let viewController: EditFlightViewController = unwindSegue.source as? EditFlightViewController {
+            if let flight = viewController.flightToUpdate {
+                if flight.toDest {
+                    destOrArrivalStr = "Arrival Flight"
+                } else {
+                    destOrArrivalStr = "Destination Flight"
+                }
+                locationToDestStr = "\(flight.flyingFrom!)-\(flight.flyingTo!)"
+                dateStr = "Date: \(flight.date!)"
+                durationStr = flight.duration
+                flightProviderStr = "Flight Provider: \(flight.gate!)"
+                timeOfFlightStr = flight.flightTime
+                viewDidLoad()
+            }
+            
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController: EditFlightViewController = segue.destination as? EditFlightViewController {
-            
-        } else if let viewController: EditEventViewController = segue.destination as? EditEventViewController {
-            
+            viewController.destOrArrivalStr = destOrArrivalStr
+            viewController.locationToDestStr = locationToDestStr
+            viewController.dateStr = dateStr
+            viewController.flightProviderStr = flightProviderStr
+            viewController.timeOfFlightStr = timeOfFlightStr
+            viewController.index = index
+            viewController.toDest = toDest
+            // viewController.originalDuration = originalDuration
+            viewController.originalFlightProvider = originalFlightProvider
         }
     }
 }

@@ -145,13 +145,17 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         for item in data {
             amount += 1
             let item = item as! NSDictionary
-            let departDate = item["depart_date"] as! String
+            var departDate = item["depart_date"] as! String
+            let departDatePieces = departDate.split(separator: "-")
+            departDate = "\(departDatePieces[1])/\(departDatePieces[2])/\(departDatePieces[0])"
             let destination = item["destination"] as! String
             let gate = item["gate"] as! String
             // the starting place of the flight
             let origin = item["origin"] as! String
             // the return date of the flight
-            let returnDate = item["return_date"] as! String
+            var returnDate = item["return_date"] as! String
+            let returnDatePieces = returnDate.split(separator: "-")
+            returnDate = "\(returnDatePieces[1])/\(returnDatePieces[2])/\(returnDatePieces[0])"
             // the price of the flight
             let price = item["value"] as! Double
             // how long the flight is
@@ -180,6 +184,10 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             vc.delegate = self
             present(vc, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func customFlightUnwind(for unwindSegue: UIStoryboardSegue) {
+        
     }
     
     /*                                  /*

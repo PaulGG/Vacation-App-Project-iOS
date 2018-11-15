@@ -9,22 +9,103 @@
 import UIKit
 
 class EditFlightViewController: UIViewController {
+    
+    // todo
+    @IBOutlet weak var destOrArrival: UIPickerView!
+    
+    @IBOutlet weak var origin: UITextField!
+    @IBOutlet weak var destination: UITextField!
+    @IBOutlet weak var date: UIDatePicker!
+    @IBOutlet weak var provider: UITextField!
+    @IBOutlet weak var departure: UIDatePicker!
+    @IBOutlet weak var arrival: UIDatePicker!
+    @IBOutlet weak var arrivalDate: UIDatePicker!
+    
+    // pickerview for destOrArrivalStr
+    var destOrArrivalStr: String?
+    var locationToDestStr: String?
+    var dateStr: String?
+    var flightProviderStr: String?
+    var timeOfFlightStr: String?
+    var index: Int?
+    var toDest: Bool?
+    
+    var originalFlightProvider: String?
+    //var originalDuration: Int?
+    
+    var flightModel = FlightModel()
+    var flightToUpdate : Flight?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let locs = locationToDestStr?.split(separator: "-")
+        let ori : String
+        let dest: String
+        if destOrArrivalStr == "Arrival Flight" {
+            ori = String(locs![1])
+            dest = String(locs![0])
+        } else {
+            ori = String(locs![0])
+            dest = String(locs![1])
+        }
+        
+        origin.text = ori
+        destination.text = dest
+        dateStr = String(dateStr!.dropFirst(6))
+        let dateInfoStr = dateStr!.split(separator: "/")
+        //let timeInfoStr = timeStr!.split(separator: ":")
+        var dateInfo = [Int]()
+        for i in dateInfoStr {
+            dateInfo.append(Int(i)!)
+        }
+        let dateComponents = DateComponents.init(year: dateInfo[2], month: dateInfo[0], day: dateInfo[1])
+        let cal = Calendar.current
+        let dateCrafted = cal.date(from: dateComponents)
+        date.date = dateCrafted!
+        provider.text = originalFlightProvider
+        //duration.text = durationStr
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func done(_ sender: Any) {
+        if origin.text != nil && destination.text != nil && provider.text != nil /*&& duration.text != nil*/ {
+            let requestedDateComponents: Set<Calendar.Component> = [
+                .year,
+                .month,
+                .day
+            ]
+            let requestedTimeComponents: Set<Calendar.Component> = [
+                .hour,
+                .minute
+            ]
+            let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
+            let departureComponents = departure.calendar.dateComponents(requestedTimeComponents,from: departure.date)
+            let arrivalComponents = arrival.calendar.dateComponents(requestedTimeComponents,from: arrival.date)
+            let arrivalDateComp = arrivalDate.calendar.dateComponents(requestedDateComponents, from: arrivalDate.date)
+            let durationTest = arrival.date.timeIntervalSince(departure.date) / 60
+            let timeInterval = arrivalDate.date.timeIntervalSince(date.date)
+            let testOrigin = DateComponents.init(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: departureComponents.hour, minute: departureComponents.minute)
+            let testArrival = DateComponents.init(year: arrivalDateComp.year, month: arrivalDateComp.month, day: arrivalDateComp.day, hour: arrivalComponents.hour, minute: arrivalComponents.minute)
+            let cal = Calendar.current
+            let originDate = cal.date(from: testOrigin)
+            let newArrivalDate = cal.date(from: testArrival)
+            
+            let interval = newArrivalDate!.timeIntervalSince(originDate!) / 60
+            //(round(durationTest) > 0 && round(timeInterval) >= 0) || (round(timeInterval) > 0)
+            if interval > 0 {
+                flightModel.updateFlight(at: index!, toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))",  duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
+                flightToUpdate = flightModel.get(at: index!)
+                performSegue(withIdentifier: "doneEditingFlight", sender: nil)
+            } else {
+                self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
+            }
+        }
     }
-    */
-
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
+    }
 }

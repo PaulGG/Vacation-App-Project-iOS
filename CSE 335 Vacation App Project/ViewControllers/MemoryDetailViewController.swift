@@ -21,6 +21,7 @@ class MemoryDetailViewController: UIViewController {
     var dateTimeStr: String?
     var locationStr: String?
     var pictureFile: UIImage?
+    var index: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +40,20 @@ class MemoryDetailViewController: UIViewController {
             viewController.locationStr = locationStr
             viewController.nameStr = nameStr
             viewController.timeStr = String(dateTimeInfo![0])
+            viewController.index = index
         }
     }
     
 
     @IBAction func memoryDetailUnwind(for unwindSegue: UIStoryboardSegue) {
-        // TODO: semantics
+        if let viewController: EditMemoryViewController = unwindSegue.source as? EditMemoryViewController {
+            if let memory = viewController.memoryToUpdate {
+                name.text = memory.title
+                dateTime.text = memory.dateTime
+                location.text = memory.location
+                picture.image = UIImage(data: memory.image!)
+            }
+        }
     }
 
 }

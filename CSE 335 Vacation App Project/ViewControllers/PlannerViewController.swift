@@ -123,25 +123,32 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         if segue.identifier == "flightDetail" || segue.identifier == "eventDetail" {
             print("was evaluated")
             if let viewController: FlightDetailViewController = segue.destination as? FlightDetailViewController {
-                let seletedIndex: IndexPath = flightTB.indexPath(for: sender as! UITableViewCell)!
-                let uf = flightModel.get(at: seletedIndex.row)
+                let selectedIndex: IndexPath = flightTB.indexPath(for: sender as! UITableViewCell)!
+                let uf = flightModel.get(at: selectedIndex.row)
                 viewController.dateStr = "Date: \(uf.date!)"
                 if uf.toDest {
                     viewController.destOrArrivalStr = "Arrival Flight"
+                    viewController.toDest = true
                 } else {
                     viewController.destOrArrivalStr = "Departure Flight"
+                    viewController.toDest = false
                 }
                 viewController.durationStr = "Duration: \(uf.duration!)"
                 viewController.flightProviderStr = "Flight Provider: \(uf.gate!)"
                 viewController.locationToDestStr = "\(uf.flyingFrom!)-\(uf.flyingTo!)"
                 viewController.timeOfFlightStr = "Time: \(uf.flightTime!)"
+                viewController.index = selectedIndex.row
+                viewController.originalFlightProvider = uf.gate!
+                //viewController.originalDuration = uf.duration
             } else if let viewController: EventDetailViewController = segue.destination as? EventDetailViewController {
                 let selectedIndex: IndexPath = eventTB.indexPath(for: sender as! UITableViewCell)!
                 let ue = eventModel.get(at: selectedIndex.row)
                 viewController.dateStr = "Date: \(ue.eventDate!)"
                 viewController.locationStr = "Location: \(ue.eventLocation!)"
                 viewController.nameStr = ue.eventName
-                viewController.timeStr = ue.eventTime
+                viewController.timeStr = "Time: \(ue.eventTime!)"
+                viewController.index = selectedIndex.row
+                viewController.originalLocationStr = ue.eventLocation
             }
         }
     }

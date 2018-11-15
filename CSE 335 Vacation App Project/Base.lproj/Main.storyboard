@@ -339,7 +339,11 @@
                                                 <segue destination="RDW-Qf-U9c" kind="unwind" identifier="doneEditingMemory" unwindAction="memoryDetailUnwindFor:" id="D0W-vA-YJV"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="TCa-MX-T4j"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="TCa-MX-T4j">
+                                            <connections>
+                                                <action selector="done:" destination="8Vz-Zf-sqH" id="59I-H1-5qp"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -371,13 +375,16 @@
                                     <!--2018-11-14 20:51:34 +0000-->
                                 </date>
                             </datePicker>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="svd-f2-0YG">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="svd-f2-0YG">
                                 <rect key="frame" x="111" y="355" width="193" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Camera"/>
                                     <segment title="Photo Library"/>
                                 </segments>
+                                <connections>
+                                    <action selector="takePhoto:" destination="8Vz-Zf-sqH" eventType="valueChanged" id="qkt-b7-r2n"/>
+                                </connections>
                             </segmentedControl>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ppa-Bv-JLm">
                                 <rect key="frame" x="85" y="436" width="244" height="191"/>
@@ -585,10 +592,15 @@
                                                 <segue destination="weK-4U-EKm" kind="unwind" identifier="unwindFlightAdd" unwindAction="plannerUnwindFor:" id="lcE-wi-CdW"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Add Custom" id="nQQ-Ec-5oL">
-                                            <connections>
-                                                <action selector="addCustom:" destination="kk2-Ee-yyf" id="xOE-JS-6CR"/>
-                                            </connections>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" id="Til-LW-9TQ">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bn2-CX-9Dg">
+                                                <rect key="frame" x="302" y="7" width="92" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Add Custom"/>
+                                                <connections>
+                                                    <segue destination="VNF-Kh-m9f" kind="show" id="j66-om-HlX"/>
+                                                </connections>
+                                            </button>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -699,8 +711,8 @@
                                     <action selector="cityCodePage" destination="kk2-Ee-yyf" eventType="touchUpInside" id="Oab-vc-ZjH"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City lookup failed." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gmr-yn-GxO">
-                                <rect key="frame" x="139" y="168" width="137" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City lookup failed. Input error or no flights available." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gmr-yn-GxO">
+                                <rect key="frame" x="11" y="168" width="393" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -828,7 +840,11 @@
                                                 <segue destination="Q9Y-O9-tmF" kind="unwind" identifier="doneEditingFlight" unwindAction="flightDetailUnwindFor:" id="tyS-7M-D3g"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="5io-4C-o27"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="5io-4C-o27">
+                                            <connections>
+                                                <action selector="done:" destination="FyL-j1-WAp" id="mNH-CE-f20"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -853,15 +869,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Edit duration" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1JK-pK-N7B">
-                                <rect key="frame" x="20" y="209" width="365" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jlf-my-4Ie">
-                                <rect key="frame" x="0.0" y="276" width="414" height="126"/>
+                                <rect key="frame" x="0.0" y="277" width="253" height="126"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922217.59154403">
                                     <!--2018-11-14 21:03:37 +0000-->
@@ -875,28 +884,35 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Departure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ARo-3u-y6P">
-                                <rect key="frame" x="20" y="384" width="144" height="21"/>
+                                <rect key="frame" x="264" y="247" width="144" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="lCd-Ul-er1">
-                                <rect key="frame" x="0.0" y="413" width="164" height="119"/>
+                                <rect key="frame" x="254" y="280" width="164" height="119"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922272.64842796">
                                     <!--2018-11-14 21:04:32 +0000-->
                                 </date>
                             </datePicker>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="jia-Nr-aYp">
-                                <rect key="frame" x="249" y="413" width="165" height="119"/>
+                                <rect key="frame" x="249" y="430" width="165" height="119"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="563922304.70924199">
                                     <!--2018-11-14 21:05:04 +0000-->
                                 </date>
                             </datePicker>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="572-vg-fid">
-                                <rect key="frame" x="278" y="384" width="116" height="21"/>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="N0u-lD-sVo">
+                                <rect key="frame" x="0.0" y="426" width="249" height="127"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563937292.29755199">
+                                    <!--2018-11-15 01:14:52 +0000-->
+                                </date>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date and Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="572-vg-fid">
+                                <rect key="frame" x="12" y="397" width="189" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -906,6 +922,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ol2-Ix-s3d"/>
                     </view>
+                    <connections>
+                        <outlet property="arrival" destination="jia-Nr-aYp" id="dFh-Fa-8tJ"/>
+                        <outlet property="arrivalDate" destination="N0u-lD-sVo" id="Fzy-bN-nUd"/>
+                        <outlet property="date" destination="Jlf-my-4Ie" id="afs-Q4-kqG"/>
+                        <outlet property="departure" destination="lCd-Ul-er1" id="dVZ-VB-Uq3"/>
+                        <outlet property="destination" destination="Ezc-5c-aAX" id="oRs-te-M13"/>
+                        <outlet property="origin" destination="tWL-Db-nWH" id="fB1-Tz-BDd"/>
+                        <outlet property="provider" destination="l0L-Xx-g7F" id="CUZ-g0-cFX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="96G-Co-MdZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Q9Y-O9-tmF" userLabel="Exit" sceneMemberID="exit"/>
@@ -1076,7 +1101,11 @@
                                                 <segue destination="dIH-Rk-doD" kind="unwind" identifier="doneEditingEvent" unwindAction="eventDetailUnwindFor:" id="6LV-Dh-mUP"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="QXi-ub-Wae"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="QXi-ub-Wae">
+                                            <connections>
+                                                <action selector="done:" destination="cEW-7W-ePQ" id="r5T-Gc-7mz"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -1112,6 +1141,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="RJT-nV-xuc"/>
                     </view>
+                    <connections>
+                        <outlet property="datePicker" destination="Lmb-Ig-Utr" id="I6G-ng-JAg"/>
+                        <outlet property="location" destination="3F6-Ct-WFF" id="kQQ-fS-3zQ"/>
+                        <outlet property="name" destination="cOr-LC-tZm" id="3rS-3z-avc"/>
+                        <outlet property="timePicker" destination="ika-6F-795" id="DGN-m3-yrP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGV-F8-xsV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dIH-Rk-doD" userLabel="Exit" sceneMemberID="exit"/>
@@ -1217,6 +1252,113 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GtW-16-0lF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1138" y="387"/>
+        </scene>
+        <!--Custom Add Flight View Controller-->
+        <scene sceneID="sTN-KU-Fn6">
+            <objects>
+                <viewController id="VNF-Kh-m9f" customClass="CustomAddFlightViewController" customModule="CSE_335_Vacation_App_Project" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uvq-S8-Bsa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8dd-rI-Dxv">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Flight" id="zy6-IE-4hF">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="0bm-G3-83P">
+                                            <connections>
+                                                <segue destination="eoH-Tt-6dX" kind="unwind" identifier="doneAddingCustomFlight" unwindAction="customFlightUnwindFor:" id="t4m-5x-U3o"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="7rq-y4-SEC">
+                                            <connections>
+                                                <action selector="done:" destination="VNF-Kh-m9f" id="qmr-FF-63v"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter destination" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-0X-Kfy">
+                                <rect key="frame" x="20" y="95" width="374" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter origin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s5K-GI-XHZ">
+                                <rect key="frame" x="20" y="133" width="365" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter flight provider" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AGb-KV-r6q">
+                                <rect key="frame" x="20" y="171" width="365" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-6s-c10">
+                                <rect key="frame" x="0.0" y="276" width="414" height="126"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563922217.59154403">
+                                    <!--2018-11-14 21:03:37 +0000-->
+                                </date>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date of Flight:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNH-hC-H5o">
+                                <rect key="frame" x="20" y="247" width="108" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Departure:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWu-yV-XBS">
+                                <rect key="frame" x="20" y="384" width="144" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sbp-09-9Ad">
+                                <rect key="frame" x="0.0" y="413" width="164" height="119"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563922272.64842796">
+                                    <!--2018-11-14 21:04:32 +0000-->
+                                </date>
+                            </datePicker>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cia-gt-xQW">
+                                <rect key="frame" x="249" y="413" width="165" height="119"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="563922304.70924199">
+                                    <!--2018-11-14 21:05:04 +0000-->
+                                </date>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time of Arrival:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxd-90-nWM">
+                                <rect key="frame" x="278" y="384" width="116" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="HPg-aB-qDD"/>
+                    </view>
+                    <connections>
+                        <outlet property="arrival" destination="cia-gt-xQW" id="UFJ-vm-zE1"/>
+                        <outlet property="date" destination="WfK-6s-c10" id="TSD-gF-PT0"/>
+                        <outlet property="departure" destination="Sbp-09-9Ad" id="WJJ-zl-OHN"/>
+                        <outlet property="destination" destination="cpZ-0X-Kfy" id="Lft-YN-xEs"/>
+                        <outlet property="origin" destination="s5K-GI-XHZ" id="N3f-xM-qiN"/>
+                        <outlet property="provider" destination="AGb-KV-r6q" id="MY8-pt-B6G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Ra-nc-Vu5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="eoH-Tt-6dX" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2871" y="220"/>
         </scene>
     </scenes>
 </document>

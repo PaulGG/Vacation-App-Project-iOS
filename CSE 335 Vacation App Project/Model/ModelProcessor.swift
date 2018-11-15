@@ -114,6 +114,7 @@ class MemoryModel : GenericModelContainer {
         update.title = title
         update.image = image.pngData()
         update.imageOrientation = Int32(image.imageOrientation.rawValue)
+        save()
     }
     
     public func addMemory(dateTime: String, image: UIImage, location: String, title: String) {
@@ -208,19 +209,19 @@ class FlightModel : GenericModelContainer {
     }
     
     public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
-        let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
-        flightAdding.toDest = toDest
-        flightAdding.date = date
+        let update = fetchResults![at]
+        update.toDest = toDest
+        update.date = date
         let hours: Int = duration / 60
         if hours == 0 {
-            flightAdding.duration = "\(duration) mins"
+            update.duration = "\(duration) mins"
         } else {
-            flightAdding.duration = "\(hours) hrs, \(duration % 60) mins"
+            update.duration = "\(hours) hrs, \(duration % 60) mins"
         }
-        flightAdding.flyingFrom = flyingFrom
-        flightAdding.flyingTo = flyingTo
-        flightAdding.image = UIImage(named: "flightPicture")?.pngData()
-        flightAdding.gate = gate
+        update.flyingFrom = flyingFrom
+        update.flyingTo = flyingTo
+        update.image = UIImage(named: "flightPicture")?.pngData()
+        update.gate = gate
         save()
     }
     
@@ -289,6 +290,14 @@ class EventModel : GenericModelContainer {
         eventAdding.eventLocation = eventLocation
         eventAdding.image = UIImage(named: "eventPicture.jpg")?.jpegData(compressionQuality: 30)
         save()
+    }
+    
+    public func updateEvent(at: Int, eventName: String, eventDate: String, eventTime: String, eventLocation: String) {
+        let update = fetchResults![at]
+        update.eventName = eventName
+        update.eventDate = eventDate
+        update.eventTime = eventTime
+        update.eventLocation = eventLocation
     }
     
     public func save() {

@@ -22,6 +22,8 @@ class EventDetailViewController: UIViewController {
     var locationStr: String?
     var dateStr: String?
     var timeStr: String?
+    var index: Int?
+    var originalLocationStr: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +34,27 @@ class EventDetailViewController: UIViewController {
         // TODO: FORWARD GEOCODE AND DISPLAY LOCATION ON MAP
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let viewController: EditEventViewController = segue.destination as? EditEventViewController {
+            viewController.nameStr = nameStr
+            viewController.locationStr = originalLocationStr
+            viewController.dateStr = dateStr
+            viewController.timeStr = timeStr
+            viewController.index = index
+        }
+    }
+    
     @IBAction func eventDetailUnwind(for unwindSegue: UIStoryboardSegue) {
-        // TODO: semantics
+        if let viewController : EditEventViewController = unwindSegue.source as? EditEventViewController {
+            if let event = viewController.eventToUpdate {
+                let event = viewController.eventToUpdate
+                nameStr = event?.eventName
+                locationStr = "Location: \(event!.eventLocation!)"
+                dateStr = "Date: \(event!.eventDate!)"
+                timeStr = "Time: \(event!.eventTime!)"
+                viewDidLoad()
+            }
+        }
     }
     
 }

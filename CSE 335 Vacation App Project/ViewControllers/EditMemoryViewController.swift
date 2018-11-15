@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditMemoryViewController: UIViewController {
+class EditMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
@@ -22,9 +22,16 @@ class EditMemoryViewController: UIViewController {
     var dateStr: String?
     var timeStr: String?
     var imageData: UIImage?
+    var index: Int?
+    
+    var memoryModel = MemoryModel()
+    var memoryToUpdate: Memory?
+    
+    let picker = UIImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        picker.delegate = self
         name.text = nameStr
         location.text = locationStr
         let dateInfoStr = dateStr!.split(separator: "/")
@@ -43,8 +50,66 @@ class EditMemoryViewController: UIViewController {
         date.date = dateCrafted!
         time.date = dateCrafted!
         image.image = imageData
+    }
+    
+    /*                                  /*
+     =========== IMAGE METHODS ===========
+     */                                  */
+    
+    @IBAction func takePhoto(_ sender: Any) {
+        if imageSource.selectedSegmentIndex == 0
+        {
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                picker.allowsEditing = false
+                picker.sourceType = UIImagePickerController.SourceType.camera
+                picker.cameraCaptureMode = .photo
+                picker.modalPresentationStyle = .fullScreen
+            } else {
+                print("No camera")
+            }
+            
+        } else {
+            picker.allowsEditing = false
+            picker.sourceType = .photoLibrary
+            picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+            picker.modalPresentationStyle = .currentContext
+        }
+        present(picker, animated: true, completion: nil)
+        imageSource.isSelected = false
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
         
-        
-        // Do any additional setup after loading the view.
+        image.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        if image.image?.imageOrientation == UIImage.Orientation.right {
+            let temp = image.frame.size.width
+            image.frame.size.width = image.frame.size.height
+            image.frame.size.height = temp
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imageSource.isSelected = false
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func done(_ sender: Any) {
+        if name.text != nil && location.text != nil {
+            let requestedDateComponents: Set<Calendar.Component> = [
+                .year,
+                .month,
+                .day
+            ]
+            let requestedTimeComponents: Set<Calendar.Component> = [
+                .hour,
+                .minute
+            ]
+            let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
+            let timeComponents = time.calendar.dateComponents(requestedTimeComponents,from: time.date)
+            memoryModel.updateMemory(at: index!, dateTime: "\(timeComponents.hour!):\(timeComponents.minute!), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
+            memoryToUpdate = memoryModel.get(at: index!)
+            performSegue(withIdentifier: "doneEditingMemory", sender: nil)
+        }
     }
 }
