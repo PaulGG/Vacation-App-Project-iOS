@@ -54,9 +54,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         // TODO: Add flight to model
         // Add 'On Vacation' Flight
         let flightPicked = flightsToAdd[indexPath.row]
-        flightModel.addFlight(toDest: false, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate)
+        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate)
         // Add 'Flying Back' Flight
-        flightModel.addFlight(toDest: true, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate)
+        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate)
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
     }
@@ -99,7 +99,6 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             // Attempt to parse JSON data
             let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
             let location = jsonResult["iata"] as! NSString
-            print("LOCATION: \(location)")
             
             // ======= FIND FLIGHTS ORIGINATING AT USER LOCATION =======
             
@@ -115,7 +114,6 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
                             print(error!.localizedDescription)
                         }
                         let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
-                        print("NEW FOO BAR: \(newJsonRes)")
                         // ===== PROCESS FLIGHTS =====
                         DispatchQueue.main.async {
                             if newJsonRes["message"] == nil && newJsonRes["errors"] == nil {
@@ -166,7 +164,6 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         if amount > 0 {
             rows = data.count
             addFlightTableView.reloadData()
-            print("i has reloaded datas")
         } else {
             failedLabel.isHidden = false
         }

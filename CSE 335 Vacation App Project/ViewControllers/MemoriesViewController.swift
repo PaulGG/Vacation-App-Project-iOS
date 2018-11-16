@@ -70,7 +70,6 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
         cell.location.text = mem.location
         cell.name.text = mem.title
         let image = UIImage(data: mem.image!)
-        print("Width: \(image!.size.width), Height: \(image!.size.height)")
         if mem.imageOrientation == UIImage.Orientation.right.rawValue && !cell.rotated {
             cell.rotated = true
             let temp = cell.pic.frame.size.width
@@ -117,10 +116,8 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
             self.memoryTableView.setEditing(!bool, animated: true)
             if !bool {
                 editBtn.title = "Done"
-                print("Done")
             } else {
                 editBtn.title = "Edit"
-                print("Edit")
             }
         }
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class AddMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -61,8 +62,14 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
             picker.modalPresentationStyle = .currentContext
             
         }
-        present(picker, animated: true, completion: nil)
+        let cameraMediaType = AVMediaType.video
+        let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
         imageSource.isSelected = false
+        if cameraAuthStatus == .authorized || imageSource.selectedSegmentIndex == 1 {
+            present(picker, animated: true, completion: nil)
+        } else {
+            present(buildOKAlertButton(title: "You have specified to not allow camera usage in settings. Please select a photo from your library instead."), animated: true, completion: nil)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

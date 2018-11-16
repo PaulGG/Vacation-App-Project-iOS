@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class HomeViewController: UIViewController, CLLocationManagerDelegate {
+class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     /*                                  /*
      ============= VARIABLES =============
@@ -33,6 +33,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         enableLocationServices()
         doLocationStuff()
         locationManager.delegate = self
+        map.delegate = self
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
@@ -50,25 +51,20 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let memories = memoryModel.getMemories()
         
         for flight in flights! {
-            if flight.toDest {
-                geoCode(location: flight.nameOfFlyingTo!, name: "Flight to \(flight.nameOfFlyingFrom!)")
-            } else {
-                geoCode(location: flight.nameOfFlyingTo!, name: "Flight from \(flight.nameOfFlyingTo!)")
-            }
+            geoCode(location: flight.nameOfFlyingTo!, name: "Flight to \(flight.nameOfFlyingFrom!)", object: flight)
         }
         
         for event in events! {
-            geoCode(location: event.eventLocation!, name: event.eventName!)
+            geoCode(location: event.eventLocation!, name: event.eventName!, object: event)
         }
         
         for memory in memories! {
-            geoCode(location: memory.location!, name: memory.title!)
+            geoCode(location: memory.location!, name: memory.title!, object: memory)
         }
     }
     
-    func geoCode(location: String, name: String) {
+    func geoCode(location: String, name: String, object: AnyObject) {
         CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
-            print("Geocoding location \(location)")
             if error != nil {
                 print("Geocode failed: \(error!.localizedDescription)")
             } else if placemarks!.count > 0 {
@@ -77,9 +73,32 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                 ani.coordinate = placemark.location!.coordinate
                 ani.title = name
                 ani.subtitle = placemark.locality
+                let annotations = self.map.annotations
+                for ann in annotations {
+                    // It is possible for map placemarks to be placed over each other.
+                    // To avoid this scenario, we need to randomly generate placemark locations.
+                    // It is still possible to have errors, but unlikely.
+                    if ann.subtitle == ani.subtitle {
+                        let newLat = Double.random(in: -0.05...0.05)
+                        let newLong = Double.random(in: -0.05...0.05)
+                        ani.coordinate.latitude += newLat
+                        ani.coordinate.longitude += newLong
+                        break
+                    }
+                }
                 self.map.addAnnotation(ani)
+                //self.map.addAnnotation(aniView as! MKAnnotation)
             }
         })
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+            return nil
+        }
+        let aniView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        return aniView
     }
     
     func enableLocationServices() {
@@ -88,7 +107,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func refreshLocation(_ sender: Any?) {
-        print("hi i am refreshed")
         doLocationStuff()
     }
 }

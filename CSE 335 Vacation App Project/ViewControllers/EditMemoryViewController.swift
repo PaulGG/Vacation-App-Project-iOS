@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class EditMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -74,8 +75,14 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
             picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
             picker.modalPresentationStyle = .currentContext
         }
-        present(picker, animated: true, completion: nil)
+        let cameraMediaType = AVMediaType.video
+        let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
         imageSource.isSelected = false
+        if cameraAuthStatus == .authorized || imageSource.selectedSegmentIndex == 1 {
+            present(picker, animated: true, completion: nil)
+        } else {
+            present(buildOKAlertButton(title: "You have specified to not allow camera usage in settings. Please select a photo from your library instead."), animated: true, completion: nil)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -111,5 +118,13 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
             memoryToUpdate = memoryModel.get(at: index!)
             performSegue(withIdentifier: "doneEditingMemory", sender: nil)
         }
+    }
+    
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
     }
 }

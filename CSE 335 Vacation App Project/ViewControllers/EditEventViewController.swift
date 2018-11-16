@@ -36,7 +36,6 @@ class EditEventViewController: UIViewController {
         var timeInfo = [Int]()
         
         for i in dateInfoStr {
-            print(i)
             dateInfo.append(Int(i)!)
         }
         for i in timeInfoStr {

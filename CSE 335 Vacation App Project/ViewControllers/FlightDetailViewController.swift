@@ -47,7 +47,6 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
         doLocationStuff(location: locationName!)
-        print(locationName!)
         // Do any additional setup after loading the view.
     }
     

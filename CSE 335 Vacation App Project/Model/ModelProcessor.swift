@@ -263,41 +263,32 @@ class FlightModel : GenericModelContainer {
                 print(error!.localizedDescription)
             }
             if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
-                print("Statement evaluated to true")
                 let foo = jsonResult[0] as! NSDictionary
                 if let cityName = foo["name"] as? NSString {
                     DispatchQueue.main.async {
                         if arrival {
                             object.nameOfFlyingTo = cityName as String
-                            print("Plane Arrival: \(object.nameOfFlyingTo!)")
                         } else {
                             object.nameOfFlyingFrom = cityName as String
-                            print("Plane Dest: \(object.nameOfFlyingFrom!)")
                         }
                         self.save()
                     }
                 } else {
-                    print("Statement evaluated to false")
                     DispatchQueue.main.async {
                         if arrival {
                             object.nameOfFlyingTo = object.flyingTo
-                            print("Plane Arrival: \(object.flyingTo!)")
                         } else {
                             object.nameOfFlyingFrom = object.flyingFrom
-                            print("Plane Dest: \(object.flyingFrom!)")
                         }
                         self.save()
                     }
                 } 
             } else {
-                print("Statement evaluated to false")
                 DispatchQueue.main.async {
                     if arrival {
                         object.nameOfFlyingTo = object.flyingTo
-                        print("Plane Arrival: \(object.flyingTo!)")
                     } else {
                         object.nameOfFlyingFrom = object.flyingFrom
-                        print("Plane Dest: \(object.flyingFrom!)")
                     }
                     self.save()
                 }

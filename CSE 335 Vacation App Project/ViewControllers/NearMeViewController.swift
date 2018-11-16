@@ -91,7 +91,6 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             
             self!.places = (response?.mapItems)!
             self!.locations = self!.places!.count
-            //print(self!.locations[searchRequest.naturalLanguageQuery!])
             self!.nearbyLocations = self!.places!
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self!.nearMeTableView.reloadData()
@@ -130,7 +129,6 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         let coordinate_1 = CLLocation(latitude: lm.location!.coordinate.latitude, longitude: lm.location!.coordinate.longitude)
         let distance = ((coordinate_0.distance(from: coordinate_1) / 1609) * 100.0).rounded() / 100.0
         cell.distance.text = "\(distance) miles"
-        print(cell.distance.text)
         return cell
     }
     

@@ -36,19 +36,15 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         if tableView == flightTB {
             let cell = tableView.dequeueReusableCell(withIdentifier: "flightCell") as! FlightTableViewCell
             let flight = flightModel.get(at: indexPath.row)
-            print("oof")
             if flight.toDest {
                 cell.flightLabel!.text = "Departure: \(flight.flyingFrom!)-\(flight.flyingTo!)"
                 cell.dateLabel!.text = "\(flight.date!) \(flight.duration!)"
-                print("ooof")
             } else {
                 cell.flightLabel!.text = "Arrival: \(flight.flyingFrom!)-\(flight.flyingTo!)"
                 cell.dateLabel!.text = "\(flight.date!) \(flight.duration!)"
-                print("ooof")
             }
             
             cell.flightPic.image = UIImage(data: flight.image!)
-            print("oooof")
             return cell
             // TODO: add attributes from flight to cell
         } else {
@@ -56,8 +52,6 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             let event = eventModel.get(at: indexPath.row)
             cell.eventLabel!.text = "\(event.eventName!), \(event.eventLocation!)"
             cell.dateTimeLabel!.text = "\(event.eventTime!), \(event.eventDate!)"
-            print(event.eventTime!)
-            print(event.eventDate!)
             cell.eventPic.image = UIImage(data: event.image!)
             return cell
             // TODO: add attributes from event to cell
@@ -119,22 +113,18 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     // ====== PREPARE SEGUE ====== //
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("was called")
         if segue.identifier == "flightDetail" || segue.identifier == "eventDetail" {
-            print("was evaluated")
             if let viewController: FlightDetailViewController = segue.destination as? FlightDetailViewController {
                 let selectedIndex: IndexPath = flightTB.indexPath(for: sender as! UITableViewCell)!
                 let uf = flightModel.get(at: selectedIndex.row)
                 viewController.dateStr = "Date: \(uf.date!)"
                 if uf.toDest {
-                    viewController.destOrArrivalStr = "Arrival Flight"
-                    viewController.locationName = uf.nameOfFlyingTo
-                    print("This flight is arrival and arriving at \(viewController.locationName!)")
-                    viewController.toDest = true
-                } else {
                     viewController.destOrArrivalStr = "Departure Flight"
                     viewController.locationName = uf.nameOfFlyingTo
-                    print("This flight is departure and arriving at \(viewController.locationName!)")
+                    viewController.toDest = true
+                } else {
+                    viewController.destOrArrivalStr = "Arrival Flight"
+                    viewController.locationName = uf.nameOfFlyingTo
                     viewController.toDest = false
                 }
                 viewController.durationStr = "Duration: \(uf.duration!)"
@@ -168,10 +158,8 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.flightTB.setEditing(!bool, animated: true)
             if !bool {
                 flightEditBtn.title = "Done"
-                print("Done")
             } else {
                 flightEditBtn.title = "Edit"
-                print("Edit")
             }
         }
         
@@ -183,10 +171,8 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.eventTB.setEditing(!bool, animated: true)
             if !bool {
                 eventEditBtn.title = "Done"
-                print("Done")
             } else {
                 eventEditBtn.title = "Edit"
-                print("Edit")
             }
         }
     }
