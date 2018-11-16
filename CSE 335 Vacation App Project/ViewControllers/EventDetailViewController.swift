@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class EventDetailViewController: UIViewController {
+class EventDetailViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var location: UILabel!
@@ -31,13 +31,14 @@ class EventDetailViewController: UIViewController {
         location.text = locationStr
         date.text = dateStr
         time.text = timeStr
+        map.delegate = self
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
-        doLocationStuff(location: locationStr!)
+        doLocationStuff(location: locationStr!, name: nameStr!)
     }
     
-    func doLocationStuff(location: String) {
+    func doLocationStuff(location: String, name: String) {
         CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
             if error != nil {
                 print("Geocode failed: \(error!.localizedDescription)")
@@ -48,8 +49,8 @@ class EventDetailViewController: UIViewController {
                 self.map.setRegion(region, animated: true)
                 let ani = MKPointAnnotation()
                 ani.coordinate = placemark.location!.coordinate
-                ani.title = placemark.locality
-                ani.subtitle = placemark.subLocality
+                ani.title = name
+                ani.subtitle = location
                 self.map.addAnnotation(ani)
             }
         })
@@ -75,9 +76,19 @@ class EventDetailViewController: UIViewController {
                 dateStr = "Date: \(event!.eventDate!)"
                 timeStr = "Time: \(event!.eventTime!)"
                 viewDidLoad()
-                doLocationStuff(location: originalLocationStr!)
+                doLocationStuff(location: originalLocationStr!, name: nameStr!)
             }
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+            return nil
+        }
+        let view = MKMarkerAnnotationView()
+        view.annotation = annotation
+        view.markerTintColor = UIColor(red:1.00, green:0.42, blue:0.80, alpha:1.0)
+        return view
+    }
 }

@@ -106,8 +106,10 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func plannerUnwind(for unwindSegue: UIStoryboardSegue) {
         flightModel.updateFetchResults()
         eventModel.updateFetchResults()
-        flightTB.reloadData()
-        eventTB.reloadData()
+        if flightTB != nil && eventTB != nil {
+            flightTB.reloadData()
+            eventTB.reloadData()
+        }
     }
     
     // ====== PREPARE SEGUE ====== //

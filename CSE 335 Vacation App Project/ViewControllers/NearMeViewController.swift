@@ -22,10 +22,8 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     
     // ====== MISC. OBJECTS ======
 
-    var places: [MKMapItem]?
+    var places =  [MKMapItem]()
     var locations = 0
-    var filter = "nearby"
-    var nearbyLocations = [MKMapItem()]
     
     // ====== INITIALIZER METHODS ======
     
@@ -44,7 +42,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             let text = alertController.textFields!.first!.text!
             if !text.isEmpty {
                 self.present(self.buildOKAlertButton(title: "Filters Updated"), animated: true, completion: nil)
-                self.filter = text
+                NearbyLocations.getInstance().filter = text
                 self.getNearbyLocations()
             }
         }
@@ -72,7 +70,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         }
         let request = MKLocalSearch.Request()
         
-        request.naturalLanguageQuery = filter
+        request.naturalLanguageQuery = NearbyLocations.getInstance().filter
         search(using: request)
     }
     
@@ -85,15 +83,18 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
         localSearch.start {
             [weak self] (response, error) in
             guard error == nil else {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
                 return
             }
             
             self!.places = (response?.mapItems)!
-            self!.locations = self!.places!.count
-            self!.nearbyLocations = self!.places!
+            self!.locations = self!.places.count
+            // TODO: might need to be fixed, force unwraps
+            NearbyLocations.getInstance().locations = self!.places
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            self!.nearMeTableView.reloadData()
+            if self!.nearMeTableView != nil {
+                self!.nearMeTableView.reloadData()
+            }
         }
     }
     
@@ -103,7 +104,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        nearbyLocations[indexPath.row].openInMaps(launchOptions: nil)
+        places[indexPath.row].openInMaps(launchOptions: nil)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -117,12 +118,12 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return filter.capitalized
+        return NearbyLocations.getInstance().filter!.capitalized
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = nearMeTableView.dequeueReusableCell(withIdentifier: "nearMeCell") as! NearMeViewCell
-        let loc = nearbyLocations[indexPath.row]
+        let loc = places[indexPath.row]
         cell.nearMe.text = loc.name!
         let coordinate_0 = CLLocation(latitude: loc.placemark.coordinate.latitude, longitude: loc.placemark.coordinate.longitude)
         let lm = CLLocationManager()

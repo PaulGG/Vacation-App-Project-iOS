@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
+class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var destOrArrival: UILabel!
     @IBOutlet weak var locationToDest: UILabel!
@@ -28,6 +28,7 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
     var timeOfFlightStr: String?
     var index: Int?
     var toDest: Bool?
+    var fromHome = false
     
     var originalFlightProvider: String?
     var locationName: String?
@@ -43,14 +44,15 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
         flightProvider.text = flightProviderStr
         timeOfFlight.text = timeOfFlightStr
         locationManager.delegate = self
+        map.delegate = self
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
-        doLocationStuff(location: locationName!)
+        doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(locationToDestStr!)")
         // Do any additional setup after loading the view.
     }
     
-    func doLocationStuff(location: String) {
+    func doLocationStuff(location: String, name: String) {
         CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
             if error != nil {
                 print("Geocode failed: \(error!.localizedDescription)")
@@ -61,8 +63,8 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
                 self.map.setRegion(region, animated: true)
                 let ani = MKPointAnnotation()
                 ani.coordinate = placemark.location!.coordinate
-                ani.title = placemark.locality
-                ani.subtitle = placemark.subLocality
+                ani.title = name
+                ani.subtitle = placemark.locality
                 self.map.addAnnotation(ani)
             }
         })
@@ -84,7 +86,7 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
                 flightProviderStr = "Flight Provider: \(flight.gate!)"
                 timeOfFlightStr = flight.flightTime
                 viewDidLoad()
-                doLocationStuff(location: locationName!)
+                doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(locationToDestStr!)")
             }
             
         }
@@ -102,5 +104,16 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate {
             // viewController.originalDuration = originalDuration
             viewController.originalFlightProvider = originalFlightProvider
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+            return nil
+        }
+        let view = MKMarkerAnnotationView()
+        view.annotation = annotation
+        view.markerTintColor = UIColor(red:0.22, green:0.66, blue:0.90, alpha:1.0)
+        return view
     }
 }

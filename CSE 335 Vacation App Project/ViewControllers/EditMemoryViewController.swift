@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class EditMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class EditMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
@@ -32,6 +32,10 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        name.delegate = self
+        location.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
         picker.delegate = self
         name.text = nameStr
         location.text = locationStr
@@ -126,5 +130,16 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
         alertController.addAction(okAction)
         return alertController
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        for textField in self.view.subviews where textField is UITextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

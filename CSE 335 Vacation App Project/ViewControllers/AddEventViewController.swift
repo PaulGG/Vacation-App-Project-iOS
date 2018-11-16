@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddEventViewController: UIViewController {
+class AddEventViewController: UIViewController, UITextFieldDelegate {
     
     let eventModel = EventModel()
     
@@ -19,6 +19,10 @@ class AddEventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        nameField.delegate = self
+        locationField.delegate = self
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -47,5 +51,16 @@ class AddEventViewController: UIViewController {
             eventModel.addEvent(eventName: nameField.text!, eventDate: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", eventTime: "\(timeComponents.hour!):\(timeComponents.minute!)", eventLocation: locText)
             performSegue(withIdentifier: "unwindEventAdd", sender: nil)
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        for textField in self.view.subviews where textField is UITextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

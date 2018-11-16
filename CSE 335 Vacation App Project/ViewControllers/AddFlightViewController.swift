@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class AddFlightViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSafariViewControllerDelegate {
+class AddFlightViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSafariViewControllerDelegate, UITextFieldDelegate {
     
     /*                                  /*
      ============= VARIABLES =============
@@ -34,6 +34,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        //view.addGestureRecognizer(tapGesture)
+        textField.delegate = self
         addFlightTableView.delegate = self
         addFlightTableView.dataSource = self
     }
@@ -205,5 +208,16 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
         alertController.addAction(okAction)
         return alertController
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        for textField in self.view.subviews where textField is UITextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

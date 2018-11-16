@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import UIKit
+import MapKit
 
 /*                                  /*
  === FLIGHT TO BE CONSIDERED CLASS ===
@@ -372,5 +373,23 @@ class EventModel : GenericModelContainer {
     public func delete(i: Int) {
         managedObjectContext.delete(self.fetchResults![i])
         save()
+    }
+}
+
+class NearbyLocations {
+    static var nearbyLocations: NearbyLocations?
+    var locations: [MKMapItem]
+    var filter: String?
+    
+    private init() {
+        self.locations = [MKMapItem]()
+        self.filter = "nearby"
+    }
+    
+    static func getInstance() -> NearbyLocations {
+        if nearbyLocations == nil {
+            nearbyLocations = NearbyLocations()
+        }
+        return nearbyLocations!
     }
 }

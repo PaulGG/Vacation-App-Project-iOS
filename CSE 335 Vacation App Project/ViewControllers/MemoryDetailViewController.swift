@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
+class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var dateTime: UILabel!
@@ -33,6 +33,7 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
         location.text = locationStr
         picture.image = pictureFile
         locationManager.delegate = self
+        map.delegate = self
         if rotate {
             let temp = picture.frame.size.width
             picture.frame.size.width = picture.frame.size.height
@@ -43,7 +44,7 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         }
-        doLocationStuff(location: locationStr!)
+        doLocationStuff(location: locationStr!, name: nameStr!)
     }
     
     func enableLocationServices() {
@@ -51,7 +52,7 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestAlwaysAuthorization()
     }
     
-    func doLocationStuff(location: String) {
+    func doLocationStuff(location: String, name: String) {
         CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
             if error != nil {
                 print("Geocode failed: \(error!.localizedDescription)")
@@ -62,8 +63,8 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
                 self.map.setRegion(region, animated: true)
                 let ani = MKPointAnnotation()
                 ani.coordinate = placemark.location!.coordinate
-                ani.title = placemark.locality
-                ani.subtitle = placemark.subLocality
+                ani.title = name
+                ani.subtitle = location
                 self.map.addAnnotation(ani)
             }
         })
@@ -91,9 +92,20 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate {
                 dateTime.text = memory.dateTime
                 location.text = memory.location
                 picture.image = UIImage(data: memory.image!)
-                doLocationStuff(location: location.text!)
+                doLocationStuff(location: location.text!, name: name.text!)
             }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+            return nil
+        }
+        let view = MKMarkerAnnotationView()
+        view.annotation = annotation
+        view.markerTintColor = UIColor(red:0.25, green:0.75, blue:0.50, alpha:1.0)
+        return view
     }
 
 }

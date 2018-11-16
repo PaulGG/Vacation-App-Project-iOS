@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class CustomAddFlightViewController: UIViewController {
+class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var destOrArrival: UISegmentedControl!
     @IBOutlet weak var origin: UITextField!
@@ -26,7 +26,12 @@ class CustomAddFlightViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
         arrival.date = departure.date
+        origin.delegate = self
+        destination.delegate = self
+        provider.delegate = self
     }
     
     @IBAction func done(_ sender: Any) {
@@ -62,6 +67,17 @@ class CustomAddFlightViewController: UIViewController {
                 self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        for textField in self.view.subviews where textField is UITextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
     
     func buildOKAlertButton(title: String) -> UIAlertController {

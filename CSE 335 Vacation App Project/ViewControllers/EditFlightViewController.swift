@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditFlightViewController: UIViewController {
+class EditFlightViewController: UIViewController, UITextFieldDelegate {
     
     // todo
     @IBOutlet weak var destOrArrival: UISegmentedControl!
@@ -37,6 +37,11 @@ class EditFlightViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        origin.delegate = self
+        destination.delegate = self
+        provider.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
         let locs = locationToDestStr?.split(separator: "-")
         let ori : String
         let dest: String
@@ -103,11 +108,23 @@ class EditFlightViewController: UIViewController {
             }
         }
     }
+    
     func buildOKAlertButton(title: String) -> UIAlertController {
         let t = title
         let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
         alertController.addAction(okAction)
         return alertController
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        for textField in self.view.subviews where textField is UITextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }
