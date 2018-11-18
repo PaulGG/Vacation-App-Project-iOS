@@ -54,12 +54,15 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
         let ori : String
         let dest: String
         if destOrArrivalStr == "Arrival Flight" {
-            ori = String(locs![1])
-            dest = String(locs![0])
+            destOrArrival.selectedSegmentIndex = 1
+            ori = String(locs![0])
+            dest = String(locs![1])
         } else {
+            destOrArrival.selectedSegmentIndex = 0
             ori = String(locs![0])
             dest = String(locs![1])
         }
+        
         
         origin.text = ori
         destination.text = dest
@@ -106,9 +109,243 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     toDest = false
                 }
-                flightModel.updateFlight(at: index!, toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))",  duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
-                flightToUpdate = flightModel.get(at: index!)
-                performSegue(withIdentifier: "doneEditingFlight", sender: nil)
+                let hour : String
+                if departureComponents.hour! < 10 {
+                    hour = "0\(departureComponents.hour!)"
+                } else {
+                    hour = "\(departureComponents.hour!)"
+                }
+                let minute : String
+                if departureComponents.minute! < 10 {
+                    minute = "0\(departureComponents.minute!)"
+                } else {
+                    minute = "\(departureComponents.minute!)"
+                }
+                var nameOfFlyingTo : String = ""
+                var nameOfFlyingFrom : String = ""
+                // do web api processing here!
+                let flyingTo = destination.text!
+                let flyingFrom = origin.text!
+                // Construct query that finds name 'flyingTo'
+                // DispatchMainQueue:
+                // Construct query that finds name 'flyingFrom'
+                // DispatchMainQueue:
+                // Add to flight model (nested)
+                // If we don't need flyingTo:
+                // Construct query that finds name 'flyingFrom'
+                // DispatchMainQueue:
+                // Add to flight model
+                let toUrl = URL(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flyingTo)")
+                let fromUrl = URL(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flyingFrom)")
+                let urlSession = URLSession.shared
+                if toUrl != nil {
+                    let toQuery = urlSession.dataTask(with: toUrl!, completionHandler: {data, response, error -> Void in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        }
+                        if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                            let foo = jsonResult[0] as! NSDictionary
+                            if let toCityName = foo["name"] as? NSString {
+                                // User input is valid. Proceed to use the data from the web api call.
+                                DispatchQueue.main.async {
+                                    nameOfFlyingTo = toCityName as String
+                                    if fromUrl != nil {
+                                        let fromQuery = urlSession.dataTask(with: fromUrl!, completionHandler: {data, response, error -> Void in
+                                            if error != nil {
+                                                print(error!.localizedDescription)
+                                            }
+                                            if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                                                let foo = jsonResult[0] as! NSDictionary
+                                                if let fromCityName = foo["name"] as? NSString {
+                                                    // User input is valid. Proceed to use the data from the web api call.
+                                                    DispatchQueue.main.async {
+                                                        nameOfFlyingFrom = fromCityName as String
+                                                        self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                    }
+                                                } else {
+                                                    DispatchQueue.main.async {
+                                                        nameOfFlyingFrom = flyingFrom
+                                                        self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                    }
+                                                }
+                                            } else {
+                                                DispatchQueue.main.async {
+                                                    nameOfFlyingFrom = flyingFrom
+                                                    self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                    self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                    self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                }
+                                            }
+                                        })
+                                        fromQuery.resume()
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            nameOfFlyingFrom = flyingFrom
+                                            if fromUrl != nil {
+                                                let fromQuery = urlSession.dataTask(with: fromUrl!, completionHandler: {data, response, error -> Void in
+                                                    if error != nil {
+                                                        print(error!.localizedDescription)
+                                                    }
+                                                    if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                                                        let foo = jsonResult[0] as! NSDictionary
+                                                        if let fromCityName = foo["name"] as? NSString {
+                                                            // User input is valid. Proceed to use the data from the web api call.
+                                                            DispatchQueue.main.async {
+                                                                nameOfFlyingFrom = fromCityName as String
+                                                                self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                                self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                                self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                            }
+                                                        } else {
+                                                            DispatchQueue.main.async {
+                                                                nameOfFlyingFrom = flyingFrom
+                                                                self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                                self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                                self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                            }
+                                                        }
+                                                    } else {
+                                                        DispatchQueue.main.async {
+                                                            nameOfFlyingFrom = flyingFrom
+                                                            self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                            self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                            self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                        }
+                                                    }
+                                                })
+                                                fromQuery.resume()
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Json result is not valid. Add normal user inputted values.
+                                DispatchQueue.main.async {
+                                    if fromUrl != nil {
+                                        let fromQuery = urlSession.dataTask(with: fromUrl!, completionHandler: {data, response, error -> Void in
+                                            if error != nil {
+                                                print(error!.localizedDescription)
+                                            }
+                                            if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                                                let foo = jsonResult[0] as! NSDictionary
+                                                if let fromCityName = foo["name"] as? NSString {
+                                                    // User input is valid. Proceed to use the data from the web api call.
+                                                    DispatchQueue.main.async {
+                                                        nameOfFlyingFrom = fromCityName as String
+                                                        self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                    }
+                                                } else {
+                                                    DispatchQueue.main.async {
+                                                        nameOfFlyingFrom = flyingFrom
+                                                        self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                    }
+                                                }
+                                            } else {
+                                                DispatchQueue.main.async {
+                                                    nameOfFlyingFrom = flyingFrom
+                                                    self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                    self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                    self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                                }
+                                            }
+                                        })
+                                        fromQuery.resume()
+                                    }
+                                }
+                            }
+                        } else {
+                            // Json result is not valid. Add normal user inputted values.
+                            nameOfFlyingTo = flyingTo
+                            if fromUrl != nil {
+                                let fromQuery = urlSession.dataTask(with: fromUrl!, completionHandler: {data, response, error -> Void in
+                                    if error != nil {
+                                        print(error!.localizedDescription)
+                                    }
+                                    if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                                        let foo = jsonResult[0] as! NSDictionary
+                                        if let fromCityName = foo["name"] as? NSString {
+                                            // User input is valid. Proceed to use the data from the web api call.
+                                            DispatchQueue.main.async {
+                                                nameOfFlyingFrom = fromCityName as String
+                                                self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                            }
+                                        } else {
+                                            DispatchQueue.main.async {
+                                                nameOfFlyingFrom = flyingFrom
+                                                self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                                self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                                self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                            }
+                                        }
+                                    } else {
+                                        DispatchQueue.main.async {
+                                            nameOfFlyingFrom = flyingFrom
+                                            self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                            self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                            self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                        }
+                                    }
+                                })
+                                fromQuery.resume()
+                            }
+                        }
+                    })
+                    toQuery.resume()
+                } else if fromUrl != nil {
+                    nameOfFlyingTo = flyingTo
+                    if fromUrl != nil {
+                        let fromQuery = urlSession.dataTask(with: fromUrl!, completionHandler: { data, response, error -> Void in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                            }
+                            if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                                let foo = jsonResult[0] as! NSDictionary
+                                if let fromCityName = foo["name"] as? NSString {
+                                    // User input is valid. Proceed to use the data from the web api call.
+                                    DispatchQueue.main.async {
+                                        nameOfFlyingFrom = fromCityName as String
+                                        self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                    }
+                                } else {
+                                    DispatchQueue.main.async {
+                                        nameOfFlyingFrom = flyingFrom
+                                       self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                        self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                        self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                    }
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    nameOfFlyingFrom = flyingFrom
+                                    self.flightModel.updateFlight(at: self.index!, toDest: self.toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: self.origin.text!, flyingTo: self.destination.text!, gate: self.provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                                    self.flightToUpdate = self.flightModel.get(at: self.index!)
+                                    self.performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                                }
+                            }
+                        })
+                        fromQuery.resume()
+                    } else {
+                        nameOfFlyingFrom = flyingFrom
+                    }
+                } else {
+                    nameOfFlyingTo = flyingTo
+                    nameOfFlyingFrom = flyingFrom
+                    flightModel.updateFlight(at: index!, toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!, flightTime: "\(hour):\(minute)", nameOfFlyingTo: nameOfFlyingTo, nameOfFlyingFrom: nameOfFlyingFrom)
+                    flightToUpdate = flightModel.get(at: index!)
+                    performSegue(withIdentifier: "doneEditingFlight", sender: self)
+                }
             } else {
                 self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
             }

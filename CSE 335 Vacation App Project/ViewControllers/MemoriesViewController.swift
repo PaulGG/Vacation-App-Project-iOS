@@ -93,7 +93,6 @@ class MemoriesViewController: UIViewController, UITableViewDelegate, UITableView
             viewController.dateTimeStr = memory.dateTime
             viewController.locationStr = memory.location
             viewController.nameStr = memory.title
-            let cell = memoryTableView.cellForRow(at: selectedIndex) as! MemoryViewCell
             viewController.pictureFile = UIImage(data: memory.image!)
             viewController.index = selectedIndex.row
             if memory.imageOrientation == UIImage.Orientation.right.rawValue {

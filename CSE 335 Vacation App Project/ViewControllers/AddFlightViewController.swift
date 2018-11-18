@@ -57,9 +57,9 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Add 'On Vacation' Flight (the place the user is flying to from their home)
         let flightPicked = flightsToAdd[indexPath.row]
-        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate)
+        flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate, flightTime: nil, nameOfFlyingTo: flightPicked.destination, nameOfFlyingFrom: flightPicked.origin)
         // Add 'Flying Back' Flight (the place the user is flying from to get back to their home)
-        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate)
+        flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate, flightTime: nil, nameOfFlyingTo: flightPicked.origin, nameOfFlyingFrom: flightPicked.destination)
         tableView.deselectRow(at: indexPath, animated: true)
         // Segue back to Planner View.
         performSegue(withIdentifier: "unwindFlightAdd", sender: nil)

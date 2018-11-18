@@ -191,7 +191,7 @@ class FlightModel : GenericModelContainer {
         fetchResults = ((try? managedObjectContext.fetch(fetchRequest)) as? [Flight])
     }
     
-    public func addFlight(toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
+    public func addFlight(toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String, flightTime: String?, nameOfFlyingTo: String, nameOfFlyingFrom: String) {
         let flightAdding = Flight(entity: ent!, insertInto: managedObjectContext)
         flightAdding.toDest = toDest
         flightAdding.date = date
@@ -206,32 +206,18 @@ class FlightModel : GenericModelContainer {
         flightAdding.flyingTo = flyingTo
         flightAdding.image = UIImage(named: "flightPicture.png")?.pngData()
         flightAdding.gate = gate
-        flightAdding.flightTime = "Please enter manually."
-        // About here is where things get a bit complicated. We have two scenarios: The user inputs a valid IATA city code, or they don't. If they decide to do so,
-        // we should run a secondary web API in accordance with the one that adds flights automatically by IATA code, to get the city location name of where
-        // the IATA code is. The reason to do this is so Apple's MKLocalSearch service can find the proper location the user has specified, as Apple is unable to
-        // easily locate many IATA city codes. This is unfortunately a limiting feature of the flights web API used prior.
-        
-        // If the user enters something that is not an IATA code or has spaces in the name (example 'New York City'), the URL may be nil and the API should not
-        // be called, or its results should be discarded if there is an error found.
-        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingTo!)", isDestination: true, object: flightAdding)
-        if let unwrappedQuery : URLSessionDataTask = toQuery {
-            unwrappedQuery.resume()
+        if flightTime != nil {
+            flightAdding.flightTime = flightTime
         } else {
-            flightAdding.nameOfFlyingTo = flightAdding.flyingTo
+            flightAdding.flightTime = "Please enter manually."
         }
-        // Call 2  - so we can find the location of where we fly FROM //
-        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingFrom!)", isDestination: false, object: flightAdding)
-        if let unwrappedQuery: URLSessionDataTask = fromQuery {
-            unwrappedQuery.resume()
-        } else {
-            flightAdding.nameOfFlyingFrom = flightAdding.flyingFrom
-        }
+        flightAdding.nameOfFlyingFrom = nameOfFlyingFrom
+        flightAdding.nameOfFlyingTo = nameOfFlyingTo
         save()
     }
     
     // See above 'addFlight' method to see where things get complicated.
-    public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
+    public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String, flightTime: String, nameOfFlyingTo: String, nameOfFlyingFrom: String) {
         let update = fetchResults![at]
         update.toDest = toDest
         update.date = date
@@ -245,21 +231,9 @@ class FlightModel : GenericModelContainer {
         update.flyingTo = flyingTo
         update.image = UIImage(named: "flightPicture")?.pngData()
         update.gate = gate
-        // Json Call
-        // Call 1 //
-        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingTo!)", isDestination: true, object: update)
-        if let unwrappedQuery : URLSessionDataTask = toQuery {
-            unwrappedQuery.resume()
-        } else {
-            update.nameOfFlyingTo = update.flyingTo
-        }
-        // Call 2 //
-        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingFrom!)", isDestination: false, object: update)
-        if let unwrappedQuery : URLSessionDataTask = fromQuery {
-            unwrappedQuery.resume()
-        } else {
-            update.nameOfFlyingFrom = update.flyingFrom
-        }
+        update.flightTime = flightTime
+        update.nameOfFlyingTo = nameOfFlyingTo
+        update.nameOfFlyingFrom = nameOfFlyingFrom
         save()
     }
     
@@ -281,59 +255,6 @@ class FlightModel : GenericModelContainer {
     public func delete(i: Int) {
         managedObjectContext.delete(self.fetchResults![i])
         save()
-    }
-    
-    // This is the method which builds a query for the find location based off of IATA code API call.
-    public func buildQuery(string: String, isDestination: Bool, object: Flight) -> URLSessionDataTask? {
-        let url = URL(string: string)
-        let urlSession = URLSession.shared
-        // If the URL is valid, proceed. If not (due to user input), return nil.
-        if url != nil {
-            let toQuery = urlSession.dataTask(with: url!, completionHandler: {data, response, error -> Void in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-                // If json result is valid, proceed.
-                if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
-                    let foo = jsonResult[0] as! NSDictionary
-                    if let cityName = foo["name"] as? NSString {
-                        // User input is valid. Proceed to use the data from the web api call.
-                        DispatchQueue.main.async {
-                            if isDestination {
-                                object.nameOfFlyingTo = cityName as String
-                            } else {
-                                object.nameOfFlyingFrom = cityName as String
-                            }
-                            self.save()
-                        }
-                    } else {
-                        // Json result is not valid. Add normal user inputted values.
-                        DispatchQueue.main.async {
-                            if isDestination {
-                                object.nameOfFlyingTo = object.flyingTo
-                            } else {
-                                object.nameOfFlyingFrom = object.flyingFrom
-                            }
-                            self.save()
-                        }
-                    }
-                } else {
-                    // Json result is not valid. Add normal user inputted values.
-                    DispatchQueue.main.async {
-                        if isDestination {
-                            object.nameOfFlyingTo = object.flyingTo
-                        } else {
-                            object.nameOfFlyingFrom = object.flyingFrom
-                        }
-                        self.save()
-                    }
-                }
-            })
-            return toQuery
-        } else {
-            // URL is invalid, meaning the user inputted spaces or multiple words. we need to return nil.
-            return nil
-        }
     }
 }
 

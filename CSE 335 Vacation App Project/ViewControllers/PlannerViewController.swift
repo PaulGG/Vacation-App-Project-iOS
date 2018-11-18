@@ -29,6 +29,13 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        flightModel.save()
+        eventModel.save()
+        flightTB.reloadData()
+        eventTB.reloadData()
+    }
+    
     /*                                  /*
      ========= TABLEVIEW METHODS =========
      */                                  */
