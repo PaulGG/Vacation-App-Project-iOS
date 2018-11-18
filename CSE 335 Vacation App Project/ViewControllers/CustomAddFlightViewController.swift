@@ -66,6 +66,8 @@ class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
             } else {
                 self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
             }
+        } else {
+            self.present(buildOKAlertButton(title: "Please fill out all fields before continuing."), animated: true)
         }
     }
     

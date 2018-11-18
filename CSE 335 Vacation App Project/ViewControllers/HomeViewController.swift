@@ -53,66 +53,118 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+        }
+    }
+    
     func doLocationStuff() {
         // Get all models
         map.removeAnnotations(map.annotations)
+        
         let flightModel = FlightModel()
         let eventModel = EventModel()
         let memoryModel = MemoryModel()
-        
         let flights = flightModel.getFlights()
         let events = eventModel.getEvents()
         let memories = memoryModel.getMemories()
         
         for flight in flights! {
-            print("Heres a flight")
-            geoCode(location: "\(flight.nameOfFlyingTo!) international airport", name: "Flight to \(flight.nameOfFlyingFrom!), \(flight.date!)")
+            let searchR = MKLocalSearch.Request()
+            searchR.naturalLanguageQuery = "\(flight.nameOfFlyingFrom!) international airport"
+            let search = MKLocalSearch(request: searchR)
+            search.start {
+                [weak self] (response, error) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                let places = response?.mapItems
+                let place = places![0]
+                let ani = MKPointAnnotation()
+                ani.coordinate = place.placemark.coordinate
+                ani.title = "Flight to \(flight.nameOfFlyingTo!), Date: \(flight.date!)"
+                ani.subtitle = place.name
+                let annotations = self?.map.annotations
+                for m in annotations! {
+                    if m.coordinate.latitude == ani.coordinate.latitude && m.coordinate.longitude == ani.coordinate.longitude {
+                        let newLat = Double.random(in: -0.005...0.005)
+                        let newLong = Double.random(in: -0.005...0.005)
+                        ani.coordinate.longitude += newLong
+                        ani.coordinate.latitude += newLat
+                        break
+                    }
+                }
+                self?.map.addAnnotation(ani)
+            }
         }
         
         for event in events! {
-            print("Heres an event")
-            geoCode(location: event.eventLocation!, name: "Event: \(event.eventName!)")
+            let searchR = MKLocalSearch.Request()
+            searchR.naturalLanguageQuery = event.eventLocation
+            let search = MKLocalSearch(request: searchR)
+            search.start {
+                [weak self] (response, error) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                let places = response?.mapItems
+                let place = places![0]
+                let ani = MKPointAnnotation()
+                ani.coordinate = place.placemark.coordinate
+                ani.title = "Event: \(event.eventName!), Date: \(event.eventDate!)"
+                ani.subtitle = place.name
+                let annotations = self?.map.annotations
+                for m in annotations! {
+                    if m.coordinate.latitude == ani.coordinate.latitude && m.coordinate.longitude == ani.coordinate.longitude {
+                        let newLat = Double.random(in: -0.005...0.005)
+                        let newLong = Double.random(in: -0.005...0.005)
+                        ani.coordinate.longitude += newLong
+                        ani.coordinate.latitude += newLat
+                        break
+                    }
+                }
+                self?.map.addAnnotation(ani)
+            }
         }
         
         for memory in memories! {
-            print("Heres a memory")
-            geoCode(location: memory.location!, name: "Memory: \(memory.title!)")
+            let searchR = MKLocalSearch.Request()
+            searchR.naturalLanguageQuery = memory.location
+            let search = MKLocalSearch(request: searchR)
+            search.start {
+                [weak self] (response, error) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                let places = response?.mapItems
+                let place = places![0]
+                let ani = MKPointAnnotation()
+                ani.coordinate = place.placemark.coordinate
+                ani.title = "Memory: \(memory.title!), Date: \(memory.dateTime!)"
+                ani.subtitle = place.name
+                let annotations = self?.map.annotations
+                for m in annotations! {
+                    if m.coordinate.latitude == ani.coordinate.latitude && m.coordinate.longitude == ani.coordinate.longitude {
+                        let newLat = Double.random(in: -0.005...0.005)
+                        let newLong = Double.random(in: -0.005...0.005)
+                        ani.coordinate.longitude += newLong
+                        ani.coordinate.latitude += newLat
+                        break
+                    }
+                }
+                self?.map.addAnnotation(ani)
+            }
         }
         for loc in NearbyLocations.getInstance().locations {
             let ani = MKPointAnnotation()
             ani.coordinate = loc.placemark.coordinate
             ani.title = loc.name
-            map.addAnnotation(ani)
+            self.map.addAnnotation(ani)
         }
-    }
-    
-    func geoCode(location: String, name: String) {
-        CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
-            if error != nil {
-                print("Geocode failed: \(error!.localizedDescription)")
-            } else if placemarks!.count > 0 {
-                let placemark = placemarks![0]
-                let ani = MKPointAnnotation()
-                ani.coordinate = placemark.location!.coordinate
-                ani.title = name
-                ani.subtitle = location
-                let annotations = self.map.annotations
-                for ann in annotations {
-                    // It is possible for map placemarks to be placed over each other.
-                    // To avoid this scenario, we need to randomly generate placemark locations.
-                    // It is still possible to have errors, but unlikely.
-                    if ann.subtitle == ani.subtitle {
-                        let newLat = Double.random(in: -0.001...0.001)
-                        let newLong = Double.random(in: -0.001...0.001)
-                        ani.coordinate.latitude += newLat
-                        ani.coordinate.longitude += newLong
-                        break
-                    }
-                }
-                self.map.addAnnotation(ani)
-                //self.map.addAnnotation(aniView as! MKAnnotation)
-            }
-        })
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -142,7 +194,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         let flights = FlightModel()
         var index = 0
         for flight in flights.getFlights()! {
-            if view.annotation?.title == "Flight to \(flight.nameOfFlyingFrom!), \(flight.date!)" {
+            if view.annotation?.title == "Flight to \(flight.nameOfFlyingTo!), Date: \(flight.date!)" {
                 selectedFlight = flight
                 selectedIndex = index
                 // segue to detail view
@@ -154,22 +206,20 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         let events = EventModel()
         index = 0
         for event in events.getEvents()! {
-            if view.annotation?.title == "Event: \(event.eventName!)" && view.annotation?.subtitle == event.eventLocation {
+            if view.annotation?.title == "Event: \(event.eventName!), Date: \(event.eventDate!)" {
                 selectedEvent = event
                 selectedIndex = index
                 performSegue(withIdentifier: "eventDetail", sender: self)
-                print("segue performed")
                 return
             }
         }
         let memories = MemoryModel()
         index = 0
         for memory in memories.getMemories()! {
-            if view.annotation?.title == "Memory: \(memory.title!)" && view.annotation?.subtitle == memory.location {
+            if view.annotation?.title == "Memory: \(memory.title!), Date: \(memory.dateTime!)" {
                 selectedMemory = memory
                 selectedIndex = index
                 performSegue(withIdentifier: "memoryDetail", sender: self)
-                print("segue performed")
                 return
             }
         }
@@ -184,13 +234,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             viewController.dateStr = "Date: \(selectedFlight!.date!)"
             if selectedFlight!.toDest {
                 viewController.destOrArrivalStr = "Departure Flight"
-                viewController.locationName = selectedFlight!.nameOfFlyingTo
                 viewController.toDest = true
             } else {
                 viewController.destOrArrivalStr = "Arrival Flight"
-                viewController.locationName = selectedFlight!.nameOfFlyingTo
                 viewController.toDest = false
             }
+            viewController.locationName = selectedFlight!.nameOfFlyingFrom
             viewController.durationStr = "Duration: \(selectedFlight!.duration!)"
             viewController.flightProviderStr = "Flight Provider: \(selectedFlight!.gate!)"
             viewController.locationToDestStr = "\(selectedFlight!.flyingFrom!)-\(selectedFlight!.flyingTo!)"
@@ -198,6 +247,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
             viewController.index = selectedIndex
             viewController.originalFlightProvider = selectedFlight!.gate!
             viewController.fromHome = true
+            viewController.nameOfFlyingTo = selectedFlight!.nameOfFlyingTo
         } else if let viewController = segue.destination as? EventDetailViewController {
             viewController.dateStr = "Date: \(selectedEvent!.eventDate!)"
             viewController.locationStr = "Location: \(selectedEvent!.eventLocation!)"

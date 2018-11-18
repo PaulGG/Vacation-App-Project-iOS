@@ -232,14 +232,9 @@
                                 </items>
                             </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rv5-la-1VN">
-                                <rect key="frame" x="0.0" y="120" width="414" height="567"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search nearby points of interest" translatesAutoresizingMaskIntoConstraints="NO" id="Ikt-sm-HX3">
-                                <rect key="frame" x="0.0" y="64" width="414" height="56"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="aAd-27-Wmf"/>

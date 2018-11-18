@@ -24,6 +24,7 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
     var timeStr: String?
     var index: Int?
     var originalLocationStr: String?
+    var place: MKMapItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +40,28 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
     }
     
     func doLocationStuff(location: String, name: String) {
-        CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
-            if error != nil {
-                print("Geocode failed: \(error!.localizedDescription)")
-            } else if placemarks!.count > 0 {
-                let placemark = placemarks![0]
-                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                let region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
-                self.map.setRegion(region, animated: true)
-                let ani = MKPointAnnotation()
-                ani.coordinate = placemark.location!.coordinate
-                ani.title = name
-                ani.subtitle = location
-                self.map.addAnnotation(ani)
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = location
+        let search = MKLocalSearch(request: request)
+        search.start {
+            [weak self] (response, error) in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
             }
-        })
+            
+            let places = (response?.mapItems)!
+            self?.place = places[0]
+            let place = places[0]
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: place.placemark.location!.coordinate, span: span)
+            self?.map.setRegion(region, animated: true)
+            let ani = MKPointAnnotation()
+            ani.coordinate = place.placemark.coordinate
+            ani.title = name
+            ani.subtitle = place.name
+            self?.map.addAnnotation(ani)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -69,15 +77,27 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
     @IBAction func eventDetailUnwind(for unwindSegue: UIStoryboardSegue) {
         if let viewController : EditEventViewController = unwindSegue.source as? EditEventViewController {
             if let event = viewController.eventToUpdate {
-                let event = viewController.eventToUpdate
-                nameStr = event?.eventName
-                originalLocationStr = event?.eventLocation
-                locationStr = "Location: \(event!.eventLocation!)"
-                dateStr = "Date: \(event!.eventDate!)"
-                timeStr = "Time: \(event!.eventTime!)"
+                nameStr = event.eventName
+                originalLocationStr = event.eventLocation
+                locationStr = "Location: \(event.eventLocation!)"
+                dateStr = "Date: \(event.eventDate!)"
+                timeStr = "Time: \(event.eventTime!)"
                 viewDidLoad()
                 doLocationStuff(location: originalLocationStr!, name: nameStr!)
             }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let events = EventModel()
+        var index = 0
+        for event in events.getEvents()! {
+            if view.annotation?.title == event.eventName! /*&& view.annotation?.subtitle == event.eventLocation*/ {
+                self.index = index
+                place?.openInMaps(launchOptions: nil)
+                return
+            }
+            index += 1
         }
     }
     

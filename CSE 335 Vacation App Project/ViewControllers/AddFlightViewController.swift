@@ -112,21 +112,26 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
                     dest = String(dest[..<index])
                     let mainRequestURLString = "https://api.travelpayouts.com/v2/prices/latest?currency=usd&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=route&trip_class=0&token=97483c4d433a10e52d7b4ff5db302cb2&destination=\(dest)&origin=\(location)"
                     let mainReqURL = URL(string: mainRequestURLString)
-                    let mainReqQuery = urlSession.dataTask(with: mainReqURL!, completionHandler: {data, response, error -> Void in
-                        if (error != nil) {
-                            print(error!.localizedDescription)
-                        }
-                        let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
-                        // ===== PROCESS FLIGHTS =====
-                        DispatchQueue.main.async {
-                            if newJsonRes["message"] == nil && newJsonRes["errors"] == nil {
-                                self.processFlights(jsonResults: newJsonRes)
-                            } else {
-                                self.failedLabel.isHidden = false
+                    if mainReqURL != nil {
+                        let mainReqQuery = urlSession.dataTask(with: mainReqURL!, completionHandler: {data, response, error -> Void in
+                            if (error != nil) {
+                                print(error!.localizedDescription)
                             }
-                        }
-                    })
-                    mainReqQuery.resume()
+                            let newJsonRes = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
+                            // ===== PROCESS FLIGHTS =====
+                            DispatchQueue.main.async {
+                                if newJsonRes["message"] == nil && newJsonRes["errors"] == nil {
+                                    self.processFlights(jsonResults: newJsonRes)
+                                } else {
+                                    self.failedLabel.isHidden = false
+                                }
+                            }
+                        })
+                        mainReqQuery.resume()
+                    } else {
+                        self.failedLabel.isHidden = false
+                    }
+                    
                 } else {
                     self.failedLabel.isHidden = false
                 }

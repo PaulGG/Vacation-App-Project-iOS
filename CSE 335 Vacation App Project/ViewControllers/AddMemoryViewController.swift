@@ -69,10 +69,10 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
         let cameraMediaType = AVMediaType.video
         let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
         imageSource.isSelected = false
-        if cameraAuthStatus == .authorized || imageSource.selectedSegmentIndex == 1 {
-            present(picker, animated: true, completion: nil)
-        } else {
+        if cameraAuthStatus == .denied {
             present(buildOKAlertButton(title: "You have specified to not allow camera usage in settings. Please select a photo from your library instead."), animated: true, completion: nil)
+        } else {
+            present(picker, animated: true, completion: nil)
         }
     }
     
@@ -109,7 +109,7 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
             ]
             let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
             let timeComponents = time.calendar.dateComponents(requestedTimeComponents,from: time.date)
-            memoryModel.addMemory(dateTime: "\(timeComponents.hour!):\(timeComponents.minute!), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
+            memoryModel.addMemory(dateTime: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!), \(timeComponents.hour!):\(timeComponents.minute!)", image: image.image!, location: location.text!, title: name.text!)
             self.performSegue(withIdentifier: "bye", sender: self)
         } else {
             let alert = buildOKAlertButton(title: "Please fill out all forms.")

@@ -207,12 +207,19 @@ class FlightModel : GenericModelContainer {
         flightAdding.gate = gate
         flightAdding.flightTime = "Please enter manually."
         // json call
-        // Call 1 //
-        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingTo!)", arrival: false, object: flightAdding)
-        toQuery.resume()
-        // Call 2 //
-        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingFrom!)", arrival: true, object: flightAdding)
-        fromQuery.resume()
+        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingTo!)", isDestination: true, object: flightAdding)
+        if let unwrappedQuery : URLSessionDataTask = toQuery {
+            unwrappedQuery.resume()
+        } else {
+            flightAdding.nameOfFlyingTo = flightAdding.flyingTo
+        }
+        // Call 2  - so we can find the location of where we fly FROM //
+        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingFrom!)", isDestination: false, object: flightAdding)
+        if let unwrappedQuery: URLSessionDataTask = fromQuery {
+            unwrappedQuery.resume()
+        } else {
+            flightAdding.nameOfFlyingFrom = flightAdding.flyingFrom
+        }
         save()
     }
     
@@ -232,11 +239,19 @@ class FlightModel : GenericModelContainer {
         update.gate = gate
         // json call
         // Call 1 //
-        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingTo!)", arrival: false, object: update)
-        toQuery.resume()
+        let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingTo!)", isDestination: true, object: update)
+        if let unwrappedQuery : URLSessionDataTask = toQuery {
+            unwrappedQuery.resume()
+        } else {
+            update.nameOfFlyingTo = update.flyingTo
+        }
         // Call 2 //
-        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingFrom!)", arrival: true, object: update)
-        fromQuery.resume()
+        let fromQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingFrom!)", isDestination: false, object: update)
+        if let unwrappedQuery : URLSessionDataTask = fromQuery {
+            unwrappedQuery.resume()
+        } else {
+            update.nameOfFlyingFrom = update.flyingFrom
+        }
         save()
     }
     
@@ -256,46 +271,51 @@ class FlightModel : GenericModelContainer {
         save()
     }
     
-    public func buildQuery(string: String, arrival: Bool, object: Flight) -> URLSessionDataTask {
+    public func buildQuery(string: String, isDestination: Bool, object: Flight) -> URLSessionDataTask? {
         let url = URL(string: string)
         let urlSession = URLSession.shared
-        let toQuery = urlSession.dataTask(with: url!, completionHandler: {data, response, error -> Void in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
-                let foo = jsonResult[0] as! NSDictionary
-                if let cityName = foo["name"] as? NSString {
-                    DispatchQueue.main.async {
-                        if arrival {
-                            object.nameOfFlyingTo = cityName as String
-                        } else {
-                            object.nameOfFlyingFrom = cityName as String
+        // If the URL is valid, proceed. If not (due to user input), return nil.
+        if url != nil {
+            let toQuery = urlSession.dataTask(with: url!, completionHandler: {data, response, error -> Void in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
+                    let foo = jsonResult[0] as! NSDictionary
+                    if let cityName = foo["name"] as? NSString {
+                        DispatchQueue.main.async {
+                            if isDestination {
+                                object.nameOfFlyingTo = cityName as String
+                            } else {
+                                object.nameOfFlyingFrom = cityName as String
+                            }
+                            self.save()
                         }
-                        self.save()
+                    } else {
+                        DispatchQueue.main.async {
+                            if isDestination {
+                                object.nameOfFlyingTo = object.flyingTo
+                            } else {
+                                object.nameOfFlyingFrom = object.flyingFrom
+                            }
+                            self.save()
+                        }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        if arrival {
+                        if isDestination {
                             object.nameOfFlyingTo = object.flyingTo
                         } else {
                             object.nameOfFlyingFrom = object.flyingFrom
                         }
                         self.save()
                     }
-                } 
-            } else {
-                DispatchQueue.main.async {
-                    if arrival {
-                        object.nameOfFlyingTo = object.flyingTo
-                    } else {
-                        object.nameOfFlyingFrom = object.flyingFrom
-                    }
-                    self.save()
                 }
-            }
-        })
-        return toQuery
+            })
+            return toQuery
+        } else {
+            return nil
+        }
     }
 }
 
@@ -355,6 +375,7 @@ class EventModel : GenericModelContainer {
         update.eventDate = eventDate
         update.eventTime = eventTime
         update.eventLocation = eventLocation
+        save()
     }
     
     public func save() {
@@ -377,7 +398,7 @@ class EventModel : GenericModelContainer {
 }
 
 class NearbyLocations {
-    static var nearbyLocations: NearbyLocations?
+    private static var nearbyLocations: NearbyLocations?
     var locations: [MKMapItem]
     var filter: String?
     

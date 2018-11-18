@@ -29,10 +29,11 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
     var index: Int?
     var toDest: Bool?
     var fromHome = false
-    
+    var place: MKMapItem?
     var originalFlightProvider: String?
     var locationName: String?
     let locationManager = CLLocationManager()
+    var nameOfFlyingTo: String?
     //var originalDuration: Int?
     
     override func viewDidLoad() {
@@ -46,28 +47,35 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         locationManager.delegate = self
         map.delegate = self
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+            map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)            
         }
-        doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(locationToDestStr!)")
+        doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(nameOfFlyingTo!)")
         // Do any additional setup after loading the view.
     }
     
     func doLocationStuff(location: String, name: String) {
-        CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
-            if error != nil {
-                print("Geocode failed: \(error!.localizedDescription)")
-            } else if placemarks!.count > 0 {
-                let placemark = placemarks![0]
-                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                let region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
-                self.map.setRegion(region, animated: true)
-                let ani = MKPointAnnotation()
-                ani.coordinate = placemark.location!.coordinate
-                ani.title = name
-                ani.subtitle = placemark.locality
-                self.map.addAnnotation(ani)
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = location
+        let search = MKLocalSearch(request: request)
+        search.start {
+            [weak self] (response, error) in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
             }
-        })
+            
+            let places = (response?.mapItems)!
+            self?.place = places[0]
+            let place = places[0]
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: place.placemark.location!.coordinate, span: span)
+            self?.map.setRegion(region, animated: true)
+            let ani = MKPointAnnotation()
+            ani.coordinate = place.placemark.coordinate
+            ani.title = name
+            ani.subtitle = place.name
+            self?.map.addAnnotation(ani)
+        }
     }
     
     @IBAction func flightDetailUnwind(for unwindSegue: UIStoryboardSegue) {
@@ -86,7 +94,7 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
                 flightProviderStr = "Flight Provider: \(flight.gate!)"
                 timeOfFlightStr = flight.flightTime
                 viewDidLoad()
-                doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(locationToDestStr!)")
+                doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(nameOfFlyingTo!)")
             }
             
         }
@@ -103,6 +111,20 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
             viewController.toDest = toDest
             // viewController.originalDuration = originalDuration
             viewController.originalFlightProvider = originalFlightProvider
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let flights = FlightModel()
+        var index = 0
+        for flight in flights.getFlights()! {
+            if view.annotation?.title == "Flight to \(flight.nameOfFlyingTo!)" {
+                self.index = index
+                // segue to detail view
+                place?.openInMaps(launchOptions: nil)
+                return
+            }
+            index += 1
         }
     }
     

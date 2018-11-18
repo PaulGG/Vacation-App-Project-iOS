@@ -122,21 +122,19 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
                 viewController.dateStr = "Date: \(uf.date!)"
                 if uf.toDest {
                     viewController.destOrArrivalStr = "Departure Flight"
-                    viewController.locationName = uf.nameOfFlyingTo
                     viewController.toDest = true
                 } else {
                     viewController.destOrArrivalStr = "Arrival Flight"
-                    viewController.locationName = uf.nameOfFlyingTo
                     viewController.toDest = false
                 }
+                viewController.locationName = uf.nameOfFlyingFrom
+                viewController.nameOfFlyingTo = uf.nameOfFlyingTo
                 viewController.durationStr = "Duration: \(uf.duration!)"
                 viewController.flightProviderStr = "Flight Provider: \(uf.gate!)"
                 viewController.locationToDestStr = "\(uf.flyingFrom!)-\(uf.flyingTo!)"
                 viewController.timeOfFlightStr = "Time: \(uf.flightTime!)"
                 viewController.index = selectedIndex.row
                 viewController.originalFlightProvider = uf.gate!
-                
-                //viewController.originalDuration = uf.duration
             } else if let viewController: EventDetailViewController = segue.destination as? EventDetailViewController {
                 let selectedIndex: IndexPath = eventTB.indexPath(for: sender as! UITableViewCell)!
                 let ue = eventModel.get(at: selectedIndex.row)

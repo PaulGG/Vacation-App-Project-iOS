@@ -23,6 +23,7 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
     var pictureFile: UIImage?
     var index: Int?
     var rotate: Bool = false
+    var place: MKMapItem?
 
     let locationManager = CLLocationManager()
     
@@ -53,21 +54,28 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     func doLocationStuff(location: String, name: String) {
-        CLGeocoder().geocodeAddressString(location, completionHandler: {(placemarks, error) in
-            if error != nil {
-                print("Geocode failed: \(error!.localizedDescription)")
-            } else if placemarks!.count > 0 {
-                let placemark = placemarks![0]
-                let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                let region = MKCoordinateRegion(center: placemark.location!.coordinate, span: span)
-                self.map.setRegion(region, animated: true)
-                let ani = MKPointAnnotation()
-                ani.coordinate = placemark.location!.coordinate
-                ani.title = name
-                ani.subtitle = location
-                self.map.addAnnotation(ani)
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = location
+        let search = MKLocalSearch(request: request)
+        search.start {
+            [weak self] (response, error) in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
             }
-        })
+            
+            let places = (response?.mapItems)!
+            self?.place = places[0]
+            let place = places[0]
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            let region = MKCoordinateRegion(center: place.placemark.location!.coordinate, span: span)
+            self?.map.setRegion(region, animated: true)
+            let ani = MKPointAnnotation()
+            ani.coordinate = place.placemark.coordinate
+            ani.title = name
+            ani.subtitle = place.name
+            self?.map.addAnnotation(ani)
+        }
     }
 
     
@@ -75,11 +83,11 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
         if let viewController: EditMemoryViewController = segue.destination as? EditMemoryViewController {
             var dateTimeInfo = dateTimeStr?.split(separator: ",")
             dateTimeInfo![1] = dateTimeInfo![1].dropFirst()
-            viewController.dateStr = String(dateTimeInfo![1])
+            viewController.timeStr = String(dateTimeInfo![1])
             viewController.imageData = pictureFile
             viewController.locationStr = locationStr
             viewController.nameStr = nameStr
-            viewController.timeStr = String(dateTimeInfo![0])
+            viewController.dateStr = String(dateTimeInfo![0])
             viewController.index = index
         }
     }
@@ -94,6 +102,19 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
                 picture.image = UIImage(data: memory.image!)
                 doLocationStuff(location: location.text!, name: name.text!)
             }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let memories = MemoryModel()
+        var index = 0
+        for memory in memories.getMemories()! {
+            if view.annotation?.title == memory.title /*&& view.annotation?.subtitle == memory.location*/ {
+                self.index = index
+                place?.openInMaps(launchOptions: nil)
+                return
+            }
+            index += 1
         }
     }
     
