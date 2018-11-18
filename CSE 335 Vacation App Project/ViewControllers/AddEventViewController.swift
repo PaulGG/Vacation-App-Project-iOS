@@ -48,7 +48,19 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
             } else {
                 locText = locationField.text!
             }
-            eventModel.addEvent(eventName: nameField.text!, eventDate: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", eventTime: "\(timeComponents.hour!):\(timeComponents.minute!)", eventLocation: locText)
+            let hour : String
+            if timeComponents.hour! < 10 {
+                hour = "0\(timeComponents.hour!)"
+            } else {
+                hour = "\(timeComponents.hour!)"
+            }
+            let minute : String
+            if timeComponents.minute! < 10 {
+                minute = "0\(timeComponents.minute!)"
+            } else {
+                minute = "\(timeComponents.minute!)"
+            }
+            eventModel.addEvent(eventName: nameField.text!, eventDate: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", eventTime: "\(hour):\(minute)", eventLocation: locText)
             performSegue(withIdentifier: "unwindEventAdd", sender: nil)
         }
     }

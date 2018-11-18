@@ -109,7 +109,19 @@ class AddMemoryViewController: UIViewController, UINavigationControllerDelegate,
             ]
             let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
             let timeComponents = time.calendar.dateComponents(requestedTimeComponents,from: time.date)
-            memoryModel.addMemory(dateTime: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!), \(timeComponents.hour!):\(timeComponents.minute!)", image: image.image!, location: location.text!, title: name.text!)
+            let hour : String
+            if timeComponents.hour! < 10 {
+                hour = "0\(timeComponents.hour!)"
+            } else {
+                hour = "\(timeComponents.hour!)"
+            }
+            let minute : String
+            if timeComponents.minute! < 10 {
+                minute = "0\(timeComponents.minute!)"
+            } else {
+                minute = "\(timeComponents.minute!)"
+            }
+            memoryModel.addMemory(dateTime: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!), \(hour):\(minute)", image: image.image!, location: location.text!, title: name.text!)
             self.performSegue(withIdentifier: "bye", sender: self)
         } else {
             let alert = buildOKAlertButton(title: "Please fill out all forms.")

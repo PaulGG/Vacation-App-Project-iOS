@@ -118,7 +118,19 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
             ]
             let dateComponents = date.calendar.dateComponents(requestedDateComponents, from: date.date)
             let timeComponents = time.calendar.dateComponents(requestedTimeComponents,from: time.date)
-            memoryModel.updateMemory(at: index!, dateTime: "\(timeComponents.hour!):\(timeComponents.minute!), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
+            let hour : String
+            if timeComponents.hour! < 10 {
+                hour = "0\(timeComponents.hour!)"
+            } else {
+                hour = "\(timeComponents.hour!)"
+            }
+            let minute : String
+            if timeComponents.minute! < 10 {
+                minute = "0\(timeComponents.minute!)"
+            } else {
+                minute = "\(timeComponents.minute!)"
+            }
+            memoryModel.updateMemory(at: index!, dateTime: "\(hour):\(minute), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
             memoryToUpdate = memoryModel.get(at: index!)
             performSegue(withIdentifier: "doneEditingMemory", sender: nil)
         }
