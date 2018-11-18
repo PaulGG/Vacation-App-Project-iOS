@@ -91,12 +91,11 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         if let viewController: EditFlightViewController = unwindSegue.source as? EditFlightViewController {
             if let flight = viewController.flightToUpdate {
                 if flight.toDest {
-                    destOrArrivalStr = "Arrival Flight"
-                    locationName = flight.nameOfFlyingTo
-                } else {
                     destOrArrivalStr = "Destination Flight"
-                    locationName = flight.nameOfFlyingFrom
+                } else {
+                    destOrArrivalStr = "Arrival Flight"
                 }
+                locationName = flight.nameOfFlyingFrom
                 locationToDestStr = "\(flight.flyingFrom!)-\(flight.flyingTo!)"
                 dateStr = "Date: \(flight.date!)"
                 durationStr = flight.duration
