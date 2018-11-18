@@ -5,21 +5,32 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they edit an event.
 
 import UIKit
 
 class EditEventViewController: UIViewController, UITextFieldDelegate {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
     
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var timePicker: UIDatePicker!
     
+    // ====== Variables Passed by Other View Controllers ====== //
+    
     var nameStr: String?
     var locationStr: String?
     var dateStr: String?
     var timeStr: String?
     var index: Int?
+    
+    // ====== Model Variables ====== //
     
     var eventModel = EventModel()
     var eventToUpdate : Event?
@@ -53,6 +64,11 @@ class EditEventViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
+    
+    // Method is called on completion of event editing. Similar method to the one in 'add event' view controller.
     @IBAction func done(_ sender: Any) {
         if name.text != nil {
             let requestedDateComponents: Set<Calendar.Component> = [
@@ -89,6 +105,10 @@ class EditEventViewController: UIViewController, UITextFieldDelegate {
             performSegue(withIdentifier: "doneEditingEvent", sender: nil)
         }
     }
+    
+    /*                                  /*
+     ========== KEYBOARD METHODS =========
+     */                                  */
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         for textField in self.view.subviews where textField is UITextField {

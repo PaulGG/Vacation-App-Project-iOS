@@ -5,6 +5,7 @@
 //  Created by Paul Gellai on 11/9/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This file is the model file and contains all classes pertaining to the Model part of the MVC architecture. 
 
 import Foundation
 import CoreData
@@ -206,7 +207,13 @@ class FlightModel : GenericModelContainer {
         flightAdding.image = UIImage(named: "flightPicture.png")?.pngData()
         flightAdding.gate = gate
         flightAdding.flightTime = "Please enter manually."
-        // json call
+        // About here is where things get a bit complicated. We have two scenarios: The user inputs a valid IATA city code, or they don't. If they decide to do so,
+        // we should run a secondary web API in accordance with the one that adds flights automatically by IATA code, to get the city location name of where
+        // the IATA code is. The reason to do this is so Apple's MKLocalSearch service can find the proper location the user has specified, as Apple is unable to
+        // easily locate many IATA city codes. This is unfortunately a limiting feature of the flights web API used prior.
+        
+        // If the user enters something that is not an IATA code or has spaces in the name (example 'New York City'), the URL may be nil and the API should not
+        // be called, or its results should be discarded if there is an error found.
         let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(flightAdding.flyingTo!)", isDestination: true, object: flightAdding)
         if let unwrappedQuery : URLSessionDataTask = toQuery {
             unwrappedQuery.resume()
@@ -223,6 +230,7 @@ class FlightModel : GenericModelContainer {
         save()
     }
     
+    // See above 'addFlight' method to see where things get complicated.
     public func updateFlight(at: Int, toDest: Bool, date: String, duration: Int, flyingFrom: String, flyingTo: String, gate: String) {
         let update = fetchResults![at]
         update.toDest = toDest
@@ -237,7 +245,7 @@ class FlightModel : GenericModelContainer {
         update.flyingTo = flyingTo
         update.image = UIImage(named: "flightPicture")?.pngData()
         update.gate = gate
-        // json call
+        // Json Call
         // Call 1 //
         let toQuery = buildQuery(string: "https://aviation-edge.com/v2/public/cities?key=17df8d-586cdb&code=\(update.flyingTo!)", isDestination: true, object: update)
         if let unwrappedQuery : URLSessionDataTask = toQuery {
@@ -255,12 +263,16 @@ class FlightModel : GenericModelContainer {
         save()
     }
     
+    // Saves the newly added instances in the managed object context to the core data stores.
     public func save() {
         do {
             try managedObjectContext.save()
         } catch {
             print("Exception")
         }
+        // Update fetch results is necessary so the model has the latest things from the database.
+        // This was included in this function becuase many methods which call it require the reloading of
+        // fetch results.
         updateFetchResults()
     }
     
@@ -271,6 +283,7 @@ class FlightModel : GenericModelContainer {
         save()
     }
     
+    // This is the method which builds a query for the find location based off of IATA code API call.
     public func buildQuery(string: String, isDestination: Bool, object: Flight) -> URLSessionDataTask? {
         let url = URL(string: string)
         let urlSession = URLSession.shared
@@ -280,9 +293,11 @@ class FlightModel : GenericModelContainer {
                 if error != nil {
                     print(error!.localizedDescription)
                 }
+                // If json result is valid, proceed.
                 if let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSArray) {
                     let foo = jsonResult[0] as! NSDictionary
                     if let cityName = foo["name"] as? NSString {
+                        // User input is valid. Proceed to use the data from the web api call.
                         DispatchQueue.main.async {
                             if isDestination {
                                 object.nameOfFlyingTo = cityName as String
@@ -292,6 +307,7 @@ class FlightModel : GenericModelContainer {
                             self.save()
                         }
                     } else {
+                        // Json result is not valid. Add normal user inputted values.
                         DispatchQueue.main.async {
                             if isDestination {
                                 object.nameOfFlyingTo = object.flyingTo
@@ -302,6 +318,7 @@ class FlightModel : GenericModelContainer {
                         }
                     }
                 } else {
+                    // Json result is not valid. Add normal user inputted values.
                     DispatchQueue.main.async {
                         if isDestination {
                             object.nameOfFlyingTo = object.flyingTo
@@ -314,6 +331,7 @@ class FlightModel : GenericModelContainer {
             })
             return toQuery
         } else {
+            // URL is invalid, meaning the user inputted spaces or multiple words. we need to return nil.
             return nil
         }
     }
@@ -384,6 +402,9 @@ class EventModel : GenericModelContainer {
         } catch {
             print("Exception")
         }
+        // Update fetch results is necessary so the model has the latest things from the database.
+        // This was included in this function becuase many methods which call it require the reloading of
+        // fetch results.
         updateFetchResults()
     }
     
@@ -397,6 +418,10 @@ class EventModel : GenericModelContainer {
     }
 }
 
+// A special singleton instance class used to easily transport data between viewcontrollers without the need for segues.
+// Holds instances of MKMapItems (cannot be easily stored in core data), and they do not need to be stored in CoreData due
+// to the high possiblity of the user having different locations around them when they move, or when the user changes the
+// filter query. 
 class NearbyLocations {
     private static var nearbyLocations: NearbyLocations?
     var locations: [MKMapItem]

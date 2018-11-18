@@ -5,6 +5,7 @@
 //  Created by Paul Gellai on 11/9/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// simple table view cell for events
 
 import UIKit
 

@@ -5,11 +5,19 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they click on a flight in the specified tableview.
+// It shows details of the flight to the user.
 
 import UIKit
 import MapKit
 
 class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
     
     @IBOutlet weak var destOrArrival: UILabel!
     @IBOutlet weak var locationToDest: UILabel!
@@ -17,9 +25,9 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
     @IBOutlet weak var duration: UILabel!
     @IBOutlet weak var flightProvider: UILabel!
     @IBOutlet weak var timeOfFlight: UILabel!
-    
     @IBOutlet weak var map: MKMapView!
     
+    // MISC VARS
     var destOrArrivalStr: String?
     var locationToDestStr: String?
     var dateStr: String?
@@ -34,7 +42,6 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
     var locationName: String?
     let locationManager = CLLocationManager()
     var nameOfFlyingTo: String?
-    //var originalDuration: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +60,8 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         // Do any additional setup after loading the view.
     }
     
+    // Location method - is called when flight detail view is loaded to search for the
+    // flight and display it on the map.
     func doLocationStuff(location: String, name: String) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = location
@@ -114,6 +123,7 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
+    // This method ensures that if the user taps an annotation view, it will open in maps.
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let flights = FlightModel()
         var index = 0

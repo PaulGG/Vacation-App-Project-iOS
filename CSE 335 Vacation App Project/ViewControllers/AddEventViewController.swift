@@ -5,12 +5,21 @@
 //  Created by Paul Gellai on 11/13/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they add an event.
 
 import UIKit
 
 class AddEventViewController: UIViewController, UITextFieldDelegate {
     
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== Model ====== //
+    
     let eventModel = EventModel()
+    
+    // ====== IBOutlets ====== //
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var locationField: UITextField!
@@ -25,12 +34,20 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         locationField.delegate = self
     }
     
+    /*                                  /*
+     ========== IBACTION METHODS =========
+     */                                  */
+    
+    // Method called if user chooses not to add an event by hitting the cancel button. //
     @IBAction func cancel(_ sender: Any) {
         performSegue(withIdentifier: "unwindEventAdd", sender: nil)
     }
     
+    // Method called once user taps 'done' button, finished adding event. //
     @IBAction func done(_ sender: Any) {
+        // Check for name field being empty. It's valid to leave the location empty if the user doesn't have one yet. //
         if nameField.text != nil {
+            // Gets date components from date picker and turn them into string form. //
             let requestedDateComponents: Set<Calendar.Component> = [
                 .year,
                 .month,
@@ -60,11 +77,18 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
             } else {
                 minute = "\(timeComponents.minute!)"
             }
+            // Add model with processed dates and information from user. //
             eventModel.addEvent(eventName: nameField.text!, eventDate: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", eventTime: "\(hour):\(minute)", eventLocation: locText)
+            // Unwind back to a detail view of the event. //
             performSegue(withIdentifier: "unwindEventAdd", sender: nil)
         }
     }
     
+    /*                                  /*
+     ========== KEYBOARD METHODS =========
+     */                                  */
+    
+    // When the user hits the enter key, the keyboard goes down. //
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         for textField in self.view.subviews where textField is UITextField {
             textField.resignFirstResponder()
@@ -72,6 +96,7 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // When the user taps anywhere on the screen, the keyboard goes away. //
     @objc func hideKeyboard() {
         view.endEditing(true)
     }

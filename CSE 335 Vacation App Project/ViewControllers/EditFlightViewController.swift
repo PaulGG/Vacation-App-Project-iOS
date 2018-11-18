@@ -5,12 +5,18 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they edit a flight.
 
 import UIKit
 
 class EditFlightViewController: UIViewController, UITextFieldDelegate {
     
-    // todo
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
+    
     @IBOutlet weak var destOrArrival: UISegmentedControl!
     @IBOutlet weak var origin: UITextField!
     @IBOutlet weak var destination: UITextField!
@@ -20,7 +26,8 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var arrival: UIDatePicker!
     @IBOutlet weak var arrivalDate: UIDatePicker!
     
-    // pickerview for destOrArrivalStr
+    // ====== Variables from segues ====== //
+    
     var destOrArrivalStr: String?
     var locationToDestStr: String?
     var dateStr: String?
@@ -30,7 +37,8 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
     var toDest: Bool?
     
     var originalFlightProvider: String?
-    //var originalDuration: Int?
+    
+    // ====== Model Variables ====== //
     
     var flightModel = FlightModel()
     var flightToUpdate : Flight?
@@ -57,7 +65,6 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
         destination.text = dest
         dateStr = String(dateStr!.dropFirst(6))
         let dateInfoStr = dateStr!.split(separator: "/")
-        //let timeInfoStr = timeStr!.split(separator: ":")
         var dateInfo = [Int]()
         for i in dateInfoStr {
             dateInfo.append(Int(i)!)
@@ -67,12 +74,11 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
         let dateCrafted = cal.date(from: dateComponents)
         date.date = dateCrafted!
         provider.text = originalFlightProvider
-        //duration.text = durationStr
-        // Do any additional setup after loading the view.
     }
     
+    // Method is called on completion of flight editing. Similar method to the one in 'add flight' view controller. //
     @IBAction func done(_ sender: Any) {
-        if origin.text != nil && destination.text != nil && provider.text != nil /*&& duration.text != nil*/ {
+        if origin.text != nil && destination.text != nil && provider.text != nil {
             let requestedDateComponents: Set<Calendar.Component> = [
                 .year,
                 .month,
@@ -108,6 +114,10 @@ class EditFlightViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+    /*                                  /*
+     ============ MISC METHODS ===========
+     */                                  */
     
     func buildOKAlertButton(title: String) -> UIAlertController {
         let t = title

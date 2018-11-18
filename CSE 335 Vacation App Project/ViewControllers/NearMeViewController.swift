@@ -5,6 +5,9 @@
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller which contains a tableview of all nearby locations within 15 miles. Cells can be tapped and
+// the user will be taken to the map. After this viewcontroller loads, all of the nearby locations will be displayed on the map
+// in the home view controller.
 
 import UIKit
 import CoreLocation
@@ -23,7 +26,8 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     // ====== MISC. OBJECTS ======
 
     var places =  [MKMapItem]()
-    var locations = 0
+    var locationCount = 0
+    var locationManager = CLLocationManager()
     
     // ====== INITIALIZER METHODS ======
     
@@ -86,10 +90,20 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
                 print(error!.localizedDescription)
                 return
             }
-            
-            self!.places = (response?.mapItems)!
-            self!.locations = self!.places.count
-            // TODO: might need to be fixed, force unwraps
+            self!.places = [MKMapItem]()
+            self!.locationCount = 0
+            for item in (response?.mapItems)! {
+                let userLocation = self!.locationManager.location
+                let testLoc = item.placemark.location
+                let distance = ((userLocation!.distance(from: testLoc!) / 1609) * 100.0).rounded() / 100
+                // We do not want to add locations to the user that are more than 20 miles away.
+                // It is possible for these locations to be loaded as the user can specify certain filters.
+                if distance < 20 {
+                    self!.places.append(item)
+                    self!.locationCount += 1
+                }
+                
+            }
             NearbyLocations.getInstance().locations = self!.places
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if self!.nearMeTableView != nil {
@@ -114,7 +128,7 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations
+        return locationCount
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

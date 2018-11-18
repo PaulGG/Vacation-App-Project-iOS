@@ -5,11 +5,18 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This view controller exists so users can add their own custom flights.
 
 import UIKit
 import Foundation
 
 class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
 
     @IBOutlet weak var destOrArrival: UISegmentedControl!
     @IBOutlet weak var origin: UITextField!
@@ -20,7 +27,11 @@ class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var arrival: UIDatePicker!
     @IBOutlet weak var arrivalDate: UIDatePicker!
     
+    // Misc Variable //
+    
     var toDest: Bool?
+    
+    // ====== Model Variables ======/
 
     var flightModel = FlightModel()
     
@@ -34,6 +45,7 @@ class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
         provider.delegate = self
     }
     
+    // When a user is done adding a flight, this method is called. The logic for adding a flight is explained in detail in the ModelProcessor file.
     @IBAction func done(_ sender: Any) {
         if !(origin.text?.isEmpty)! && !(destination.text?.isEmpty)! && !(provider.text?.isEmpty)! /*&& duration.text != nil*/ {
             let requestedDateComponents: Set<Calendar.Component> = [
@@ -62,7 +74,7 @@ class CustomAddFlightViewController: UIViewController, UITextFieldDelegate {
                     toDest = false
                 }
                 flightModel.addFlight(toDest: toDest!, date: "\(String(dateComponents.month!))/\(String(dateComponents.day!))/\(String(dateComponents.year!))", duration: Int(round(interval)), flyingFrom: origin.text!, flyingTo: destination.text!, gate: provider.text!)
-                performSegue(withIdentifier: "doneAddingCustomFlight", sender: nil)
+                performSegue(withIdentifier: "doneAddingCustomFlight", sender: self)
             } else {
                 self.present(buildOKAlertButton(title: "You cannot have an arrival time that is earlier than your departure."), animated: true)
             }

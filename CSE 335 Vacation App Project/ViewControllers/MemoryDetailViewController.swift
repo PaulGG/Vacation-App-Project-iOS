@@ -5,17 +5,27 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they click on a memory in the specified tableview.
+// It shows details of the memory to the user.
 
 import UIKit
 import MapKit
 
 class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOUTLETS ======
+    
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var dateTime: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var map: MKMapView!
+    
+    // MISC VARS //
     
     var nameStr: String?
     var dateTimeStr: String?
@@ -24,7 +34,6 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
     var index: Int?
     var rotate: Bool = false
     var place: MKMapItem?
-
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -53,6 +62,8 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
         locationManager.requestAlwaysAuthorization()
     }
     
+    // Location method - is called when memory detail view is loaded to search for the
+    // memory and display it on the map.
     func doLocationStuff(location: String, name: String) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = location

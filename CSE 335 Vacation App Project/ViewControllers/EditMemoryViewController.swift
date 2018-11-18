@@ -5,11 +5,18 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they edit a memory.
 
 import UIKit
 import AVFoundation
 
 class EditMemoryViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
     
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var location: UITextField!
@@ -18,18 +25,21 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet weak var imageSource: UISegmentedControl!
     @IBOutlet weak var image: UIImageView!
     
+    // ======= Misc. Variables ====== //
+    
     var nameStr: String?
     var locationStr: String?
     var dateStr: String?
     var timeStr: String?
     var imageData: UIImage?
     var index: Int?
+    let picker = UIImagePickerController()
+    
+    // ====== Model Variables ====== //
     
     var memoryModel = MemoryModel()
     var memoryToUpdate: Memory?
     
-    let picker = UIImagePickerController()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         name.delegate = self
@@ -61,6 +71,7 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
      =========== IMAGE METHODS ===========
      */                                  */
     
+    // Method that is called when the user attemps to take a photo with the camera or pick from photo library.
     @IBAction func takePhoto(_ sender: Any) {
         if imageSource.selectedSegmentIndex == 0
         {
@@ -82,12 +93,18 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
         let cameraMediaType = AVMediaType.video
         let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
         imageSource.isSelected = false
-        if cameraAuthStatus == .authorized || imageSource.selectedSegmentIndex == 1 {
+        // Self explanatory, if the user has authorized or has picked photo library, present it. Otherwise, notify
+        // the user that they chosen to not authorize access.
+        if cameraAuthStatus == .authorized || imageSource.selectedSegmentIndex == 1  || cameraAuthStatus == .notDetermined {
             present(picker, animated: true, completion: nil)
         } else {
             present(buildOKAlertButton(title: "You have specified to not allow camera usage in settings. Please select a photo from your library instead."), animated: true, completion: nil)
         }
     }
+    
+    /*                                  /*
+    DELEGATE METHODS FOR PICKER CONTROLLER
+     */                                  */
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
@@ -104,6 +121,10 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
         imageSource.isSelected = false
         dismiss(animated: true, completion: nil)
     }
+    
+    /*                                  /*
+     ========= IBACTION METHODS =========
+     */                                  */
     
     @IBAction func done(_ sender: Any) {
         if name.text != nil && location.text != nil {
@@ -135,6 +156,10 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
             performSegue(withIdentifier: "doneEditingMemory", sender: nil)
         }
     }
+    
+    /*                                  /*
+     =========== MISC METHODS ============
+     */                                  */
     
     func buildOKAlertButton(title: String) -> UIAlertController {
         let t = title

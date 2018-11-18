@@ -5,18 +5,27 @@
 //  Created by Paul Gellai on 11/14/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they click on an event in the specified tableview.
+// It shows details of the event to the user.
 
 import UIKit
 import MapKit
 
 class EventDetailViewController: UIViewController, MKMapViewDelegate {
+    
+    /*                                  /*
+     ============= VARIABLES =============
+     */                                  */
+    
+    // ====== IBOutlets ====== //
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var time: UILabel!
-    
     @IBOutlet weak var map: MKMapView!
+    
+    // MISC VARS
     
     var nameStr: String?
     var locationStr: String?
@@ -38,6 +47,9 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
         }
         doLocationStuff(location: locationStr!, name: nameStr!)
     }
+    
+    // Location method - is called when event detail view is loaded to search for the
+    // event and display it on the map.
     
     func doLocationStuff(location: String, name: String) {
         let request = MKLocalSearch.Request()
@@ -88,11 +100,12 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // This method ensures that if the user taps an annotation view, it will open in maps.
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let events = EventModel()
         var index = 0
         for event in events.getEvents()! {
-            if view.annotation?.title == event.eventName! /*&& view.annotation?.subtitle == event.eventLocation*/ {
+            if view.annotation?.title == event.eventName! {
                 self.index = index
                 place?.openInMaps(launchOptions: nil)
                 return

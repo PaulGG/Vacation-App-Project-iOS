@@ -5,6 +5,8 @@
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller which represents the main hub where the user can see all locations of their memories
+// and access them via the map. They can also be accessed in table view form in the other view controllers. 
 
 import UIKit
 import MapKit
@@ -59,6 +61,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         }
     }
     
+    // Searches all of the user's specified locations from flights, memories, and events, and
+    // stores them on the map. Nearby locations are stored in RAM with a singleton instance of
+    // the NearbyLocations class, so no need to search for those. 
     func doLocationStuff() {
         // Get all models
         map.removeAnnotations(map.annotations)

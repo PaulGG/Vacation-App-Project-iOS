@@ -4,7 +4,8 @@
 //
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
-//
+// This view controller holds all events and flights in the view controller. It is designed to be a place where
+// users can plan out their vacations using events and flights. Events have a title and a location. 
 
 import UIKit
 
@@ -176,9 +177,4 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
-
-    @IBAction func addEvent(_ sender: Any) {
-        // TODO: Segue or UIAlertController?
-    }
-    
 }

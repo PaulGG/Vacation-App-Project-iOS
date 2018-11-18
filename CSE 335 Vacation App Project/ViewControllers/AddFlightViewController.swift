@@ -5,6 +5,7 @@
 //  Created by Paul Gellai on 11/9/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they add a flight.
 
 import UIKit
 import SafariServices
@@ -54,13 +55,13 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: Add flight to model
-        // Add 'On Vacation' Flight
+        // Add 'On Vacation' Flight (the place the user is flying to from their home)
         let flightPicked = flightsToAdd[indexPath.row]
         flightModel.addFlight(toDest: true, date: flightPicked.leaveDate, duration: flightPicked.duration, flyingFrom: flightPicked.origin, flyingTo: flightPicked.destination, gate: flightPicked.gate)
-        // Add 'Flying Back' Flight
+        // Add 'Flying Back' Flight (the place the user is flying from to get back to their home)
         flightModel.addFlight(toDest: false, date: flightPicked.returnDate, duration: flightPicked.duration, flyingFrom: flightPicked.destination, flyingTo: flightPicked.origin, gate: flightPicked.gate)
         tableView.deselectRow(at: indexPath, animated: true)
+        // Segue back to Planner View.
         performSegue(withIdentifier: "unwindFlightAdd", sender: nil)
     }
     
@@ -78,7 +79,6 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             cell.duration.text = "\(hours) hrs, \(flight.duration % 60) mins"
         }
-        //cell.duration.text = "\(String(flight.duration)) mins"
         cell.gate.text = "Site: \(flight.gate)"
         return cell
     }
@@ -93,7 +93,7 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         let ipURL = URL(string: ipURLString)
         let urlSession = URLSession.shared
         
-        // ====== FIND USER LOCATION =====
+        // ====== FIND USER LOCATION ===== //
         
         let ipQuery = urlSession.dataTask(with: ipURL!, completionHandler: {data, response, error -> Void in
             if (error != nil) {
@@ -103,7 +103,7 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
             let jsonResult = ((try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary)
             let location = jsonResult["iata"] as! NSString
             
-            // ======= FIND FLIGHTS ORIGINATING AT USER LOCATION =======
+            // ======= FIND FLIGHTS ORIGINATING AT USER LOCATION ======= //
             
             DispatchQueue.main.async {
                 if self.textField.text != nil && self.textField.text!.count >= 3 {
@@ -191,8 +191,11 @@ class AddFlightViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // UNWIND SEGUE METHOD // 
+    
     @IBAction func customFlightUnwind(for unwindSegue: UIStoryboardSegue) {
-        
+        // If we added a custom flight, we want to directly segue back to the planner view.
+        performSegue(withIdentifier: "unwindFlightAdd", sender: self)
     }
     
     /*                                  /*

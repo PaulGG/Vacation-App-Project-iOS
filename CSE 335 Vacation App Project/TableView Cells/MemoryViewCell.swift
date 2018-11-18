@@ -5,6 +5,7 @@
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// simple table view cell for memories
 
 import UIKit
 

@@ -5,6 +5,8 @@
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they click on the memories tab. It shows a tableview
+// of all user memories. 
 
 import UIKit
 

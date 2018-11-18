@@ -5,6 +5,7 @@
 //  Created by Paul Gellai on 10/12/18.
 //  Copyright © 2018 Paul Gellai. All rights reserved.
 //
+// This is the view controller the user sees when they add a memory.
 
 import UIKit
 import AVFoundation
