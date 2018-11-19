@@ -65,6 +65,7 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
     // Location method - is called when flight detail view is loaded to search for the
     // flight and display it on the map.
     func doLocationStuff(location: String, name: String) {
+        map.removeAnnotations(map.annotations)
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = location
         let search = MKLocalSearch(request: request)
@@ -120,7 +121,6 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
             viewController.timeOfFlightStr = timeOfFlightStr
             viewController.index = index
             viewController.toDest = toDest
-            // viewController.originalDuration = originalDuration
             viewController.originalFlightProvider = originalFlightProvider
         }
     }

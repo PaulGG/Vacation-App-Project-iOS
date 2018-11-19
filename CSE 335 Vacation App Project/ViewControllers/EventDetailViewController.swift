@@ -52,6 +52,7 @@ class EventDetailViewController: UIViewController, MKMapViewDelegate {
     // event and display it on the map.
     
     func doLocationStuff(location: String, name: String) {
+        map.removeAnnotations(map.annotations)
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = location
         let search = MKLocalSearch(request: request)

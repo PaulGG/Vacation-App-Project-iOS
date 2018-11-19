@@ -151,7 +151,7 @@ class EditMemoryViewController: UIViewController, UINavigationControllerDelegate
             } else {
                 minute = "\(timeComponents.minute!)"
             }
-            memoryModel.updateMemory(at: index!, dateTime: "\(hour):\(minute), \(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!)", image: image.image!, location: location.text!, title: name.text!)
+            memoryModel.updateMemory(at: index!, dateTime: "\(dateComponents.month!)/\(dateComponents.day!)/\(dateComponents.year!), \(hour):\(minute)", image: image.image!, location: location.text!, title: name.text!)
             memoryToUpdate = memoryModel.get(at: index!)
             performSegue(withIdentifier: "doneEditingMemory", sender: nil)
         }

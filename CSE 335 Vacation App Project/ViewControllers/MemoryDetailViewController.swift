@@ -65,6 +65,7 @@ class MemoryDetailViewController: UIViewController, CLLocationManagerDelegate, M
     // Location method - is called when memory detail view is loaded to search for the
     // memory and display it on the map.
     func doLocationStuff(location: String, name: String) {
+        map.removeAnnotations(map.annotations)
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = location
         let search = MKLocalSearch(request: request)
