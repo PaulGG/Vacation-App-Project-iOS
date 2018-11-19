@@ -71,11 +71,13 @@ class NearMeViewController: UIViewController, UITableViewDataSource, UITableView
             locationManager.distanceFilter = 100.0
             locationManager.delegate = self
             locationManager.startUpdatingLocation()
+            let request = MKLocalSearch.Request()
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            request.naturalLanguageQuery = NearbyLocations.getInstance().filter
+            request.region = MKCoordinateRegion(center: (locationManager.location?.coordinate)!, span: span)
+            search(using: request)
+            
         }
-        let request = MKLocalSearch.Request()
-        
-        request.naturalLanguageQuery = NearbyLocations.getInstance().filter
-        search(using: request)
     }
     
     private func search(using searchRequest: MKLocalSearch.Request) {

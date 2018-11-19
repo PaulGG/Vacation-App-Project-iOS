@@ -56,7 +56,9 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             map.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)            
         }
-        doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(nameOfFlyingTo!)")
+        if locationName != nil && nameOfFlyingTo != nil {
+            doLocationStuff(location: "\(locationName!) international airport", name: "Flight to \(nameOfFlyingTo!)")
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -91,11 +93,12 @@ class FlightDetailViewController: UIViewController, CLLocationManagerDelegate, M
         if let viewController: EditFlightViewController = unwindSegue.source as? EditFlightViewController {
             if let flight = viewController.flightToUpdate {
                 if flight.toDest {
-                    destOrArrivalStr = "Destination Flight"
-                } else {
                     destOrArrivalStr = "Arrival Flight"
+                    locationName = flight.nameOfFlyingTo
+                } else {
+                    destOrArrivalStr = "Destination Flight"
+                    locationName = flight.nameOfFlyingFrom
                 }
-                locationName = flight.nameOfFlyingFrom
                 locationToDestStr = "\(flight.flyingFrom!)-\(flight.flyingTo!)"
                 dateStr = "Date: \(flight.date!)"
                 durationStr = flight.duration

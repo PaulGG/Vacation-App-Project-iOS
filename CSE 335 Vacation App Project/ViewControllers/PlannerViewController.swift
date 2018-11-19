@@ -29,16 +29,13 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        flightModel.save()
-        eventModel.save()
-        flightTB.reloadData()
-        eventTB.reloadData()
-    }
-    
     /*                                  /*
      ========= TABLEVIEW METHODS =========
      */                                  */
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == flightTB {
@@ -122,6 +119,21 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // ====== PREPARE SEGUE ====== //
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "flightDetail" {
+            let selectedIndex: IndexPath = flightTB.indexPath(for: sender as! UITableViewCell)!
+            let uf = flightModel.get(at: selectedIndex.row)
+            if uf.nameOfFlyingTo != nil && uf.nameOfFlyingFrom != nil {
+                return true
+            } else {
+                self.present(buildOKAlertButton(title: "Please wait for data to be loaded."), animated: true)
+                return false
+            }
+        } else {
+            return true
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "flightDetail" || segue.identifier == "eventDetail" {
             if let viewController: FlightDetailViewController = segue.destination as? FlightDetailViewController {
@@ -183,5 +195,20 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
                 eventEditBtn.title = "Edit"
             }
         }
+    }
+    
+    func buildOKAlertButton(title: String) -> UIAlertController {
+        let t = title
+        let alertController = UIAlertController(title: t, message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in }
+        alertController.addAction(okAction)
+        return alertController
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        flightModel.save()
+        eventModel.save()
+        flightTB.reloadData()
+        eventTB.reloadData()
     }
 }

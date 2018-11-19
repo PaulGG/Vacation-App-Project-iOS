@@ -76,32 +76,34 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, MKMapView
         let memories = memoryModel.getMemories()
         
         for flight in flights! {
-            let searchR = MKLocalSearch.Request()
-            searchR.naturalLanguageQuery = "\(flight.nameOfFlyingFrom!) international airport"
-            let search = MKLocalSearch(request: searchR)
-            search.start {
-                [weak self] (response, error) in
-                guard error == nil else {
-                    print(error!.localizedDescription)
-                    return
-                }
-                let places = response?.mapItems
-                let place = places![0]
-                let ani = MKPointAnnotation()
-                ani.coordinate = place.placemark.coordinate
-                ani.title = "Flight to \(flight.nameOfFlyingTo!), Date: \(flight.date!)"
-                ani.subtitle = place.name
-                let annotations = self?.map.annotations
-                for m in annotations! {
-                    if m.coordinate.latitude == ani.coordinate.latitude && m.coordinate.longitude == ani.coordinate.longitude {
-                        let newLat = Double.random(in: -0.005...0.005)
-                        let newLong = Double.random(in: -0.005...0.005)
-                        ani.coordinate.longitude += newLong
-                        ani.coordinate.latitude += newLat
-                        break
+            if flight.nameOfFlyingTo != nil {
+                let searchR = MKLocalSearch.Request()
+                searchR.naturalLanguageQuery = "\(flight.nameOfFlyingFrom!) international airport"
+                let search = MKLocalSearch(request: searchR)
+                search.start {
+                    [weak self] (response, error) in
+                    guard error == nil else {
+                        print(error!.localizedDescription)
+                        return
                     }
+                    let places = response?.mapItems
+                    let place = places![0]
+                    let ani = MKPointAnnotation()
+                    ani.coordinate = place.placemark.coordinate
+                    ani.title = "Flight to \(flight.nameOfFlyingTo!), Date: \(flight.date!)"
+                    ani.subtitle = place.name
+                    let annotations = self?.map.annotations
+                    for m in annotations! {
+                        if m.coordinate.latitude == ani.coordinate.latitude && m.coordinate.longitude == ani.coordinate.longitude {
+                            let newLat = Double.random(in: -0.005...0.005)
+                            let newLong = Double.random(in: -0.005...0.005)
+                            ani.coordinate.longitude += newLong
+                            ani.coordinate.latitude += newLat
+                            break
+                        }
+                    }
+                    self?.map.addAnnotation(ani)
                 }
-                self?.map.addAnnotation(ani)
             }
         }
         
